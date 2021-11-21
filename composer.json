@@ -1,0 +1,19 @@
+{
+    "name": "waffler/waffler",
+    "description": "Make REST clients easy.",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Waffler\\Waffler\\": "src/Waffler/"
+        }
+    },
+    "authors": [
+        {
+            "name": "ErickJMenezes",
+            "email": "erickmenezes.dev@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
