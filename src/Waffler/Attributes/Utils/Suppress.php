@@ -1,6 +1,6 @@
 <?php
 
-namespace Waffler\Waffler\Attributes\Utils;
+namespace Waffler\Attributes\Utils;
 
 use Attribute;
 
@@ -8,7 +8,7 @@ use Attribute;
  * Class Suppress.
  *
  * @author  ErickJMenezes <erickmenezes.dev@gmail.com>
- * @package Waffler\Waffler\Attributes
+ * @package Waffler\Attributes
  */
 #[Attribute(Attribute::TARGET_METHOD)]
 class Suppress

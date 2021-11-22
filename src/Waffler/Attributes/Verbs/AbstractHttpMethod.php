@@ -1,12 +1,12 @@
 <?php
 
-namespace Waffler\Waffler\Attributes\Verbs;
+namespace Waffler\Attributes\Verbs;
 
-use Waffler\Waffler\Contracts\Attributes\Verb;
+use Waffler\Contracts\Attributes\Verb;
 
 /**
  * @author  ErickJMenezes <erickmenezes.dev@gmail.com>
- * @package Waffler\Waffler\Attributes\Verbs
+ * @package Waffler\Attributes\Verbs
  */
 abstract class AbstractHttpMethod implements Verb
 {

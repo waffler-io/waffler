@@ -1,6 +1,6 @@
 <?php
 
-namespace Waffler\Waffler\Attributes\Auth;
+namespace Waffler\Attributes\Auth;
 
 use Attribute;
 use InvalidArgumentException;
@@ -9,7 +9,7 @@ use InvalidArgumentException;
  * Class Basic.
  *
  * @author  ErickJMenezes <erickmenezes.dev@gmail.com>
- * @package Waffler\Waffler\Attributes\Auth
+ * @package Waffler\Attributes\Auth
  */
 #[Attribute(Attribute::TARGET_PARAMETER)]
 class Basic

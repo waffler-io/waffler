@@ -1,6 +1,6 @@
 <?php
 
-namespace Waffler\Waffler\Attributes\Verbs;
+namespace Waffler\Attributes\Verbs;
 
 use Attribute;
 
@@ -8,7 +8,7 @@ use Attribute;
  * Class Put.
  *
  * @author  ErickJMenezes <erickmenezes.dev@gmail.com>
- * @package Waffler\Waffler\Attributes\Verbs
+ * @package Waffler\Attributes\Verbs
  */
 #[Attribute(Attribute::TARGET_METHOD)]
 class Put extends AbstractHttpMethod

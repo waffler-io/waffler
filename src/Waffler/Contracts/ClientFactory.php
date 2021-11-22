@@ -1,6 +1,6 @@
 <?php
 
-namespace Waffler\Waffler\Contracts;
+namespace Waffler\Contracts;
 
 /**
  * Interface ClientFactory.

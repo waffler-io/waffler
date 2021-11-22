@@ -1,6 +1,6 @@
 <?php
 
-namespace Waffler\Waffler\Attributes\Utils;
+namespace Waffler\Attributes\Utils;
 
 use Attribute;
 
@@ -19,7 +19,7 @@ use Attribute;
  * </pre>
  *
  * @author  ErickJMenezes <erickmenezes.dev@gmail.com>
- * @package Waffler\Waffler\Attributes
+ * @package Waffler\Attributes
  */
 #[Attribute(Attribute::TARGET_METHOD)]
 class Unwrap

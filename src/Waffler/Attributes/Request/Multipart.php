@@ -1,6 +1,6 @@
 <?php
 
-namespace Waffler\Waffler\Attributes\Request;
+namespace Waffler\Attributes\Request;
 
 use Attribute;
 
@@ -8,7 +8,7 @@ use Attribute;
  * Class Multipart.
  *
  * @author  ErickJMenezes <erickmenezes.dev@gmail.com>
- * @package Waffler\Waffler\Attributes\Request
+ * @package Waffler\Attributes\Request
  */
 #[Attribute(Attribute::TARGET_PARAMETER)]
 class Multipart

@@ -1,6 +1,6 @@
 <?php
 
-namespace Waffler\Waffler\Contracts\Attributes;
+namespace Waffler\Contracts\Attributes;
 
 /**
  * Interface Verb.

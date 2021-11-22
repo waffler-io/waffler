@@ -1,6 +1,6 @@
 <?php
 
-namespace Waffler\Waffler\Attributes\Request;
+namespace Waffler\Attributes\Request;
 
 /**
  * Class Path.
@@ -12,7 +12,7 @@ namespace Waffler\Waffler\Attributes\Request;
  * just for this specific method.
  *
  * @author  ErickJMenezes <erickmenezes.dev@gmail.com>
- * @package Waffler\Waffler\Attributes\Request
+ * @package Waffler\Attributes\Request
  */
 #[\Attribute(\Attribute::TARGET_CLASS | \Attribute::TARGET_METHOD)]
 class Path
