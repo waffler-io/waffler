@@ -4,6 +4,7 @@ namespace Waffler\Attributes\Auth;
 
 use Attribute;
 use InvalidArgumentException;
+use Waffler\Attributes\Contracts\Auth;
 
 /**
  * Class Basic.
@@ -12,7 +13,7 @@ use InvalidArgumentException;
  * @package Waffler\Attributes\Auth
  */
 #[Attribute(Attribute::TARGET_PARAMETER)]
-class Basic
+class Basic implements Auth
 {
     public function check(mixed $value): void
     {

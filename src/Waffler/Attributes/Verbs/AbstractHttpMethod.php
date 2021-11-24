@@ -2,11 +2,14 @@
 
 namespace Waffler\Attributes\Verbs;
 
-use Waffler\Contracts\Attributes\Verb;
+use Waffler\Attributes\Contracts\Verb;
 
 /**
+ * Base http method attribute class.
+ *
  * @author  ErickJMenezes <erickmenezes.dev@gmail.com>
  * @package Waffler\Attributes\Verbs
+ * @internal For internal use only.
  */
 abstract class AbstractHttpMethod implements Verb
 {

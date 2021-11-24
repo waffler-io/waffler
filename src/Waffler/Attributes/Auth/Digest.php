@@ -3,6 +3,7 @@
 namespace Waffler\Attributes\Auth;
 
 use Attribute;
+use Waffler\Attributes\Contracts\Auth;
 
 /**
  * Class Digest.
@@ -11,6 +12,10 @@ use Attribute;
  * @package Waffler\Attributes\Auth
  */
 #[Attribute(Attribute::TARGET_PARAMETER)]
-class Digest
+class Digest implements Auth
 {
+    public function check(mixed $value): void
+    {
+        //
+    }
 }
