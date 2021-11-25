@@ -8,12 +8,12 @@ use Waffler\Generator\Contracts\MethodCallHandler;
  * Class FactoryFunction.
  *
  * @author   ErickJMenezes <erickmenezes.dev@gmail.com>
- * @template TInterface
+ * @template TInterfaceType of object
  */
 class FactoryFunction
 {
     /**
-     * @psalm-param \Closure(MethodCallHandler): TInterface $factoryFunction
+     * @phpstan-param \Closure(MethodCallHandler): TInterfaceType $factoryFunction
      */
     public function __construct(
         private \Closure $factoryFunction
@@ -23,7 +23,7 @@ class FactoryFunction
     /**
      * @param MethodCallHandler $handler
      *
-     * @return TInterface
+     * @return TInterfaceType
      * @author ErickJMenezes <erickmenezes.dev@gmail.com>
      */
     public function __invoke(MethodCallHandler $handler): object

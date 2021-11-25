@@ -14,8 +14,8 @@ interface MethodCallHandler
     /**
      * Handle the method calls.
      *
-     * @param string $method
-     * @param array  $arguments
+     * @param string            $method
+     * @param array<int, mixed> $arguments
      *
      * @return mixed
      * @author ErickJMenezes <erickmenezes.dev@gmail.com>

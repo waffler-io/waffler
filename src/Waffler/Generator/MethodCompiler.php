@@ -37,19 +37,20 @@ class MethodCompiler implements Stringable
      */
     protected function assertMethodSignature(): void
     {
-        $this->method->isStatic()
-        && throw new Exception(
-            "Static methods are not allowed, please remove the method \"{$this->method->getName()}\"."
-        );
+        if ($this->method->isStatic()) {
+            throw new Exception(
+                "Static methods are not allowed, please remove the method \"{$this->method->getName()}\"."
+            );
+        }
 
         foreach ($this->method->getParameters() as $parameter) {
-            ($parameter->isVariadic() || $parameter->isPassedByReference())
-            && throw new Exception(
-                "Variadic or passed by reference parameters are forbidden. Please fix the method \"{$this->method->getName()}\"."
-            );
-
-            $parameter->hasType() && $parameter->getType() instanceof ReflectionUnionType
-            && throw new Exception("Union types are not allowed.");
+            if (($parameter->isVariadic() || $parameter->isPassedByReference())) {
+                throw new Exception(
+                    "Variadic or passed by reference parameters are forbidden. Please fix the method \"{$this->method->getName()}\"."
+                );
+            } elseif ($parameter->hasType() && $parameter->getType() instanceof ReflectionUnionType) {
+                throw new Exception("Union types are not allowed.");
+            }
         }
     }
 
@@ -62,7 +63,6 @@ class MethodCompiler implements Stringable
      * Compiles the method to its string representation.
      *
      * @author ErickJMenezes <erickmenezes.dev@gmail.com>
-     * @psalm-suppress ArgumentTypeCoercion, PossiblyNullArgument
      */
     protected function compile(): void
     {
@@ -75,8 +75,9 @@ class MethodCompiler implements Stringable
         }
         $parameterList = join(',', $parameterList);
         $this->representation = "public function {$this->method->getName()}({$parameterList})";
-        if ($this->method->hasReturnType()) {
-            $returnTypeName = $this->getTypeName($this->method->getReturnType());
+        if (($returnTypeReflection = $this->method->getReturnType())
+            && $returnTypeReflection instanceof ReflectionNamedType) {
+            $returnTypeName = $this->getTypeName($returnTypeReflection);
             $returnStatement = $returnTypeName === 'void' ? '' : 'return ';
             $this->representation .= ": {$returnTypeName} { {$returnStatement}";
         } else {
@@ -125,7 +126,6 @@ class MethodCompiler implements Stringable
      *
      * @return string
      * @author         ErickJMenezes <erickmenezes.dev@gmail.com>
-     * @psalm-suppress MixedAssignment
      */
     protected function getParameterDefaultValue(ReflectionParameter $parameter): string
     {

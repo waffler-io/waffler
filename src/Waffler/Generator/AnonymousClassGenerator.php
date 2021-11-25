@@ -16,22 +16,32 @@ use Waffler\Generator\Contracts\MethodCallHandler;
 class AnonymousClassGenerator implements InterfaceInstantiator
 {
     /**
-     * @var array<string, \Waffler\Generator\FactoryFunction>
+     * @var array<string, \Waffler\Generator\FactoryFunction<TInterfaceType>>
      */
     private static array $cache = [];
 
     /**
-     * @throws \ReflectionException
+     * @inheritDoc
      * @throws \Exception
      */
     public function instantiate(
-        string|ReflectionClass $interfaceNameOrReflection,
+        string $interfaceName,
         MethodCallHandler $methodCallHandler
     ): object {
-        $reflectionInterface = $interfaceNameOrReflection instanceof ReflectionClass
-            ? $interfaceNameOrReflection
-            : new ReflectionClass($interfaceNameOrReflection);
+        return $this->instantiateFromReflection(
+            new ReflectionClass($interfaceName),
+            $methodCallHandler
+        );
+    }
 
+    /**
+     * @inheritDoc
+     * @throws \Exception
+     */
+    public function instantiateFromReflection(
+        ReflectionClass $reflectionInterface,
+        MethodCallHandler $methodCallHandler
+    ): object {
         if (!$reflectionInterface->isInterface()) {
             throw new \InvalidArgumentException("The type is not an interface");
         }
@@ -49,7 +59,6 @@ class AnonymousClassGenerator implements InterfaceInstantiator
      * @return \Waffler\Generator\FactoryFunction<TInterfaceType>
      * @throws \Exception
      * @author         ErickJMenezes <erickmenezes.dev@gmail.com>
-     * @psalm-suppress MixedReturnTypeCoercion, InvalidNullableReturnType
      */
     private function getFactoryFunction(\ReflectionClass $reflectionInterface): FactoryFunction
     {
@@ -65,7 +74,6 @@ class AnonymousClassGenerator implements InterfaceInstantiator
      * @return \Closure(MethodCallHandler): TInterfaceType
      * @throws \Exception
      * @author         ErickJMenezes <erickmenezes.dev@gmail.com>
-     * @psalm-suppress MixedInferredReturnType, MixedReturnStatement
      */
     private function evaluateClosure(\ReflectionClass $reflectionInterface): \Closure
     {
