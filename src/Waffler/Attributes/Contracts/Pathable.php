@@ -3,17 +3,17 @@
 namespace Waffler\Attributes\Contracts;
 
 /**
- * Interface Verb.
+ * Interface Pathable.
  *
  * @author ErickJMenezes <erickmenezes.dev@gmail.com>
  */
-interface Verb extends Pathable
+interface Pathable
 {
     /**
-     * Retrieves the verb name.
+     * Retrieves the URI path.
      *
-     * @return string 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | 'HEAD'
+     * @return string
      * @author ErickJMenezes <erickmenezes.dev@gmail.com>
      */
-    public function getName(): string;
+    public function getPath(): string;
 }

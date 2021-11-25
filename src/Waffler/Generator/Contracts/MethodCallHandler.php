@@ -14,11 +14,11 @@ interface MethodCallHandler
     /**
      * Handle the method calls.
      *
-     * @param string            $method
+     * @param string            $name
      * @param array<int, mixed> $arguments
      *
      * @return mixed
      * @author ErickJMenezes <erickmenezes.dev@gmail.com>
      */
-    public function __call(string $method, array $arguments): mixed;
+    public function __call(string $name, array $arguments): mixed;
 }

@@ -2,6 +2,8 @@
 
 namespace Waffler\Attributes\Request;
 
+use Waffler\Attributes\Contracts\Pathable;
+
 /**
  * Class Path.
  *
@@ -15,9 +17,14 @@ namespace Waffler\Attributes\Request;
  * @package Waffler\Attributes\Request
  */
 #[\Attribute(\Attribute::TARGET_CLASS | \Attribute::TARGET_METHOD)]
-class Path
+class Path implements Pathable
 {
     public function __construct(
         public string $path
     ) { }
+
+    public function getPath(): string
+    {
+        return $this->path;
+    }
 }

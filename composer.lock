@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b6f264bb3cefa67480f80f3c2308400d",
+    "content-hash": "7aa18f002c979b9f14b549fd33f327b1",
     "packages": [
         {
             "name": "guzzlehttp/guzzle",
@@ -728,6 +728,49 @@
                 "source": "https://github.com/hamcrest/hamcrest-php/tree/master"
             },
             "time": "2021-08-12T08:29:30+00:00"
+        },
+        {
+            "name": "jetbrains/phpstorm-attributes",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/JetBrains/phpstorm-attributes.git",
+                "reference": "688694974d97929cc47d6af8b14a08ad50f3f0c6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/JetBrains/phpstorm-attributes/zipball/688694974d97929cc47d6af8b14a08ad50f3f0c6",
+                "reference": "688694974d97929cc47d6af8b14a08ad50f3f0c6",
+                "shasum": ""
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "JetBrains\\PhpStorm\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "JetBrains",
+                    "homepage": "https://www.jetbrains.com"
+                }
+            ],
+            "description": "PhpStorm specific attributes",
+            "keywords": [
+                "attributes",
+                "jetbrains",
+                "phpstorm"
+            ],
+            "support": {
+                "issues": "https://youtrack.jetbrains.com/newIssue?project=WI",
+                "source": "https://github.com/JetBrains/phpstorm-attributes/tree/master"
+            },
+            "time": "2020-12-11T15:17:37+00:00"
         },
         {
             "name": "mockery/mockery",
@@ -2907,7 +2950,8 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "mockery/mockery": 20,
-        "phpstan/phpstan": 20
+        "phpstan/phpstan": 20,
+        "jetbrains/phpstorm-attributes": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

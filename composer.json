@@ -6,7 +6,8 @@
     "autoload": {
         "psr-4": {
             "Waffler\\": "src/Waffler/"
-        }
+        },
+        "files": ["src/helpers.php"]
     },
     "authors": [
         {
@@ -22,7 +23,8 @@
     "require-dev": {
         "phpunit/phpunit": "^9.5.10",
         "mockery/mockery": "1.4.x-dev",
-        "phpstan/phpstan": "1.2.x-dev"
+        "phpstan/phpstan": "1.2.x-dev",
+        "jetbrains/phpstorm-attributes": "dev-master"
     },
     "autoload-dev": {
         "psr-4": {
