@@ -10,6 +10,7 @@ use Waffler\Attributes\Request\Query;
 use Waffler\Attributes\Verbs\Delete;
 use Waffler\Attributes\Verbs\Get;
 use Waffler\Attributes\Verbs\Head;
+use Waffler\Attributes\Verbs\Options;
 use Waffler\Attributes\Verbs\Patch;
 use Waffler\Attributes\Verbs\Post;
 use Waffler\Attributes\Verbs\Put;
@@ -83,6 +84,13 @@ interface CrudTestCaseClient
      * @return int
      * @author ErickJMenezes <erickmenezes.dev@gmail.com>
      */
-    #[Head('/foo')]
+    #[Options('/foo')]
     public function preflight(): int;
+
+    /**
+     * @return int
+     * @author ErickJMenezes <erickmenezes.dev@gmail.com>
+     */
+    #[Head('/foo')]
+    public function head(): int;
 }

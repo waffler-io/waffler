@@ -140,13 +140,26 @@ class CrudTest extends TestCase
     public function testPreflight(): void
     {
         $this->mockHandler->append(function (RequestInterface $request): Response {
-            self::assertEquals('HEAD', $request->getMethod());
+            self::assertEquals('OPTIONS', $request->getMethod());
             self::assertEquals('foo', (string)$request->getUri());
 
             return new Response();
         });
 
         $response = $this->testCaseClient->preflight();
+        self::assertEquals(200, $response);
+    }
+
+    public function testHead(): void
+    {
+        $this->mockHandler->append(function (RequestInterface $request): Response {
+            self::assertEquals('HEAD', $request->getMethod());
+            self::assertEquals('foo', (string)$request->getUri());
+
+            return new Response();
+        });
+
+        $response = $this->testCaseClient->head();
         self::assertEquals(200, $response);
     }
 }
