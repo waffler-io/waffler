@@ -232,7 +232,7 @@ class Method
     }
 
     /**
-     * @return \Waffler\Client\ResponseParser<TInterfaceType>
+     * @returns \Waffler\Client\ResponseParser
      * @author ErickJMenezes <erickmenezes.dev@gmail.com>
      */
     #[Pure]

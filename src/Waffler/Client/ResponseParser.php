@@ -16,7 +16,6 @@ use function Waffler\array_get;
  *
  * @author   ErickJMenezes <erickmenezes.dev@gmail.com>
  * @package  Waffler\Client
- * @template TInterfaceType of object
  * @internal
  */
 class ResponseParser
@@ -26,6 +25,7 @@ class ResponseParser
      * @param \Waffler\Client\Method<TInterfaceType> $method
      *
      * @return mixed
+     * @template TInterfaceType of object
      */
     public function parse(ResponseInterface $response, Method $method): mixed
     {
@@ -51,6 +51,7 @@ class ResponseParser
      *
      * @return array<int|string, mixed>
      * @author ErickJMenezes <erickmenezes.dev@gmail.com>
+     * @template TInterfaceType of object
      */
     private function decode(ResponseInterface $response, Method $method): array
     {
