@@ -5,12 +5,16 @@ namespace Waffler\Attributes\Request;
 use Attribute;
 
 /**
- * Class FormParams.
+ * Class FormParam.
  *
  * @author  ErickJMenezes <erickmenezes.dev@gmail.com>
  * @package Waffler\Attributes\Request
  */
 #[Attribute(Attribute::TARGET_PARAMETER)]
-class FormParams
+class FromParam
 {
+    public function __construct(
+        public string $key
+    ) {
+    }
 }

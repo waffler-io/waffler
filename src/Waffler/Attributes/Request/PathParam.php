@@ -13,8 +13,11 @@ use Attribute;
 #[Attribute(Attribute::TARGET_PARAMETER)]
 class PathParam
 {
+    /**
+     * @param string|null $name If null, the name of the annotated parameter will be used.
+     */
     public function __construct(
-        public string $name
+        public ?string $name = null
     ) {
     }
 }

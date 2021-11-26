@@ -6,14 +6,16 @@ namespace Waffler\Client;
 
 use BadMethodCallException;
 use GuzzleHttp\ClientInterface;
-use GuzzleHttp\Exception\BadResponseException;
 use GuzzleHttp\Promise\PromiseInterface;
 use GuzzleHttp\RequestOptions;
 use JetBrains\PhpStorm\Pure;
 use Psr\Http\Message\ResponseInterface;
 use ReflectionMethod;
 use Waffler\Attributes\Contracts\Verb;
+use Waffler\Attributes\Request\Consumes;
+use Waffler\Attributes\Request\Headers;
 use Waffler\Attributes\Request\Path;
+use Waffler\Attributes\Request\Produces;
 use Waffler\Attributes\Utils\Suppress;
 use Waffler\Attributes\Utils\Unwrap;
 use Waffler\Client\Traits\InteractsWithAttributes;
@@ -180,7 +182,7 @@ class Method
     private function getOptions(): array
     {
         $options = array_filter([
-            RequestOptions::HEADERS => $this->parameters->getHeaderParams(),
+            RequestOptions::HEADERS => $this->parameters->getHeaderParams() + $this->getHeaders(),
             RequestOptions::BODY => $this->parameters->getBodyParam(),
             RequestOptions::JSON => $this->parameters->getJsonParams(),
             RequestOptions::QUERY => $this->parameters->getQueryParams(),
@@ -192,6 +194,29 @@ class Method
         $options[RequestOptions::HTTP_ERRORS] = !$this->isSuppressed();
 
         return array_merge($options, $this->parameters->getRawOptions());
+    }
+
+    /**
+     * @return array<string, mixed>
+     * @author ErickJMenezes <erickmenezes.dev@gmail.com>
+     */
+    private function getHeaders(): array
+    {
+        $headers = [];
+
+        if ($headersAttribute = $this->hasAttribute(Headers::class)) {
+            $headers = $headersAttribute[0]->headers;
+        }
+
+        if ($producesAttribute = $this->hasAttribute(Produces::class)) {
+            $headers = array_merge_recursive($headers, $producesAttribute[0]->headers);
+        }
+
+        if ($consumesAttribute = $this->hasAttribute(Consumes::class)) {
+            $headers = array_merge_recursive($headers, $consumesAttribute[0]->headers);
+        }
+
+        return $headers;
     }
 
     private function loadVerb(): void

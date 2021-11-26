@@ -12,8 +12,8 @@ use Waffler\Attributes\Auth\Bearer;
 use Waffler\Attributes\Auth\Digest;
 use Waffler\Attributes\Auth\Ntml;
 use Waffler\Attributes\Request\Body;
-use Waffler\Attributes\Request\FormParamItem;
-use Waffler\Attributes\Request\FormParams;
+use Waffler\Attributes\Request\FromParam;
+use Waffler\Attributes\Request\FormData;
 use Waffler\Attributes\Request\HeaderParam;
 use Waffler\Attributes\Request\Headers;
 use Waffler\Attributes\Request\Json;
@@ -72,10 +72,7 @@ class Parameters
      */
     public function getHeaderParams(): array
     {
-        return $this->valuesForPair(
-                Headers::class,
-                HeaderParam::class
-            ) + $this->getBearerParam();
+        return $this->valuesFor(HeaderParam::class) + $this->getBearerParam();
     }
 
     /**
@@ -95,8 +92,8 @@ class Parameters
     public function getFormParams(): ?array
     {
         return $this->valuesForPair(
-            FormParams::class,
-            FormParamItem::class,
+            FormData::class,
+            FromParam::class,
         );
     }
 
@@ -170,7 +167,7 @@ class Parameters
             $attributeInstance = $this->getAttributeInstance($pathParameter, PathParam::class);
             $value = $this->get($pathParameter);
             AttributeChecker::check(PathParam::class, $value);
-            $placeholder = $attributeInstance->name;
+            $placeholder = $attributeInstance->name ?? $pathParameter->name;
             $count = 0;
             $path = str_replace('{' . $placeholder . '}', (string)$value, $path, $count);
             if ($count === 0) {

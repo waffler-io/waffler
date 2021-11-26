@@ -8,7 +8,7 @@ use Waffler\Attributes\Auth\Basic;
 use Waffler\Attributes\Auth\Bearer;
 use Waffler\Attributes\Auth\Digest;
 use Waffler\Attributes\Auth\Ntml;
-use Waffler\Attributes\Request\FormParams;
+use Waffler\Attributes\Request\FormData;
 use Waffler\Attributes\Request\HeaderParam;
 use Waffler\Attributes\Request\Headers;
 use Waffler\Attributes\Request\Json;
@@ -42,7 +42,7 @@ class AttributeChecker
         match ($attribute) {
             Bearer::class, PathParam::class, QueryParam::class, => self::expectsStringOrInt($value),
             Basic::class, Digest::class, Ntml::class => self::authHeaders($value),
-            Query::class, Json::class, Headers::class, Multipart::class, FormParams::class, RawOptions::class => self::expectsArray(
+            Query::class, Json::class, Headers::class, Multipart::class, FormData::class, RawOptions::class => self::expectsArray(
                 $value
             ),
             HeaderParam::class => self::expectsString($value),

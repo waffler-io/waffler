@@ -1,6 +1,6 @@
 <?php
 
-namespace Waffler\Tests\Generator\TestCaseTools;
+namespace Waffler\Tests\Unit\Generator\TestCaseTools;
 
 interface InterfaceOne
 {

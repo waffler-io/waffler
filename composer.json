@@ -32,6 +32,7 @@
         }
     },
     "scripts": {
-        "phpstan": "./vendor/bin/phpstan"
+        "phpstan": "./vendor/bin/phpstan",
+        "phpunit": "./vendor/bin/phpunit"
     }
 }

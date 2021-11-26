@@ -1,15 +1,18 @@
 <?php
 
-namespace Waffler\Tests\Generator;
+namespace Waffler\Tests\Unit\Generator;
 
 use Mockery\MockInterface;
 use Waffler\Generator\AnonymousClassGenerator;
 use PHPUnit\Framework\TestCase;
 use Waffler\Generator\Contracts\InterfaceInstantiator;
 use Waffler\Generator\Contracts\MethodCallHandler;
-use Waffler\Tests\Generator\TestCaseTools\BasicMethodCallHandler;
-use Waffler\Tests\Generator\TestCaseTools\InterfaceOne;
+use Waffler\Tests\Unit\Generator\TestCaseTools\BasicMethodCallHandler;
+use Waffler\Tests\Unit\Generator\TestCaseTools\InterfaceOne;
 
+/**
+ * @covers \Waffler\Generator\AnonymousClassGenerator
+ */
 class AnonymousClassGeneratorTest extends TestCase
 {
     /**
@@ -29,9 +32,6 @@ class AnonymousClassGeneratorTest extends TestCase
         $this->methodCallHandler = new BasicMethodCallHandler();
     }
 
-    /**
-     * @throws \ReflectionException
-     */
     public function testItMustInstantiateAndReturnTheSameValueAsFirstArgument(): void
     {
         $obj = $this->instantiator->instantiate(

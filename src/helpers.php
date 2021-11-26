@@ -47,3 +47,20 @@ function array_set(array &$_, string $path, mixed $value): void
     $target = array_slice($propNames, -1)[0];
     $nested[$target] = $value;
 }
+
+/**
+ * Wraps a given value into an array.
+ *
+ * @param mixed|array<int|string, mixed> $value
+ *
+ * @return array<int|string, mixed>
+ * @author ErickJMenezes <erickmenezes.dev@gmail.com>
+ */
+function array_wrap(mixed $value): array
+{
+    if (is_array($value)) {
+        return $value;
+    }
+
+    return [$value];
+}
