@@ -1,6 +1,6 @@
 <?php
 
-namespace Waffler\Tests\Feature\TestCaseTools;
+namespace Waffler\Tests\Tools;
 
 use Waffler\Attributes\Request\Headers;
 use Waffler\Attributes\Request\Json;

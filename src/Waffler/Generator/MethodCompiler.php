@@ -11,6 +11,7 @@ use ReflectionNamedType;
 use ReflectionParameter;
 use ReflectionUnionType;
 use Stringable;
+use Waffler\Generator\Exceptions\MethodCompilingException;
 
 /**
  * Class MethodGenerator
@@ -20,79 +21,71 @@ use Stringable;
  */
 class MethodCompiler implements Stringable
 {
-    protected string $representation;
+    /**
+     * Generic method template.
+     */
+    private const METHOD_TEMPLATE = '
+        public function <method>(<args>)<rt>
+        {
+            <return> $this->handler->{"<method>"}(...func_get_args());
+        }
+    ';
 
     /**
-     * @throws \Exception
+     * @throws MethodCompilingException|\Exception
      */
     public function __construct(protected ReflectionMethod $method)
     {
         $this->assertMethodSignature();
-        $this->compile();
+    }
+
+    public function __toString(): string
+    {
+        $methodName = $this->method->getName();
+        $argList = $this->getParameterList();
+        [$returnType, $returnStatement] = $this->getReturnTypeAndReturnStatement();
+        return (string)preg_replace_callback(
+            '/<(\w*)>/',
+            fn(array $matches) => match ($matches[1]) {
+                'method' => $methodName,
+                'args' => $argList,
+                'rt' => $returnType,
+                default => $returnStatement
+            },
+            self::METHOD_TEMPLATE
+        );
     }
 
     /**
      * Ensures the method follows certain criteria.
      *
-     * @throws \Exception
+     * @throws MethodCompilingException|\Exception
      */
-    protected function assertMethodSignature(): void
+    private function assertMethodSignature(): void
     {
         $finalQuote = "Please fix the method \"{$this->method->getName()}\" signature.";
 
         if ($this->method->isStatic() || !$this->method->isAbstract()) {
-            throw new Exception(
-                "Static or concrete methods are not allowed. {$finalQuote}"
+            throw new MethodCompilingException(
+                "Static or concrete methods are not allowed. {$finalQuote}",
+                1
             );
         }
 
         foreach ($this->method->getParameters() as $parameter) {
             if (($parameter->isVariadic() || $parameter->isPassedByReference())) {
-                throw new Exception(
-                    "Variadic or passed by reference parameters are forbidden. {$finalQuote}"
+                throw new MethodCompilingException(
+                    "Variadic or passed by reference parameters are forbidden. {$finalQuote}",
+                    2
                 );
             } elseif ($parameter->hasType()) {
-                $reflectionType = $parameter->getType();
-
-                if ($reflectionType instanceof ReflectionUnionType) {
-                    throw new Exception("Union types are not allowed. $finalQuote");
-                } elseif (PHP_VERSION_ID >= 80100 && $reflectionType instanceof ReflectionIntersectionType) {
-                    throw new Exception("Intersection types are not allowed. {$finalQuote}");
-                }
+                $this->checkReflectionType($parameter->getType(), $finalQuote);
             }
         }
-    }
 
-    public function __toString(): string
-    {
-        return $this->representation;
-    }
-
-    /**
-     * Compiles the method to its string representation.
-     *
-     * @author ErickJMenezes <erickmenezes.dev@gmail.com>
-     */
-    protected function compile(): void
-    {
-        $parameterList = [];
-        foreach ($this->method->getParameters() as $parameter) {
-            $paramType = $this->getParameterType($parameter);
-            $argName = $parameter->getName();
-            $defaultValue = $this->getParameterDefaultValue($parameter);
-            $parameterList[] = "{$paramType} \${$argName}{$defaultValue}";
+        if ($this->method->hasReturnType()) {
+            $this->checkReflectionType($this->method->getReturnType(), $finalQuote);
         }
-        $parameterList = join(',', $parameterList);
-        $this->representation = "public function {$this->method->getName()}({$parameterList})";
-        if (($returnTypeReflection = $this->method->getReturnType())
-            && $returnTypeReflection instanceof ReflectionNamedType) {
-            $returnTypeName = $this->getTypeName($returnTypeReflection);
-            $returnStatement = $returnTypeName === 'void' ? '' : 'return ';
-            $this->representation .= ": {$returnTypeName} { {$returnStatement}";
-        } else {
-            $this->representation .= '{ return';
-        }
-        $this->representation .= "\$this->_callHandler(\"{$this->method->getName()}\", func_get_args());}";
     }
 
     /**
@@ -103,7 +96,7 @@ class MethodCompiler implements Stringable
      * @return string
      * @author ErickJMenezes <erickmenezes.dev@gmail.com>
      */
-    protected function getTypeName(ReflectionNamedType $reflectionType): string
+    private function getTypeName(ReflectionNamedType $reflectionType): string
     {
         $name = $reflectionType->getName();
         return class_exists($name) || interface_exists($name) ? "\\{$name}" : $name;
@@ -117,7 +110,7 @@ class MethodCompiler implements Stringable
      * @return string
      * @author ErickJMenezes <erickmenezes.dev@gmail.com>
      */
-    protected function getParameterType(ReflectionParameter $parameter): string
+    private function getParameterType(ReflectionParameter $parameter): string
     {
         $name = '';
         if ($parameter->hasType()) {
@@ -136,7 +129,7 @@ class MethodCompiler implements Stringable
      * @return string
      * @author         ErickJMenezes <erickmenezes.dev@gmail.com>
      */
-    protected function getParameterDefaultValue(ReflectionParameter $parameter): string
+    private function getParameterDefaultValue(ReflectionParameter $parameter): string
     {
         if (!$parameter->isDefaultValueAvailable()) {
             return '';
@@ -145,5 +138,59 @@ class MethodCompiler implements Stringable
         }
 
         return '=' . var_export($defaultValue, true);
+    }
+
+    /**
+     * Retrieves the list of parameters from the reflection method.
+     *
+     * @return string
+     * @author ErickJMenezes <erickmenezes.dev@gmail.com>
+     */
+    private function getParameterList(): string
+    {
+        $parameterList = [];
+        foreach ($this->method->getParameters() as $parameter) {
+            $paramType = $this->getParameterType($parameter);
+            $argName = $parameter->getName();
+            $defaultValue = $this->getParameterDefaultValue($parameter);
+            $parameterList[] = "{$paramType} \${$argName}{$defaultValue}";
+        }
+        return join(',', $parameterList);
+    }
+
+    /**
+     * Retrieves the return type and the return statement from the reflection method.
+     *
+     * @return string[]
+     * @author ErickJMenezes <erickmenezes.dev@gmail.com>
+     */
+    private function getReturnTypeAndReturnStatement(): array
+    {
+        $returnTypeReflection = $this->method->getReturnType();
+
+        if ($returnTypeReflection instanceof ReflectionNamedType) {
+            $returnTypeName = $this->getTypeName($returnTypeReflection);
+            $returnStatement = $returnTypeName === 'void' ? '' : 'return';
+
+            return [": $returnTypeName", $returnStatement];
+        }
+
+        return ['', 'return'];
+    }
+
+    /**
+     * @throws \Exception
+     */
+    private function checkReflectionType(?\ReflectionType $reflectionType, string $errorQuote = ''): void
+    {
+        if (
+            $reflectionType instanceof ReflectionUnionType ||
+            PHP_VERSION_ID >= 80100 && $reflectionType instanceof ReflectionIntersectionType
+        ) {
+            throw new MethodCompilingException(
+                "Union types or intersection types are not allowed. $errorQuote",
+                3
+            );
+        }
     }
 }

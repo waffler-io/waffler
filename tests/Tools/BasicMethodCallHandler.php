@@ -1,6 +1,6 @@
 <?php
 
-namespace Waffler\Tests\Unit\Generator\TestCaseTools;
+namespace Waffler\Tests\Tools;
 
 use Waffler\Generator\Contracts\MethodCallHandler;
 

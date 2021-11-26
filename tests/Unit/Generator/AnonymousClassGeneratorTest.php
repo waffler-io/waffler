@@ -7,8 +7,8 @@ use Waffler\Generator\AnonymousClassGenerator;
 use PHPUnit\Framework\TestCase;
 use Waffler\Generator\Contracts\InterfaceInstantiator;
 use Waffler\Generator\Contracts\MethodCallHandler;
-use Waffler\Tests\Unit\Generator\TestCaseTools\BasicMethodCallHandler;
-use Waffler\Tests\Unit\Generator\TestCaseTools\InterfaceOne;
+use Waffler\Tests\Tools\BasicMethodCallHandler;
+use Waffler\Tests\Tools\Interfaces\InterfaceWithValidMethodSignature;
 
 /**
  * @covers \Waffler\Generator\AnonymousClassGenerator
@@ -16,7 +16,7 @@ use Waffler\Tests\Unit\Generator\TestCaseTools\InterfaceOne;
 class AnonymousClassGeneratorTest extends TestCase
 {
     /**
-     * @var \Waffler\Generator\Contracts\InterfaceInstantiator<InterfaceOne>
+     * @var \Waffler\Generator\Contracts\InterfaceInstantiator<InterfaceWithValidMethodSignature>
      */
     private InterfaceInstantiator $instantiator;
 
@@ -26,7 +26,7 @@ class AnonymousClassGeneratorTest extends TestCase
     {
         parent::setUp();
 
-        /** @var AnonymousClassGenerator<InterfaceOne> */
+        /** @var AnonymousClassGenerator<InterfaceWithValidMethodSignature> */
         $anonymousClassGenerator = new AnonymousClassGenerator();
         $this->instantiator = $anonymousClassGenerator;
         $this->methodCallHandler = new BasicMethodCallHandler();
@@ -35,7 +35,7 @@ class AnonymousClassGeneratorTest extends TestCase
     public function testItMustInstantiateAndReturnTheSameValueAsFirstArgument(): void
     {
         $obj = $this->instantiator->instantiate(
-            InterfaceOne::class,
+            InterfaceWithValidMethodSignature::class,
             $this->methodCallHandler
         );
 

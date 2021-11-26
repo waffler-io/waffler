@@ -81,16 +81,10 @@ class AnonymousClassGenerator implements InterfaceInstantiator
     {
         $anonymousClassGenerator = sprintf(
             'return fn($handler) => new class($handler) implements %s {
-            public function __construct(private $handler) {}
-            
-            private function _callHandler(string $method, array $arguments)
-            {
-                return $this->handler->{$method}(...$arguments);
-            }
-            
-            %s
-        };',
-            '\\' . $reflectionInterface->name,
+                public function __construct(private $handler) {}
+                %s
+            };',
+            "\\{$reflectionInterface->name}",
             $this->getMethodsRepresentation($reflectionInterface->getMethods())
         );
 
@@ -111,9 +105,9 @@ class AnonymousClassGenerator implements InterfaceInstantiator
         $methods = [];
 
         foreach ($reflectionMethods as $method) {
-            $methods[] = (string)(new MethodCompiler($method));
+            $methods[] = new MethodCompiler($method);
         }
 
-        return implode("\n", $methods);
+        return implode(PHP_EOL, $methods);
     }
 }
