@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace Waffler\Generator;
 
 use Exception;
+use ReflectionIntersectionType;
 use ReflectionMethod;
 use ReflectionNamedType;
 use ReflectionParameter;
@@ -50,8 +51,14 @@ class MethodCompiler implements Stringable
                 throw new Exception(
                     "Variadic or passed by reference parameters are forbidden. {$finalQuote}"
                 );
-            } elseif ($parameter->hasType() && $parameter->getType() instanceof ReflectionUnionType) {
-                throw new Exception("Union types are not allowed.");
+            } elseif ($parameter->hasType()) {
+                $reflectionType = $parameter->getType();
+
+                if ($reflectionType instanceof ReflectionUnionType) {
+                    throw new Exception("Union types are not allowed. $finalQuote");
+                } elseif (PHP_VERSION_ID >= 80100 && $reflectionType instanceof ReflectionIntersectionType) {
+                    throw new Exception("Intersection types are not allowed. {$finalQuote}");
+                }
             }
         }
     }
