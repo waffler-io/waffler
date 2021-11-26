@@ -37,16 +37,18 @@ class MethodCompiler implements Stringable
      */
     protected function assertMethodSignature(): void
     {
-        if ($this->method->isStatic()) {
+        $finalQuote = "Please fix the method \"{$this->method->getName()}\" signature.";
+
+        if ($this->method->isStatic() || !$this->method->isAbstract()) {
             throw new Exception(
-                "Static methods are not allowed, please remove the method \"{$this->method->getName()}\"."
+                "Static or concrete methods are not allowed. {$finalQuote}"
             );
         }
 
         foreach ($this->method->getParameters() as $parameter) {
             if (($parameter->isVariadic() || $parameter->isPassedByReference())) {
                 throw new Exception(
-                    "Variadic or passed by reference parameters are forbidden. Please fix the method \"{$this->method->getName()}\"."
+                    "Variadic or passed by reference parameters are forbidden. {$finalQuote}"
                 );
             } elseif ($parameter->hasType() && $parameter->getType() instanceof ReflectionUnionType) {
                 throw new Exception("Union types are not allowed.");
