@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Waffler\Generator;
 
 use Waffler\Generator\Contracts\MethodCallHandler;

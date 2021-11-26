@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Waffler\Client;
 
 use ArrayObject;
@@ -50,7 +52,7 @@ class ResponseParser
      * @param \Waffler\Client\Method<TInterfaceType> $method
      *
      * @return array<int|string, mixed>
-     * @author ErickJMenezes <erickmenezes.dev@gmail.com>
+     * @author   ErickJMenezes <erickmenezes.dev@gmail.com>
      * @template TInterfaceType of object
      */
     private function decode(ResponseInterface $response, Method $method): array
