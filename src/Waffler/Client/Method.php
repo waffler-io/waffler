@@ -182,7 +182,7 @@ class Method
     private function getOptions(): array
     {
         $options = array_filter([
-            RequestOptions::HEADERS => $this->parameters->getHeaderParams() + $this->getHeaders(),
+            RequestOptions::HEADERS => array_merge_recursive($this->getHeaders(), $this->parameters->getHeaderParams()),
             RequestOptions::BODY => $this->parameters->getBodyParam(),
             RequestOptions::JSON => $this->parameters->getJsonParams(),
             RequestOptions::QUERY => $this->parameters->getQueryParams(),

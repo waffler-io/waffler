@@ -4,10 +4,14 @@ namespace Waffler\Attributes\Request;
 
 use Attribute;
 
+use JetBrains\PhpStorm\Pure;
+
 use function Waffler\array_wrap;
 
 /**
  * Class Headers.
+ *
+ * Add custom headers to the request.
  *
  * @author  ErickJMenezes <erickmenezes.dev@gmail.com>
  * @package Waffler\Attributes\Request
@@ -18,6 +22,7 @@ class Headers
     /**
      * @param array<string, string|array<string>> $headers
      */
+    #[Pure]
     public function __construct(public array $headers = [])
     {
         foreach ($this->headers as $header => $value) {

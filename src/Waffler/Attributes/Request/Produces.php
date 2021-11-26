@@ -6,6 +6,13 @@ use Attribute;
 
 use function Waffler\array_wrap;
 
+/**
+ * Class Produces.
+ *
+ * Add "Content-Type" headers.
+ *
+ * @author ErickJMenezes <erickmenezes.dev@gmail.com>
+ */
 #[Attribute(Attribute::TARGET_METHOD)]
 class Produces extends Headers
 {
