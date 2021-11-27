@@ -24,20 +24,21 @@ class ResponseParser
 {
     /**
      * @param \Psr\Http\Message\ResponseInterface $response
-     * @param \Waffler\Client\Method              $method
+     * @param string                              $returnType
+     * @param string|null                         $wrapperProperty
      *
      * @return mixed
      */
-    public function parse(ResponseInterface $response, Method $method): mixed
+    public function parse(ResponseInterface $response, string $returnType, ?string $wrapperProperty = null): mixed
     {
-        return match ($method->getReturnType()) {
-            'array' => $this->decode($response, $method),
+        return match ($returnType) {
+            'array' => $this->decode($response, $wrapperProperty),
             'void', 'null' => null,
             'bool' => true,
             'string' => $response->getBody()->getContents(),
             'int', 'float', 'double' => $response->getStatusCode(),
             'object', ArrayObject::class => new ArrayObject(
-                $this->decode($response, $method),
+                $this->decode($response, $wrapperProperty),
                 ArrayObject::ARRAY_AS_PROPS
             ),
             StreamInterface::class => $response->getBody(),
@@ -48,16 +49,16 @@ class ResponseParser
 
     /**
      * @param \Psr\Http\Message\ResponseInterface $response
-     * @param \Waffler\Client\Method              $method
+     * @param null|string $wrapperProperty
      *
      * @return array<int|string, mixed>
      * @author   ErickJMenezes <erickmenezes.dev@gmail.com>
      */
-    private function decode(ResponseInterface $response, Method $method): array
+    private function decode(ResponseInterface $response, ?string $wrapperProperty): array
     {
         $response = (array)json_decode($response->getBody()->getContents(), true);
-        if ($method->mustUnwrap() && !empty($response)) {
-            return array_get($response, $method->getWrapperProperty());
+        if ($wrapperProperty) {
+            return array_get($response, $wrapperProperty);
         }
         return $response;
     }

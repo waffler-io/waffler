@@ -31,22 +31,37 @@ use Waffler\Client\Traits\InteractsWithAttributes;
  * @package  Waffler\Client
  * @internal
  */
-class Parameters
+class ParameterReader
 {
     use InteractsWithAttributes;
 
     /**
      * @var array<string,mixed>
      */
-    protected array $parameterMap = [];
+    private array $parameterMap = [];
 
     /**
+     * @var array<\ReflectionParameter>
+     */
+    private array $reflectionParameters = [];
+
+    /**
+     * @var array<int|string, mixed>
+     */
+    private array $arguments = [];
+
+    /**
+     * Sets the data to read.
+     *
      * @param array<\ReflectionParameter> $reflectionParameters
      * @param array<int|string, mixed>    $arguments
      */
-    public function __construct(protected array $reflectionParameters, protected array $arguments)
+    public function setData(array $reflectionParameters, array $arguments): self
     {
+        $this->reflectionParameters = $reflectionParameters;
+        $this->arguments = $arguments;
         $this->loadParameterMap();
+        return $this;
     }
 
     /**

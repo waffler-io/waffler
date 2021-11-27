@@ -7,46 +7,34 @@ namespace Waffler\Client;
 
 use BadMethodCallException;
 use GuzzleHttp\Client as GuzzleClient;
-use GuzzleHttp\ClientInterface;
 use InvalidArgumentException;
-use JetBrains\PhpStorm\Pure;
 use ReflectionClass;
-use ReflectionException;
+use Waffler\Client\Contracts\ClientFactory;
 use Waffler\Generator\AnonymousClassGenerator;
-use Waffler\Generator\Contracts\InterfaceInstantiator;
 use Waffler\Generator\Contracts\MethodCallHandler;
 
 /**
  * Class Client
  *
- * @author   ErickJMenezes <erickmenezes.dev@gmail.com>
- * @package  Waffler
- * @template TInterfaceType of object
+ * @author ErickJMenezes <erickmenezes.dev@gmail.com>
+ * @phpstan-template TInterfaceType of object
+ * @template-implements ClientFactory<TInterfaceType>
  */
-class Factory implements MethodCallHandler
+class Factory implements MethodCallHandler, ClientFactory
 {
-    /**
-     * @var \GuzzleHttp\ClientInterface
-     */
-    private ClientInterface $client;
-
-    /**
-     * @var \ReflectionClass<TInterfaceType> $interface
-     */
-    private ReflectionClass $interface;
-
     /**
      * Client constructor.
      *
-     * @param class-string<TInterfaceType> $interfaceClass
-     * @param array<string,mixed>          $guzzleClientConfig
-     *
-     * @throws \InvalidArgumentException
+     * @param \ReflectionClass<TInterfaceType>           $interface
+     * @param \Waffler\Generator\AnonymousClassGenerator $anonymousClassGenerator
+     * @param \Waffler\Client\MethodInvoker              $methodInvoker
      */
-    private function __construct(string $interfaceClass, array $guzzleClientConfig = [])
-    {
-        $this->validateInterfaceName($interfaceClass);
-        $this->client = new GuzzleClient($guzzleClientConfig);
+    public function __construct(
+        private ReflectionClass $interface,
+        private AnonymousClassGenerator $anonymousClassGenerator,
+        private MethodInvoker $methodInvoker
+    ) {
+        $this->validateInterfaceName();
     }
 
     /**
@@ -66,102 +54,59 @@ class Factory implements MethodCallHandler
             throw new BadMethodCallException("The method $name is not declared in {$this->interface->getName()}.");
         }
 
-        return $this->callClientMethod($name, $arguments);
-    }
-
-    public function getClient(): ClientInterface
-    {
-        return $this->client;
+        return $this->methodInvoker->invoke($this->interface->getMethod($name), $arguments);
     }
 
     /**
-     * @param class-string<TInterfaceName> $interface
-     * @param array<string, mixed>         $options
+     * Factory method to create the client implementation.
      *
-     * @return TInterfaceName
+     * @param class-string<TInterfaceType> $interface Fully qualified name of the client interface.
+     * @param array<string, mixed>         $options An array of guzzle http client options.
+     *
+     * @return TInterfaceType
+     * @throws \ReflectionException
+     * @throws \Exception
      * @author   ErickJMenezes <erickmenezes.dev@gmail.com>
-     * @template TInterfaceName of object
      */
     public static function make(string $interface, array $options = []): object
     {
-        return (new self($interface, $options))->generate();
+        // Instantiate the client factory with all dependencies.
+
+        return (new self(
+            new ReflectionClass($interface),
+            new AnonymousClassGenerator(),
+            new MethodInvoker(
+                new ParameterReader(),
+                new ResponseParser(),
+                new GuzzleClient($options),
+            )
+        ))
+            ->makeImplementation();
     }
 
     /**
-     * @param class-string<TInterfaceType> $interfaceClass
-     *
      * @throws \InvalidArgumentException
      */
-    private function validateInterfaceName(string $interfaceClass): void
+    private function validateInterfaceName(): void
     {
-        try {
-            $this->interface = new ReflectionClass($interfaceClass);
-            if (!$this->interface->isInterface()) {
-                $this->throwInvalidInterfaceException($interfaceClass);
-            }
-        } catch (ReflectionException) {
-            $this->throwInvalidInterfaceException($interfaceClass);
+        if (!$this->interface->isInterface()) {
+            $this->throwInvalidClassStringException($this->interface->getName());
         }
     }
 
-    private function throwInvalidInterfaceException(string $interface): void
+    private function throwInvalidClassStringException(string $interface): void
     {
-        throw new InvalidArgumentException("The value \"$interface\" is not a valid fully qualified interface name.");
-    }
-
-    /**
-     * @param string                   $name
-     * @param array<int|string, mixed> $arguments
-     *
-     * @return mixed
-     * @throws \ReflectionException
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     */
-    private function callClientMethod(string $name, array $arguments): mixed
-    {
-        return $this->newMethod($name, $arguments)->call();
-    }
-
-    /**
-     * Generates the interface implementation at runtime.
-     *
-     * @return TInterfaceType
-     */
-    private function generate(): mixed
-    {
-        return $this->newAnonymousClassGenerator()
-            ->instantiateFromReflection(
-                $this->interface,
-                $this
-            );
-    }
-
-    /**
-     * Retrieves new implementer instance.
-     *
-     * @return InterfaceInstantiator
-     * @author ErickJMenezes <erickmenezes.dev@gmail.com>
-     */
-    #[Pure]
-    private function newAnonymousClassGenerator(): InterfaceInstantiator
-    {
-        return new AnonymousClassGenerator();
-    }
-
-    /**
-     * @param string                   $name
-     * @param array<int|string, mixed> $arguments
-     *
-     * @return \Waffler\Client\Method
-     * @throws \ReflectionException
-     * @author ErickJMenezes <erickmenezes.dev@gmail.com>
-     */
-    private function newMethod(string $name, array $arguments): Method
-    {
-        return new Method(
-            $this->interface->getMethod($name),
-            $arguments,
-            $this->client
+        throw new InvalidArgumentException(
+            "The value \"$interface\" is not a valid fully qualified interface name.", 10
         );
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function makeImplementation(): mixed
+    {
+        return $this->anonymousClassGenerator
+            ->instantiateFromReflection($this->interface, $this);
     }
 }
