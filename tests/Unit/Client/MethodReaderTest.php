@@ -4,15 +4,12 @@ namespace Waffler\Tests\Unit\Client;
 
 use GuzzleHttp\Promise\Promise;
 use GuzzleHttp\RequestOptions;
+use Mockery as m;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use PHPStan\BetterReflection\Reflection\ReflectionAttribute;
 use PHPUnit\Framework\TestCase;
-use Mockery as m;
 use ReflectionMethod;
-use Waffler\Attributes\Request\Consumes;
-use Waffler\Attributes\Request\Headers;
 use Waffler\Attributes\Request\Path;
-use Waffler\Attributes\Request\Produces;
 use Waffler\Attributes\Utils\Suppress;
 use Waffler\Attributes\Utils\Unwrap;
 use Waffler\Attributes\Verbs\Get;
