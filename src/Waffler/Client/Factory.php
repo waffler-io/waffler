@@ -38,15 +38,16 @@ class Factory implements ClientFactory
     /**
      * Factory method to create the client implementation.
      *
-     * @param class-string<TInterfaceType> $interfaceName Fully qualified name of the client interface.
+     * @param class-string<TInterfaceName> $interfaceName Fully qualified name of the client interface.
      * @param array<string, mixed>         $options       An array of guzzle http client options.
      *
-     * @return TInterfaceType
+     * @return TInterfaceName
      * @throws \ReflectionException
      * @throws \Exception
+     * @phpstan-template TInterfaceName of object
      * @author ErickJMenezes <erickmenezes.dev@gmail.com>
      */
-    public static function make(string $interfaceName, array $options = []): object
+    public static function make(string $interfaceName, array $options = []): mixed
     {
         // Instantiate the client factory with all dependencies.
 
@@ -58,7 +59,7 @@ class Factory implements ClientFactory
             new Proxy(
                 $reflectedInterface,
                 new MethodInvoker(
-                    new ParameterReader(),
+                    new MethodReader(new ParameterReader()),
                     new ResponseParser(),
                     new GuzzleClient($options),
                 )

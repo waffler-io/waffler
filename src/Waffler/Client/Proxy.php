@@ -35,7 +35,7 @@ class Proxy implements MethodCallHandler
             $this->throwUndefinedMethodError($name);
         }
 
-        return $this->methodInvoker->invoke($this->interface->getMethod($name), $arguments);
+        return $this->methodInvoker->invokeMethod($this->interface->getMethod($name), $arguments);
     }
 
     /**
