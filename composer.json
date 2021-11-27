@@ -33,6 +33,6 @@
     },
     "scripts": {
         "phpstan": "./vendor/bin/phpstan",
-        "phpunit": "./vendor/bin/phpunit"
+        "phpunit": "./vendor/bin/phpunit --configuration phpunit.xml"
     }
 }

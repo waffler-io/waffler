@@ -14,7 +14,7 @@ use Waffler\Attributes\Contracts\Verb;
 abstract class AbstractHttpMethod implements Verb
 {
     public function __construct(
-        public string $path
+        public string $path = '/'
     )
     {
     }

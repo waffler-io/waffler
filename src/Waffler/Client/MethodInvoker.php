@@ -41,7 +41,7 @@ class MethodInvoker
 
         $response = $this->client->requestAsync(
             $this->methodReader->getVerb($method)->getName(),
-            $this->methodReader->parseFullPath($method),
+            $this->methodReader->parsePath($method),
             $this->methodReader->getOptions($method)
         );
 

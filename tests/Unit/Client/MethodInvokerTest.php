@@ -121,7 +121,7 @@ class MethodInvokerTest extends TestCase
             ->once()
             ->andReturn('GET');
 
-        $this->methodReader->shouldReceive('parseFullPath')
+        $this->methodReader->shouldReceive('parsePath')
             ->once()
             ->with(m::type(ReflectionMethod::class))
             ->andReturn('/');

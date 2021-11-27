@@ -34,7 +34,7 @@ class MethodReader
      * Loads the reflection parameters and the list of real arguments into the parameter reader.
      *
      * @param array<\ReflectionParameter> $parameters
-     * @param array<int|string, mixed> $arguments
+     * @param array<int|string, mixed>    $arguments
      *
      * @author ErickJMenezes <erickmenezes.dev@gmail.com>
      */
@@ -72,14 +72,14 @@ class MethodReader
      * @author   ErickJMenezes <erickmenezes.dev@gmail.com>
      * @template TAttributeName of object
      */
-    public function hasAttribute(ReflectionMethod $method, string $name): false|array
+    private function hasAttribute(ReflectionMethod $method, string $name): false|array
     {
         return $this->reflectionHasAttribute($method, $name)
             ? $this->getAttributeInstances($method, $name)
             : false;
     }
 
-    public function getPath(ReflectionMethod $method): string
+    private function getPath(ReflectionMethod $method): string
     {
         $path = [];
 
@@ -104,7 +104,7 @@ class MethodReader
      *
      * @author ErickJMenezes <erickmenezes.dev@gmail.com>
      */
-    public function addPathParts(string $path, array &$parts): void
+    private function addPathParts(string $path, array &$parts): void
     {
         foreach (explode('/', $path) as $item) {
             if (empty($item)) {
@@ -144,7 +144,7 @@ class MethodReader
      * @return array<string, mixed>
      * @author ErickJMenezes <erickmenezes.dev@gmail.com>
      */
-    public function getHeaders(ReflectionMethod $method): array
+    private function getHeaders(ReflectionMethod $method): array
     {
         $headers = [];
 
@@ -194,7 +194,7 @@ class MethodReader
         }
     }
 
-    public function parseFullPath(ReflectionMethod $method): string
+    public function parsePath(ReflectionMethod $method): string
     {
         return $this->parameterReader->parsePath($this->getPath($method));
     }

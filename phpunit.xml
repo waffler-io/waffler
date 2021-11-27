@@ -12,6 +12,8 @@
          verbose="true"
          testdox="true"
          colors="true"
+         stopOnFailure="true"
+         stopOnIncomplete="true"
 >
     <testsuites>
         <testsuite name="unit">
