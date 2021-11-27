@@ -66,7 +66,7 @@ class AnonymousClassGenerator implements InterfaceInstantiator
     {
         // @phpstan-ignore-next-line
         return self::$cache[$reflectionInterface->name]
-            ??= new FactoryFunction($this->evaluateClosure($reflectionInterface));
+            ??= new FactoryFunction($this->createClosure($reflectionInterface));
     }
 
     /**
@@ -79,7 +79,7 @@ class AnonymousClassGenerator implements InterfaceInstantiator
      * @author   ErickJMenezes <erickmenezes.dev@gmail.com>
      * @phpstan-template TInterfaceType of object
      */
-    private function evaluateClosure(\ReflectionClass $reflectionInterface): \Closure
+    private function createClosure(\ReflectionClass $reflectionInterface): \Closure
     {
         $anonymousClassGenerator = sprintf(
             'return fn($handler) => new class($handler) implements %s {
@@ -107,7 +107,7 @@ class AnonymousClassGenerator implements InterfaceInstantiator
         $methods = [];
 
         foreach ($reflectionMethods as $method) {
-            $methods[] = new MethodCompiler($method);
+            $methods[] = new AnonymousClassMethod($method);
         }
 
         return implode(PHP_EOL, $methods);

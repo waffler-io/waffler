@@ -4,7 +4,6 @@ declare(strict_types = 1);
 
 namespace Waffler\Generator;
 
-use Exception;
 use ReflectionIntersectionType;
 use ReflectionMethod;
 use ReflectionNamedType;
@@ -14,12 +13,12 @@ use Stringable;
 use Waffler\Generator\Exceptions\MethodCompilingException;
 
 /**
- * Class MethodGenerator
+ * Class AnonymousClassMethod
  *
  * @author   ErickJMenezes <erickmenezes.dev@gmail.com>
  * @internal For internal use only.
  */
-class MethodCompiler implements Stringable
+class AnonymousClassMethod implements Stringable
 {
     /**
      * Generic method template.

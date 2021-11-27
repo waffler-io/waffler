@@ -3,7 +3,7 @@
 namespace Waffler\Tests\Unit\Generator;
 
 use Waffler\Generator\Exceptions\MethodCompilingException;
-use Waffler\Generator\MethodCompiler;
+use Waffler\Generator\AnonymousClassMethod;
 use PHPUnit\Framework\TestCase;
 use Waffler\Tests\Tools\Interfaces\InterfaceWithInvalidMethodSignature;
 use Waffler\Tests\Tools\Interfaces\InterfaceWithValidMethodSignature;
@@ -12,9 +12,9 @@ use Waffler\Tests\Tools\Interfaces\InterfaceWithValidMethodSignature;
  * Class MethodCompilerTest.
  *
  * @author ErickJMenezes <erickmenezes.dev@gmail.com>
- * @covers \Waffler\Generator\MethodCompiler
+ * @covers \Waffler\Generator\AnonymousClassMethod
  */
-class MethodCompilerTest extends TestCase
+class AnonymousClassMethodTest extends TestCase
 {
     /**
      * @throws \Exception
@@ -24,7 +24,7 @@ class MethodCompilerTest extends TestCase
         $this->expectException(MethodCompilingException::class);
         $this->expectExceptionCode(3);
         $reflectionClass = new \ReflectionClass(InterfaceWithInvalidMethodSignature::class);
-        new MethodCompiler($reflectionClass->getMethod('intersectionReturnType'));
+        new AnonymousClassMethod($reflectionClass->getMethod('intersectionReturnType'));
     }
 
     /**
@@ -35,7 +35,7 @@ class MethodCompilerTest extends TestCase
         $this->expectException(MethodCompilingException::class);
         $this->expectExceptionCode(3);
         $reflectionClass = new \ReflectionClass(InterfaceWithInvalidMethodSignature::class);
-        new MethodCompiler($reflectionClass->getMethod('intersectionParameter'));
+        new AnonymousClassMethod($reflectionClass->getMethod('intersectionParameter'));
     }
 
     /**
@@ -46,7 +46,7 @@ class MethodCompilerTest extends TestCase
         $this->expectException(MethodCompilingException::class);
         $this->expectExceptionCode(2);
         $reflectionClass = new \ReflectionClass(InterfaceWithInvalidMethodSignature::class);
-        new MethodCompiler($reflectionClass->getMethod('parameterPassedByReference'));
+        new AnonymousClassMethod($reflectionClass->getMethod('parameterPassedByReference'));
     }
 
     /**
@@ -57,7 +57,7 @@ class MethodCompilerTest extends TestCase
         $this->expectException(MethodCompilingException::class);
         $this->expectExceptionCode(1);
         $reflectionClass = new \ReflectionClass(InterfaceWithInvalidMethodSignature::class);
-        new MethodCompiler($reflectionClass->getMethod('staticMethod'));
+        new AnonymousClassMethod($reflectionClass->getMethod('staticMethod'));
     }
 
     /**
@@ -68,7 +68,7 @@ class MethodCompilerTest extends TestCase
         $this->expectException(MethodCompilingException::class);
         $this->expectExceptionCode(2);
         $reflectionClass = new \ReflectionClass(InterfaceWithInvalidMethodSignature::class);
-        new MethodCompiler($reflectionClass->getMethod('variadicParameter'));
+        new AnonymousClassMethod($reflectionClass->getMethod('variadicParameter'));
     }
 
     /**
@@ -78,7 +78,7 @@ class MethodCompilerTest extends TestCase
     {
         $this->expectNotToPerformAssertions();
         $reflectionClass = new \ReflectionClass(InterfaceWithValidMethodSignature::class);
-        $methodRepresentation = (string)new MethodCompiler($reflectionClass->getMethod('validSignature2'));
+        $methodRepresentation = (string)new AnonymousClassMethod($reflectionClass->getMethod('validSignature2'));
         eval("new class { $methodRepresentation };");
     }
 }
