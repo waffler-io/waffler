@@ -15,7 +15,6 @@ use ReflectionParameter;
  * @author   ErickJMenezes <erickmenezes.dev@gmail.com>
  * @package  Waffler\Client\Traits
  * @internal
- * @template TParentType of object
  */
 trait InteractsWithAttributes
 {
@@ -24,6 +23,7 @@ trait InteractsWithAttributes
      * @param class-string                                                         $name
      *
      * @return bool
+     * @phpstan-template TParentType of object
      */
     #[Pure]
     private function reflectionHasAttribute(
@@ -38,7 +38,8 @@ trait InteractsWithAttributes
      * @param class-string<TAttributeType>                                         $name
      *
      * @return TAttributeType
-     * @template TAttributeType of object
+     * @phpstan-template TAttributeType of object
+     * @phpstan-template TParentType of object
      */
     private function getAttributeInstance(
         ReflectionMethod|ReflectionParameter|ReflectionClass $reflection,
@@ -52,7 +53,8 @@ trait InteractsWithAttributes
      * @param class-string<TAttributeType>                                         $name
      *
      * @return array<TAttributeType>
-     * @template TAttributeType
+     * @phpstan-template TAttributeType of object
+     * @phpstan-template TParentType of object
      */
     private function getAttributeInstances(
         ReflectionMethod|ReflectionParameter|ReflectionClass $reflection,

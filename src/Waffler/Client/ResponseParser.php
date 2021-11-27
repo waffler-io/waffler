@@ -23,11 +23,10 @@ use function Waffler\array_get;
 class ResponseParser
 {
     /**
-     * @param \Psr\Http\Message\ResponseInterface    $response
-     * @param \Waffler\Client\Method<TInterfaceType> $method
+     * @param \Psr\Http\Message\ResponseInterface $response
+     * @param \Waffler\Client\Method              $method
      *
      * @return mixed
-     * @template TInterfaceType of object
      */
     public function parse(ResponseInterface $response, Method $method): mixed
     {
@@ -48,12 +47,11 @@ class ResponseParser
     }
 
     /**
-     * @param \Psr\Http\Message\ResponseInterface    $response
-     * @param \Waffler\Client\Method<TInterfaceType> $method
+     * @param \Psr\Http\Message\ResponseInterface $response
+     * @param \Waffler\Client\Method              $method
      *
      * @return array<int|string, mixed>
      * @author   ErickJMenezes <erickmenezes.dev@gmail.com>
-     * @template TInterfaceType of object
      */
     private function decode(ResponseInterface $response, Method $method): array
     {

@@ -23,25 +23,18 @@ use Waffler\Client\Traits\InteractsWithAttributes;
 /**
  * Class Method
  *
- * @author         ErickJMenezes <erickmenezes.dev@gmail.com>
- * @package        Waffler\Client
- * @template       TInterfaceType of object
+ * @author ErickJMenezes <erickmenezes.dev@gmail.com>
+ * @package Waffler\Client
  * @internal
  */
 class Method
 {
-    /**
-     * @template-use \Waffler\Client\Traits\InteractsWithAttributes<TInterfaceType>
-     */
     use InteractsWithAttributes;
 
     private Verb $verb;
 
     private string $returnType;
 
-    /**
-     * @var \Waffler\Client\Parameters<TInterfaceType>
-     */
     private Parameters $parameters;
 
     /**

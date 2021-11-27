@@ -12,13 +12,12 @@ use Waffler\Generator\Contracts\MethodCallHandler;
  * Class ClassGenerator.
  *
  * @author   ErickJMenezes <erickmenezes.dev@gmail.com>
- * @template TInterfaceType of object
- * @template-implements \Waffler\Generator\Contracts\InterfaceInstantiator<TInterfaceType>
  */
 class AnonymousClassGenerator implements InterfaceInstantiator
 {
     /**
-     * @var array<string, \Waffler\Generator\FactoryFunction<TInterfaceType>>
+     * @phpstan-var array<string, TFactoryFunction>
+     * @phpstan-template TFactoryFunction of \Waffler\Generator\FactoryFunction
      */
     private static array $cache = [];
 
@@ -60,10 +59,12 @@ class AnonymousClassGenerator implements InterfaceInstantiator
      *
      * @return \Waffler\Generator\FactoryFunction<TInterfaceType>
      * @throws \Exception
-     * @author         ErickJMenezes <erickmenezes.dev@gmail.com>
+     * @phpstan-template TInterfaceType of object
+     * @author   ErickJMenezes <erickmenezes.dev@gmail.com>
      */
     private function getFactoryFunction(\ReflectionClass $reflectionInterface): FactoryFunction
     {
+        // @phpstan-ignore-next-line
         return self::$cache[$reflectionInterface->name]
             ??= new FactoryFunction($this->evaluateClosure($reflectionInterface));
     }
@@ -75,7 +76,8 @@ class AnonymousClassGenerator implements InterfaceInstantiator
      *
      * @return \Closure(MethodCallHandler): TInterfaceType
      * @throws \Exception
-     * @author         ErickJMenezes <erickmenezes.dev@gmail.com>
+     * @author   ErickJMenezes <erickmenezes.dev@gmail.com>
+     * @phpstan-template TInterfaceType of object
      */
     private function evaluateClosure(\ReflectionClass $reflectionInterface): \Closure
     {

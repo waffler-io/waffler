@@ -15,9 +15,6 @@ use Waffler\Tests\Tools\Interfaces\InterfaceWithValidMethodSignature;
  */
 class AnonymousClassGeneratorTest extends TestCase
 {
-    /**
-     * @var \Waffler\Generator\Contracts\InterfaceInstantiator<InterfaceWithValidMethodSignature>
-     */
     private InterfaceInstantiator $instantiator;
 
     private MethodCallHandler $methodCallHandler;
@@ -26,9 +23,7 @@ class AnonymousClassGeneratorTest extends TestCase
     {
         parent::setUp();
 
-        /** @var AnonymousClassGenerator<InterfaceWithValidMethodSignature> */
-        $anonymousClassGenerator = new AnonymousClassGenerator();
-        $this->instantiator = $anonymousClassGenerator;
+        $this->instantiator = new AnonymousClassGenerator();
         $this->methodCallHandler = new BasicMethodCallHandler();
     }
 

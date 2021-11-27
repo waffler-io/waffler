@@ -10,7 +10,6 @@ use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\ClientInterface;
 use InvalidArgumentException;
 use JetBrains\PhpStorm\Pure;
-use Psr\Http\Message\ResponseInterface;
 use ReflectionClass;
 use ReflectionException;
 use Waffler\Generator\AnonymousClassGenerator;
@@ -140,8 +139,8 @@ class Factory implements MethodCallHandler
     /**
      * Retrieves new implementer instance.
      *
-     * @return InterfaceInstantiator<TInterfaceType>
-     * @author         ErickJMenezes <erickmenezes.dev@gmail.com>
+     * @return InterfaceInstantiator
+     * @author ErickJMenezes <erickmenezes.dev@gmail.com>
      */
     #[Pure]
     private function newAnonymousClassGenerator(): InterfaceInstantiator
@@ -153,7 +152,7 @@ class Factory implements MethodCallHandler
      * @param string                   $name
      * @param array<int|string, mixed> $arguments
      *
-     * @return \Waffler\Client\Method<TInterfaceType>
+     * @return \Waffler\Client\Method
      * @throws \ReflectionException
      * @author ErickJMenezes <erickmenezes.dev@gmail.com>
      */

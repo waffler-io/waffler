@@ -12,10 +12,9 @@ use Waffler\Attributes\Auth\Bearer;
 use Waffler\Attributes\Auth\Digest;
 use Waffler\Attributes\Auth\Ntml;
 use Waffler\Attributes\Request\Body;
-use Waffler\Attributes\Request\FromParam;
 use Waffler\Attributes\Request\FormData;
+use Waffler\Attributes\Request\FromParam;
 use Waffler\Attributes\Request\HeaderParam;
-use Waffler\Attributes\Request\Headers;
 use Waffler\Attributes\Request\Json;
 use Waffler\Attributes\Request\JsonParam;
 use Waffler\Attributes\Request\Multipart;
@@ -31,13 +30,9 @@ use Waffler\Client\Traits\InteractsWithAttributes;
  * @author   ErickJMenezes <erickmenezes.dev@gmail.com>
  * @package  Waffler\Client
  * @internal
- * @template TParentType of object
  */
 class Parameters
 {
-    /**
-     * @template-use \Waffler\Client\Traits\InteractsWithAttributes<TParentType>
-     */
     use InteractsWithAttributes;
 
     /**

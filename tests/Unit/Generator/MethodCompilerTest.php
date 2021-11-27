@@ -2,7 +2,6 @@
 
 namespace Waffler\Tests\Unit\Generator;
 
-use PHPStan\BetterReflection\Reflection\Adapter\ReflectionClass;
 use Waffler\Generator\Exceptions\MethodCompilingException;
 use Waffler\Generator\MethodCompiler;
 use PHPUnit\Framework\TestCase;

@@ -10,7 +10,7 @@ use Waffler\Generator\Contracts\MethodCallHandler;
  * Class FactoryFunction.
  *
  * @author   ErickJMenezes <erickmenezes.dev@gmail.com>
- * @template TInterfaceType of object
+ * @phpstan-template TInterfaceType of object
  */
 class FactoryFunction
 {
