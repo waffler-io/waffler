@@ -27,4 +27,10 @@ class FactoryTest extends TestCase
         $this->expectExceptionCode(10);
         Factory::make(InvalidType::class);
     }
+
+    public function testMustRejectNonObjectLikeTypeName(): void
+    {
+        $this->expectException(\ReflectionException::class);
+        Factory::make('string'); //@phpstan-ignore-line
+    }
 }
