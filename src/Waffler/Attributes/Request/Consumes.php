@@ -7,7 +7,7 @@ use function Waffler\array_wrap;
 /**
  * Class Consumes.
  *
- * Add "Accept" headers.
+ * Add "Content-Type" headers.
  *
  * @author ErickJMenezes <erickmenezes.dev@gmail.com>
  */

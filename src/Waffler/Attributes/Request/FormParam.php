@@ -11,7 +11,7 @@ use Attribute;
  * @package Waffler\Attributes\Request
  */
 #[Attribute(Attribute::TARGET_PARAMETER)]
-class FromParam
+class FormParam
 {
     public function __construct(
         public string $key

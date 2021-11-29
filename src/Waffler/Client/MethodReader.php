@@ -12,6 +12,7 @@ use Waffler\Attributes\Request\Consumes;
 use Waffler\Attributes\Request\Headers;
 use Waffler\Attributes\Request\Path;
 use Waffler\Attributes\Request\Produces;
+use Waffler\Attributes\Request\Timeout;
 use Waffler\Attributes\Utils\Suppress;
 use Waffler\Attributes\Utils\Unwrap;
 use Waffler\Client\Traits\InteractsWithAttributes;
@@ -132,12 +133,30 @@ class MethodReader
             RequestOptions::QUERY => $this->parameterReader->getQueryParams(),
             RequestOptions::FORM_PARAMS => $this->parameterReader->getFormParams(),
             RequestOptions::MULTIPART => $this->parameterReader->getMultipartParams(),
-            RequestOptions::AUTH => $this->parameterReader->getAuthParams()
+            RequestOptions::AUTH => $this->parameterReader->getAuthParams(),
+            RequestOptions::TIMEOUT => $this->getTimeout($method)
         ]);
 
         $options[RequestOptions::HTTP_ERRORS] = !$this->isSuppressed($method);
 
         return array_merge($options, $this->parameterReader->getRawOptions());
+    }
+
+    /**
+     * Retrieves the request timeout.
+     *
+     * @param \ReflectionMethod $method
+     *
+     * @return int|null
+     * @author ErickJMenezes <erickmenezes.dev@gmail.com>
+     */
+    private function getTimeout(ReflectionMethod $method): null|int
+    {
+        if ($timeoutList = $this->hasAttribute($method, Timeout::class)) {
+            return $timeoutList[0]->timeout;
+        }
+
+        return null;
     }
 
     /**

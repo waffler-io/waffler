@@ -13,7 +13,7 @@ use Waffler\Attributes\Auth\Digest;
 use Waffler\Attributes\Auth\Ntml;
 use Waffler\Attributes\Request\Body;
 use Waffler\Attributes\Request\FormData;
-use Waffler\Attributes\Request\FromParam;
+use Waffler\Attributes\Request\FormParam;
 use Waffler\Attributes\Request\HeaderParam;
 use Waffler\Attributes\Request\Json;
 use Waffler\Attributes\Request\JsonParam;
@@ -103,7 +103,7 @@ class ParameterReader
     {
         return $this->valuesForPair(
             FormData::class,
-            FromParam::class,
+            FormParam::class,
         );
     }
 

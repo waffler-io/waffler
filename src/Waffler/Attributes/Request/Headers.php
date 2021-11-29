@@ -13,6 +13,7 @@ use function Waffler\array_wrap;
  *
  * Add custom headers to the request.
  *
+ * @see     \GuzzleHttp\RequestOptions::HEADERS
  * @author  ErickJMenezes <erickmenezes.dev@gmail.com>
  * @package Waffler\Attributes\Request
  */

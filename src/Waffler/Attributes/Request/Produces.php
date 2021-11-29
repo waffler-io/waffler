@@ -9,7 +9,7 @@ use function Waffler\array_wrap;
 /**
  * Class Produces.
  *
- * Add "Content-Type" headers.
+ * Add "Accept" headers.
  *
  * @author ErickJMenezes <erickmenezes.dev@gmail.com>
  */

@@ -7,6 +7,7 @@ use Attribute;
 /**
  * Class Multipart.
  *
+ * @see     \GuzzleHttp\RequestOptions::MULTIPART
  * @author  ErickJMenezes <erickmenezes.dev@gmail.com>
  * @package Waffler\Attributes\Request
  */
