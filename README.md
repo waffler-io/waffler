@@ -35,7 +35,7 @@ namespace App\Clients;
 interface FooClient
 {
     /**
-     * Performs the login int the API.
+     * Retrieve authorization token.
      * 
      * @param array $credentials Just pass the login and password.
      * @return array             The json response.
@@ -43,7 +43,7 @@ interface FooClient
     public function login(array $credentials): array;
     
     /**
-     * Retrieves all posts.
+     * Retrieve all posts.
      * 
      * @param string $authToken The authorization token.
      * @param array $query      Some optional query string Filters.
@@ -74,7 +74,7 @@ use Waffler\Attributes\Auth\Bearer;
 interface FooClient
 {
     /**
-     * Performs the login int the API.
+     * Retrieve authorization token.
      * 
      * @param array $credentials Just pass the login and password.
      * @return array             The json response.
@@ -83,7 +83,7 @@ interface FooClient
     public function login(#[Json] array $credentials): array;
     
     /**
-     * Retrieves all posts.
+     * Retrieve all posts.
      * 
      * @param string $authToken The authorization token.
      * @param array $query      Some optional query string Filters.
@@ -118,7 +118,7 @@ class PostsController
     }
 
     /**
-     * Lists all posts.
+     * Get all posts.
      *  
      * @return array
      */
