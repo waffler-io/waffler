@@ -2,6 +2,10 @@
 
 namespace Waffler\Tests\Tools\Interfaces;
 
+use Waffler\Attributes\Auth\Basic;
+use Waffler\Attributes\Auth\Bearer;
+use Waffler\Attributes\Auth\Digest;
+use Waffler\Attributes\Auth\Ntml;
 use Waffler\Attributes\Request\Body;
 use Waffler\Attributes\Request\Consumes;
 use Waffler\Attributes\Request\FormData;
@@ -15,7 +19,16 @@ use Waffler\Attributes\Request\Produces;
 use Waffler\Attributes\Request\Query;
 use Waffler\Attributes\Request\QueryParam;
 use Waffler\Attributes\Request\Timeout;
+use Waffler\Attributes\Utils\RawOptions;
+use Waffler\Attributes\Utils\Suppress;
+use Waffler\Attributes\Utils\Unwrap;
+use Waffler\Attributes\Verbs\Delete;
 use Waffler\Attributes\Verbs\Get;
+use Waffler\Attributes\Verbs\Head;
+use Waffler\Attributes\Verbs\Options;
+use Waffler\Attributes\Verbs\Patch;
+use Waffler\Attributes\Verbs\Post;
+use Waffler\Attributes\Verbs\Put;
 
 /**
  * Interface FeatureTestCaseClient.
@@ -25,12 +38,12 @@ use Waffler\Attributes\Verbs\Get;
 #[Path('/api/v1')]
 interface FeatureTestCaseClient
 {
-    // Attribute: Timeout
+    // Attribute: Request/Timeout
     #[Get]
     #[Timeout(100)]
     public function testTimeout(): void;
 
-    // Attribute: Json and JsonParam
+    // Attribute: Request/Json and Request/JsonParam
 
     #[Get]
     public function testJson(#[Json] array $json): void;
@@ -44,7 +57,7 @@ interface FeatureTestCaseClient
     #[Get]
     public function testJsonAndJsonParam2(#[Json] array $json, #[JsonParam('foo')] string $foo);
 
-    // Attribute: Query and QueryParam
+    // Attribute: Request/Query and Request/QueryParam
 
     #[Get]
     public function testQuery(#[Query] array $query): void;
@@ -58,7 +71,7 @@ interface FeatureTestCaseClient
     #[Get]
     public function testQueryAndQueryParam2(#[Query] array $query, #[QueryParam('foo')] string $foo): void;
 
-    // Attribute: Path and PathParam
+    // Attribute: Request/Path and Request/PathParam
 
     #[Get]
     #[Path('foo/bar/baz')]
@@ -72,7 +85,7 @@ interface FeatureTestCaseClient
     #[Path('foo/{foo}/bar/{bar}')]
     public function testPathAndPathParam2(#[PathParam] int $foo, #[PathParam] int $bar, #[PathParam] int $baz): void;
 
-    // Attribute: FormData and FormParam
+    // Attribute: Request/FormData and Request/FormParam
 
     #[Get]
     public function testFormData(#[FormData] array $formData): void;
@@ -86,12 +99,12 @@ interface FeatureTestCaseClient
     #[Get]
     public function testFormParamAndFormData2(#[FormData] array $formData, #[FormParam('foo')] string $foo): void;
 
-    // Attribute: Multipart
+    // Attribute: Request/Multipart
 
     #[Get]
     public function testMultipart(#[Multipart] array $data): void;
 
-    // Attribute: Consumes and Produces
+    // Attribute: Request/Consumes and Request/Produces
 
     #[Get]
     #[Consumes('application/json')]
@@ -101,8 +114,64 @@ interface FeatureTestCaseClient
     #[Produces('application/json')]
     public function testProduces(): void;
 
-    // Attribute: Body
+    // Attribute: Request/Body
 
     #[Get]
     public function testBody(#[Body] string $body): void;
+
+    // Attribute: Auth/Basic
+
+    #[Get]
+    public function testBasic(#[Basic] array $loginAndPassword): void;
+
+    // Attribute: Auth/Bearer
+
+    #[Get]
+    public function testBearer(#[Bearer] string $token): void;
+
+    // Attribute: Auth/Digest
+
+    #[Get]
+    public function testDigest(#[Digest] array $userNamePasswordAndDigest): void;
+
+    // Attribute: Auth/Ntml
+
+    #[Get]
+    public function testNtml(#[Ntml] array $userNamePasswordAndNtml): void;
+
+    // Attribute: Verbs/Delete, Verbs/Get, Verbs/Head, Verbs/Options, Verbs/Patch, Verbs/Post and Verbs/Put
+
+    #[Delete('delete')]
+    public function testDelete(): void;
+
+    #[Get('get')]
+    public function testGet(): void;
+
+    #[Head('head')]
+    public function testHead(): void;
+
+    #[Options('options')]
+    public function testOptions(): void;
+
+    #[Patch('patch')]
+    public function testPatch(): void;
+
+    #[Post('post')]
+    public function testPost(): void;
+
+    #[Put('put')]
+    public function testPut(): void;
+
+    // Attribute: Utils/RawOptions
+
+    #[Get]
+    public function testRawOptions(#[RawOptions] array $options): void;
+
+    #[Get]
+    #[Suppress]
+    public function testSuppress(): int;
+
+    #[Get]
+    #[Unwrap('data.contents')]
+    public function testUnwrap(): array;
 }

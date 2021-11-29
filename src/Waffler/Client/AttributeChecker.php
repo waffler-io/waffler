@@ -95,9 +95,9 @@ class AttributeChecker
 
     private static function authHeaders(mixed $value): void
     {
-        if (!is_array($value) || count($value) !== 2) {
+        if (!is_array($value) || count($value) < 2) {
             throw new InvalidArgumentException(
-                "The value of authorization must be an array with 2 values: username and password."
+                "Auth attributes must have at least 2 values: username and password."
             );
         }
     }

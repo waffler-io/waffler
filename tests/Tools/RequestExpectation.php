@@ -86,17 +86,26 @@ class RequestExpectation
                     $hasHeader,
                     "Failed asserting the request has a header named \"$headerName\"."
                 );
-                if ($hasHeader) {
-                    $expectedHeaders = array_wrap($header);
-                    foreach ($expectedHeaders as $expectedHeader) {
-                        if (is_callable($expectedHeader)) {
-                            $expectedHeader($request->getHeader($headerName));
-                        } else {
-                            $this->testCase::assertContains(
-                                $expectedHeader,
-                                $request->getHeader($headerName)
-                            );
-                        }
+
+                if (!$hasHeader) {
+                    continue;
+                }
+
+                $expectedHeaders = array_wrap($header);
+
+                foreach ($expectedHeaders as $expectedIndex => $expectedHeader) {
+                    if (is_callable($expectedHeader)) {
+                        $expectedHeader($request->getHeader($headerName)[$expectedIndex]);
+                    } elseif (str_starts_with($expectedHeader, '/') && str_ends_with($expectedHeader, '/')) {
+                        $this->testCase::assertMatchesRegularExpression(
+                            $expectedHeader,
+                            $request->getHeader($headerName)[$expectedIndex]
+                        );
+                    } else {
+                        $this->testCase::assertContains(
+                            $expectedHeader,
+                            $request->getHeader($headerName)
+                        );
                     }
                 }
             }
@@ -165,8 +174,8 @@ class RequestExpectation
     public function expectMultipartFormData(array $values): self
     {
         return $this->expectHeaders([
-            'Content-Type' => function (array $contentTypes) {
-                $this->testCase::assertStringContainsString('multipart/form-data', $contentTypes[0]);
+            'Content-Type' => function (string $contentType) {
+                $this->testCase::assertStringContainsString('multipart/form-data', $contentType);
             }
         ])
             ->addExpectation(function (RequestInterface $request) use ($values) {
@@ -179,16 +188,14 @@ class RequestExpectation
     }
 
     /**
-     * @param \Closure $responseBuilder
+     * @param Response $response
      *
      * @return self<TTestCaseType>
      * @author ErickJMenezes <erickmenezes.dev@gmail.com>
      */
-    public function respondWith(Closure $responseBuilder): self
+    public function respondWith(Response $response): self
     {
-        $responseBuilder($this->response);
-
-        return $this;
+        return $this->setResponse($response);
     }
 
     public function getResponse(): Response
