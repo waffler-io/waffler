@@ -65,11 +65,11 @@ Import the Attributes from the `Waffler\Attributes` namespace.
 
 namespace App\Clients;
 
-use Waffler\Attributes\Get;
-use Waffler\Attributes\Json;
-use Waffler\Attributes\Post;
-use Waffler\Attributes\Query;
+use Waffler\Attributes\Verbs\Get;
 use Waffler\Attributes\Auth\Bearer;
+use Waffler\Attributes\Request\Json;
+use Waffler\Attributes\Request\Post;
+use Waffler\Attributes\Request\Query;
 
 interface FooClient
 {
