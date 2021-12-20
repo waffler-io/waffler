@@ -1,11 +1,19 @@
 <?php
 
-declare(strict_types = 1);
+/*
+ * This file is part of Waffler.
+ *
+ * (c) Erick Johnson Almeida de Menezes <erickmenezes.dev@gmail.com>
+ *
+ * This source file is subject to the MIT licence that is bundled
+ * with this source code in the file LICENCE.
+ */
 
-namespace Waffler\Client;
+namespace Waffler\Client\Readers;
 
 use Exception;
 use InvalidArgumentException;
+use JetBrains\PhpStorm\Pure;
 use ReflectionParameter;
 use Waffler\Attributes\Auth\Basic;
 use Waffler\Attributes\Auth\Bearer;
@@ -22,14 +30,13 @@ use Waffler\Attributes\Request\PathParam;
 use Waffler\Attributes\Request\Query;
 use Waffler\Attributes\Request\QueryParam;
 use Waffler\Attributes\Utils\RawOptions;
+use Waffler\Client\AttributeChecker;
 use Waffler\Client\Traits\InteractsWithAttributes;
 
 /**
- * Class Parameters
+ * Class ParameterReader.
  *
- * @author   ErickJMenezes <erickmenezes.dev@gmail.com>
- * @package  Waffler\Client
- * @internal
+ * @author ErickJMenezes <erickmenezes.dev@gmail.com>
  */
 class ParameterReader
 {
@@ -41,27 +48,14 @@ class ParameterReader
     private array $parameterMap = [];
 
     /**
-     * @var array<\ReflectionParameter>
-     */
-    private array $reflectionParameters = [];
-
-    /**
-     * @var array<int|string, mixed>
-     */
-    private array $arguments = [];
-
-    /**
-     * Sets the data to read.
-     *
      * @param array<\ReflectionParameter> $reflectionParameters
      * @param array<int|string, mixed>    $arguments
      */
-    public function setData(array $reflectionParameters, array $arguments): self
-    {
-        $this->reflectionParameters = $reflectionParameters;
-        $this->arguments = $arguments;
+    public function __construct(
+        private array $reflectionParameters,
+        private array $arguments
+    ) {
         $this->loadParameterMap();
-        return $this;
     }
 
     /**
@@ -177,9 +171,9 @@ class ParameterReader
             $attributeInstance = $this->getAttributeInstance($pathParameter, PathParam::class);
             $value = $this->get($pathParameter);
             AttributeChecker::check(PathParam::class, $value);
-            $placeholder = $attributeInstance->name ?? $pathParameter->name;
+            $placeholder = $attributeInstance->name ?? $pathParameter->getName();
             $count = 0;
-            $path = str_replace('{' . $placeholder . '}', (string)$value, $path, $count);
+            $path = str_replace('{'.$placeholder.'}', (string) $value, $path, $count);
             if ($count === 0) {
                 throw new Exception("The argument \"{$pathParameter->getName()}\" is not used by any path parameter.");
             } elseif ($count > 1) {
@@ -193,7 +187,7 @@ class ParameterReader
         return $path;
     }
 
-    // protected
+    // private
 
     /**
      * @param class-string<TAttributeType> $attribute
@@ -203,7 +197,7 @@ class ParameterReader
      * @template TAttributeType
      * @throws \Exception
      */
-    protected function valueFor(string $attribute, mixed $default = null): mixed
+    private function valueFor(string $attribute, mixed $default = null): mixed
     {
         $data = $this->valuesFor($attribute);
         if (count($data) > 1) {
@@ -218,7 +212,7 @@ class ParameterReader
      * @return array<int,mixed>
      * @template T
      */
-    protected function valuesFor(string $attribute): array
+    private function valuesFor(string $attribute): array
     {
         $data = [];
         foreach ($this->reflectionParameters as $reflectionParameter) {
@@ -233,7 +227,7 @@ class ParameterReader
     }
 
     /**
-     * @param class-string<TFirstAttributeType> $listTypeAttribute
+     * @param class-string<TFirstAttributeType>  $listTypeAttribute
      * @param class-string<TSecondAttributeType> $singleTypeAttribute
      *
      * @return array<int|string, mixed>
@@ -241,7 +235,7 @@ class ParameterReader
      * @template TFirstAttributeType of object
      * @template TSecondAttributeType of object
      */
-    protected function valuesForPair(string $listTypeAttribute, string $singleTypeAttribute): array
+    private function valuesForPair(string $listTypeAttribute, string $singleTypeAttribute): array
     {
         $group = $this->valueFor($listTypeAttribute, []);
         foreach ($this->withAttributes($singleTypeAttribute) as $parameter) {
@@ -257,36 +251,37 @@ class ParameterReader
      * @return array<ReflectionParameter>
      * @template T
      */
-    protected function withAttributes(string $attribute): array
+    private function withAttributes(string $attribute): array
     {
         return array_values(
             array_filter(
                 $this->reflectionParameters,
-                fn(ReflectionParameter $parameter) => $this->reflectionHasAttribute($parameter, $attribute)
+                fn (ReflectionParameter $parameter) => $this->reflectionHasAttribute($parameter, $attribute)
             )
         );
     }
 
-    protected function loadParameterMap(): void
+    private function loadParameterMap(): void
     {
         foreach ($this->reflectionParameters as $parameter) {
-            $this->parameterMap[$parameter->name] =
+            $this->parameterMap[$parameter->getName()] =
                 // Load by name or by position
-                $this->arguments[$parameter->name] ??
+                $this->arguments[$parameter->getName()] ??
                 $this->arguments[$parameter->getPosition()] ??
                 // If the parameter is not available by name or by position
                 // we will try to get the default value. If the default value is not available,
                 // we will throw an exception.
                 (
-                $parameter->isDefaultValueAvailable()
+                    $parameter->isDefaultValueAvailable()
                     ? $parameter->getDefaultValue()
-                    : throw new InvalidArgumentException("Required argument {$parameter->name} is missing.")
+                    : throw new InvalidArgumentException("Required argument {$parameter->getName()} is missing.")
                 );
         }
     }
 
-    protected function get(ReflectionParameter $parameter): mixed
+    #[Pure]
+    private function get(ReflectionParameter $parameter): mixed
     {
-        return $this->parameterMap[$parameter->name];
+        return $this->parameterMap[$parameter->getName()];
     }
 }

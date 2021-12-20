@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of Waffler.
+ *
+ * (c) Erick Johnson Almeida de Menezes <erickmenezes.dev@gmail.com>
+ *
+ * This source file is subject to the MIT licence that is bundled
+ * with this source code in the file LICENCE.
+ */
+
 namespace Waffler\Tests\Tools;
 
 use Closure;
@@ -10,7 +19,7 @@ use Psr\Http\Message\RequestInterface;
 use Waffler\Tests\Tools\FeatureTestCase;
 
 use function json_decode;
-use function Waffler\array_wrap;
+use function Waffler\arrayWrap;
 
 /**
  * Class RequestExpectation.
@@ -91,7 +100,7 @@ class RequestExpectation
                     continue;
                 }
 
-                $expectedHeaders = array_wrap($header);
+                $expectedHeaders = arrayWrap($header);
 
                 foreach ($expectedHeaders as $expectedIndex => $expectedHeader) {
                     if (is_callable($expectedHeader)) {

@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of Waffler.
+ *
+ * (c) Erick Johnson Almeida de Menezes <erickmenezes.dev@gmail.com>
+ *
+ * This source file is subject to the MIT licence that is bundled
+ * with this source code in the file LICENCE.
+ */
+
 namespace Waffler\Tests\Unit\Client;
 
 use GuzzleHttp\ClientInterface;
@@ -8,10 +17,20 @@ use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use PHPUnit\Framework\TestCase;
 use Mockery as m;
 use Psr\Http\Message\ResponseInterface;
+use ReflectionAttribute;
+use ReflectionClass;
 use ReflectionMethod;
+use ReflectionNamedType;
 use Waffler\Attributes\Contracts\Verb;
+use Waffler\Attributes\Request\Consumes;
+use Waffler\Attributes\Request\Headers;
+use Waffler\Attributes\Request\Path;
+use Waffler\Attributes\Request\Produces;
+use Waffler\Attributes\Request\Timeout;
+use Waffler\Attributes\Utils\Suppress;
+use Waffler\Attributes\Utils\Unwrap;
+use Waffler\Attributes\Verbs\Get;
 use Waffler\Client\MethodInvoker;
-use Waffler\Client\MethodReader;
 use Waffler\Client\ResponseParser;
 
 /**
@@ -24,9 +43,9 @@ class MethodInvokerTest extends TestCase
 {
     use MockeryPHPUnitIntegration;
 
-    private MethodInvoker $methodInvoker;
+    private ReflectionClass $declaringClass;
 
-    private MethodReader $methodReader;
+    private MethodInvoker $methodInvoker;
 
     private ResponseParser $responseParser;
 
@@ -45,13 +64,13 @@ class MethodInvokerTest extends TestCase
         parent::setUp();
 
         $this->methodInvoker = new MethodInvoker(
-            $this->methodReader = m::mock(MethodReader::class),
             $this->responseParser = m::mock(ResponseParser::class),
             $this->client = m::mock(ClientInterface::class)
         );
 
+        $this->declaringClass = m::mock(ReflectionClass::class);
         $this->method = m::mock(ReflectionMethod::class);
-        $this->verb = m::mock(Verb::class);
+        $this->verb = new Get();
         $this->promise = m::mock(PromiseInterface::class);
         $this->responseInterface = m::mock(ResponseInterface::class);
     }
@@ -60,41 +79,41 @@ class MethodInvokerTest extends TestCase
     {
         $this->prepareBasicsInteractions();
 
-        $this->methodReader->shouldReceive('isAsynchronous')
+        $this->method->shouldReceive('hasReturnType')
+            ->atLeast()
             ->once()
-            ->with(m::type(ReflectionMethod::class))
             ->andReturn(false);
 
         $this->promise->shouldReceive('wait')
             ->once()
             ->andReturn($this->responseInterface);
 
-        $this->methodReader->shouldReceive('getReturnType')
-            ->with(m::type(ReflectionMethod::class))
-            ->once()
-            ->andReturn('string');
-
-        $this->methodReader->shouldReceive('mustUnwrap')
-            ->once()
-            ->with(m::type(ReflectionMethod::class))
-            ->andReturn(false);
-
         $this->responseParser->shouldReceive('parse')
             ->once()
-            ->with(m::type(ResponseInterface::class), 'string', false)
-            ->andReturn('{}');
+            ->with(m::type(ResponseInterface::class), 'mixed', false)
+            ->andReturn($this->responseInterface);
 
-        $this->methodInvoker->invokeMethod($this->method, []);
+        $response = $this->methodInvoker->invokeMethod($this->method, []);
+
+        self::assertInstanceOf(ResponseInterface::class, $response);
     }
 
     public function testMustReturnPromiseIfTheMethodIsAsynchronous(): void
     {
         $this->prepareBasicsInteractions();
 
-        $this->methodReader->shouldReceive('isAsynchronous')
+        $this->method->shouldReceive('hasReturnType')
+            ->atLeast()
             ->once()
-            ->with(m::type(ReflectionMethod::class))
             ->andReturn(true);
+
+        $reflectionReturnType = m::mock(ReflectionNamedType::class);
+
+        $reflectionReturnType->shouldReceive('getName')
+            ->andReturn(PromiseInterface::class);
+
+        $this->method->shouldReceive('getReturnType')
+            ->andReturn($reflectionReturnType);
 
         $response = $this->methodInvoker->invokeMethod($this->method, []);
 
@@ -103,37 +122,45 @@ class MethodInvokerTest extends TestCase
 
     private function prepareBasicsInteractions(): void
     {
-        $this->method->shouldReceive('getParameters')
-            ->once()
+        $this->declaringClass->shouldReceive('getAttributes')
             ->andReturn([]);
 
-        $this->methodReader->shouldReceive('setParameterReaderData')
+        $this->method->shouldReceive('getDeclaringClass')
+            ->atLeast()
             ->once()
-            ->with(m::type('array'), m::type('array'))
-            ->andReturns();
+            ->andReturn($this->declaringClass);
 
-        $this->methodReader->shouldReceive('getVerb')
-            ->once()
-            ->with(m::type(ReflectionMethod::class))
+        $this->method->shouldReceive('getParameters')
+            ->andReturn([]);
+
+        $reflectionAttribute = m::mock(ReflectionAttribute::class);
+
+        $reflectionAttribute->shouldReceive('newInstance')
             ->andReturn($this->verb);
 
-        $this->verb->shouldReceive('getName')
-            ->once()
-            ->andReturn('GET');
+        $this->method->shouldReceive('getAttributes')
+            ->with(Verb::class, ReflectionAttribute::IS_INSTANCEOF)
+            ->andReturn([$reflectionAttribute]);
 
-        $this->methodReader->shouldReceive('parsePath')
-            ->once()
-            ->with(m::type(ReflectionMethod::class))
-            ->andReturn('/');
+        $ignoredAttributes = [
+            Path::class,
+            Headers::class,
+            Produces::class,
+            Consumes::class,
+            Timeout::class,
+            Suppress::class,
+            Unwrap::class
+        ];
 
-        $this->methodReader->shouldReceive('getOptions')
-            ->once()
-            ->with(m::type(ReflectionMethod::class))
-            ->andReturn([]);
+        foreach ($ignoredAttributes as $ignoredAttribute) {
+            $this->method->shouldReceive('getAttributes')
+                ->with($ignoredAttribute)
+                ->andReturn([]);
+        }
 
         $this->client->shouldReceive('requestAsync')
             ->once()
-            ->with('GET', '/', m::type('array'))
+            ->with('GET', '', m::type('array'))
             ->andReturn($this->promise);
     }
 }

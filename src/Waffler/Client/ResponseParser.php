@@ -1,6 +1,15 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
+
+/*
+ * This file is part of Waffler.
+ *
+ * (c) Erick Johnson Almeida de Menezes <erickmenezes.dev@gmail.com>
+ *
+ * This source file is subject to the MIT licence that is bundled
+ * with this source code in the file LICENCE.
+ */
 
 namespace Waffler\Client;
 
@@ -11,7 +20,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 use TypeError;
 
-use function Waffler\array_get;
+use function Waffler\arrayGet;
 
 /**
  * Class ResponseTransformer.
@@ -34,7 +43,7 @@ class ResponseParser
         return match ($returnType) {
             'array' => $this->decode($response, $wrapperProperty),
             'void', 'null' => null,
-            'bool' => true,
+            'bool' => $response->getStatusCode() < 400,
             'string' => $response->getBody()->getContents(),
             'int', 'float', 'double' => $response->getStatusCode(),
             'object', ArrayObject::class => new ArrayObject(
@@ -49,16 +58,16 @@ class ResponseParser
 
     /**
      * @param \Psr\Http\Message\ResponseInterface $response
-     * @param null|string $wrapperProperty
+     * @param null|string                         $wrapperProperty
      *
      * @return array<int|string, mixed>
      * @author   ErickJMenezes <erickmenezes.dev@gmail.com>
      */
     private function decode(ResponseInterface $response, ?string $wrapperProperty): array
     {
-        $response = (array)json_decode($response->getBody()->getContents(), true);
+        $response = (array) json_decode($response->getBody()->getContents(), true);
         if ($wrapperProperty) {
-            return array_get($response, $wrapperProperty);
+            return arrayGet($response, $wrapperProperty);
         }
         return $response;
     }

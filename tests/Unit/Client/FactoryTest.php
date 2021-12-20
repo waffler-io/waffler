@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of Waffler.
+ *
+ * (c) Erick Johnson Almeida de Menezes <erickmenezes.dev@gmail.com>
+ *
+ * This source file is subject to the MIT licence that is bundled
+ * with this source code in the file LICENCE.
+ */
+
 namespace Waffler\Tests\Unit\Client;
 
 use Mockery as m;
@@ -37,19 +46,8 @@ class FactoryTest extends TestCase
 
     public function testMustGenerateValidImplementationForValidInterfaces(): void
     {
-        $classGenerator = m::mock(AnonymousClassGenerator::class);
+        $client = Factory::make(InterfaceWithValidMethodSignature::class, []);
 
-        $factory = new Factory(
-            new ReflectionClass(InterfaceWithValidMethodSignature::class),
-            $classGenerator,
-            m::mock(Proxy::class)
-        );
-
-        $classGenerator->shouldReceive('instantiateFromReflection')
-            ->once()
-            ->with(m::type(ReflectionClass::class), m::type(Proxy::class))
-            ->andReturn(m::mock(InterfaceWithValidMethodSignature::class));
-
-        $factory->makeImplementation();
+        self::assertInstanceOf(InterfaceWithValidMethodSignature::class, $client);
     }
 }

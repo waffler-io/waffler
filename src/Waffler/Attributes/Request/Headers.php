@@ -1,12 +1,21 @@
 <?php
 
+/*
+ * This file is part of Waffler.
+ *
+ * (c) Erick Johnson Almeida de Menezes <erickmenezes.dev@gmail.com>
+ *
+ * This source file is subject to the MIT licence that is bundled
+ * with this source code in the file LICENCE.
+ */
+
 namespace Waffler\Attributes\Request;
 
 use Attribute;
 
 use JetBrains\PhpStorm\Pure;
 
-use function Waffler\array_wrap;
+use function Waffler\arrayWrap;
 
 /**
  * Class Headers.
@@ -27,7 +36,7 @@ class Headers
     public function __construct(public array $headers = [])
     {
         foreach ($this->headers as $header => $value) {
-            $this->headers[$header] = array_wrap($value);
+            $this->headers[$header] = arrayWrap($value);
         }
     }
 }

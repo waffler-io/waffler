@@ -1,20 +1,33 @@
 <?php
 
-namespace Waffler\Tests\Unit\Client;
+/*
+ * This file is part of Waffler.
+ *
+ * (c) Erick Johnson Almeida de Menezes <erickmenezes.dev@gmail.com>
+ *
+ * This source file is subject to the MIT licence that is bundled
+ * with this source code in the file LICENCE.
+ */
 
+namespace Waffler\Tests\Unit\Client\Readers;
+
+use BadMethodCallException;
 use GuzzleHttp\Promise\Promise;
 use GuzzleHttp\RequestOptions;
 use Mockery as m;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
-use PHPStan\BetterReflection\Reflection\ReflectionAttribute;
 use PHPUnit\Framework\TestCase;
+use ReflectionAttribute;
+use ReflectionClass;
 use ReflectionMethod;
+use ReflectionParameter;
+use Waffler\Attributes\Contracts\Verb;
 use Waffler\Attributes\Request\Path;
+use Waffler\Attributes\Request\PathParam;
 use Waffler\Attributes\Utils\Suppress;
 use Waffler\Attributes\Utils\Unwrap;
 use Waffler\Attributes\Verbs\Get;
-use Waffler\Client\MethodReader;
-use Waffler\Client\ParameterReader;
+use Waffler\Client\Readers\MethodReader;
 
 /**
  * Class MethodReaderTest.
@@ -26,45 +39,41 @@ class MethodReaderTest extends TestCase
 {
     use MockeryPHPUnitIntegration;
 
-    private MethodReader $methodReader;
-
-    private ParameterReader $parameterReader;
-
     private ReflectionMethod $reflectionMethod;
+
+    private MethodReader $methodReader;
 
     protected function setUp(): void
     {
         parent::setUp();
 
         $this->methodReader = new MethodReader(
-            $this->parameterReader = m::mock(ParameterReader::class)
+            $this->reflectionMethod = m::mock(ReflectionMethod::class),
+            []
         );
-        $this->reflectionMethod = m::mock(ReflectionMethod::class);
-    }
-
-    public function testSetParameterDataMustPutTheReflectionParametersIntoParameterReader(): void
-    {
-        $this->parameterReader->shouldReceive('setData')
-            ->once()
-            ->with(m::type('array'), m::type('array'))
-            ->andReturnSelf();
-
-        $this->methodReader->setParameterReaderData([], []);
     }
 
     public function testIsSuppressedMustReturnFalseIfReflectionDoesNotHaveSuppressAttribute(): void
     {
-        self::assertFalse($this->prepareHasAttributeTest(Suppress::class, 'isSuppressed'));
+        self::assertFalse($this->prepareHasAttributeTest(
+            $this->methodReader,
+            Suppress::class,
+            'isSuppressed'
+        ));
     }
 
     public function testMustUnwrapMustReturnFalseIfReflectionDoesNotHaveUnwrapAttribute(): void
     {
-        self::assertFalse($this->prepareHasAttributeTest(Unwrap::class, 'mustUnwrap'));
+        self::assertFalse($this->prepareHasAttributeTest(
+            $this->methodReader,
+            Unwrap::class,
+            'mustUnwrap'
+        ));
     }
 
     public function testGetWrapperPropertyMustReturnTheNameOfJsonPropertyToUnwrap(): void
     {
-        $reflectionAttribute = m::mock(\ReflectionAttribute::class);
+        $reflectionAttribute = m::mock(ReflectionAttribute::class);
 
         $reflectionAttribute->shouldReceive('newInstance')
             ->once()
@@ -75,7 +84,7 @@ class MethodReaderTest extends TestCase
             ->with(Unwrap::class)
             ->andReturn([$reflectionAttribute]);
 
-        $propName = $this->methodReader->getWrapperProperty($this->reflectionMethod);
+        $propName = $this->methodReader->getWrapperProperty();
 
         self::assertEquals('data', $propName);
     }
@@ -84,45 +93,40 @@ class MethodReaderTest extends TestCase
     {
         $this->prepareGetReturnTypeTest(Promise::class);
 
-        $is = $this->methodReader->isAsynchronous($this->reflectionMethod);
-
-        self::assertTrue($is);
+        self::assertTrue($this->methodReader->isAsynchronous());
     }
 
     public function testGetVerbMustReturnTheAttributeThatIsInstanceOfVerbInterface(): void
     {
-        $reflectionAttribute = m::mock(\ReflectionAttribute::class);
+        $reflectionAttribute = m::mock(ReflectionAttribute::class);
         $reflectionAttribute->shouldReceive('newInstance')
             ->once()
             ->andReturn(new Get());
 
         $this->reflectionMethod->shouldReceive('getAttributes')
             ->once()
+            ->with(Verb::class, ReflectionAttribute::IS_INSTANCEOF)
             ->andReturn([$reflectionAttribute]);
 
-        $verb = $this->methodReader->getVerb($this->reflectionMethod);
-
-        self::assertEquals('GET', $verb->getName());
+        self::assertEquals('GET', $this->methodReader->getVerb()->getName());
     }
 
     public function testGetVerbMustThrowBadMethodCallExceptionIfTheReflectionMethodDoesNotHaveAnyVerbAttribute(): void
     {
-        $this->expectException(\BadMethodCallException::class);
+        $this->expectException(BadMethodCallException::class);
 
         $this->reflectionMethod->shouldReceive('getAttributes')
             ->once()
             ->andReturn([]);
 
-        $this->methodReader->getVerb($this->reflectionMethod);
+        $this->methodReader->getVerb();
     }
 
-    public function testIsAsyncrhonousMustReturnFalseWhenTheReturnTypeIsNotTypeOfPromiseInterface(): void
+    public function testIsAsynchronousMustReturnFalseWhenTheReturnTypeIsNotTypeOfPromiseInterface(): void
     {
         $this->prepareGetReturnTypeTest('string');
 
-        $is = $this->methodReader->isAsynchronous($this->reflectionMethod);
-
-        self::assertFalse($is);
+        self::assertFalse($this->methodReader->isAsynchronous());
     }
 
     public function testGetReturnTypeMustReturnTheNameOfTheReturnTypeDeclaredInReflectionMethod(): void
@@ -138,29 +142,25 @@ class MethodReaderTest extends TestCase
     {
         $this->prepareGetReturnTypeTest();
 
-        $type = $this->methodReader->getReturnType($this->reflectionMethod);
-
-        self::assertEquals('mixed', $type);
+        self::assertEquals('mixed', $this->methodReader->getReturnType());
     }
 
     public function testGetReturnTypeMustReturnMixedIfTheReturnTypeIsNotANamedReflectionType(): void
     {
         $this->prepareGetReturnTypeTest('any', false);
 
-        $type = $this->methodReader->getReturnType($this->reflectionMethod);
-
-        self::assertEquals('mixed', $type);
+        self::assertEquals('mixed', $this->methodReader->getReturnType());
     }
 
     public function testParsePathMustReturnAValidPath(): void
     {
-        $reflectionAttribute = m::mock(\ReflectionAttribute::class);
+        $reflectionAttribute = m::mock(ReflectionAttribute::class);
         $reflectionAttribute->shouldReceive('newInstance')
             ->atLeast()
             ->once()
             ->andReturn(new Path('api'));
 
-        $declaringClass = m::mock(\ReflectionClass::class);
+        $declaringClass = m::mock(ReflectionClass::class);
         $declaringClass->shouldReceive('getAttributes')
             ->atLeast()
             ->once()
@@ -184,17 +184,36 @@ class MethodReaderTest extends TestCase
             ->andReturn(new Get('foo/{bar}'));
 
         $this->reflectionMethod->shouldReceive('getAttributes')
-            ->withNoArgs()
+            ->with(Verb::class, ReflectionAttribute::IS_INSTANCEOF)
             ->atLeast()
             ->once()
             ->andReturn([$reflectionVerbAttribute]);
 
-        $this->parameterReader->shouldReceive('parsePath')
+        $this->reflectionMethod->shouldReceive('getParameters')
+            ->atLeast()
             ->once()
-            ->with('api/foo/{bar}')
-            ->andReturn('api/foo/1');
+            ->andReturn([$reflectionParameter = m::mock(ReflectionParameter::class)]);
 
-        $finalPath = $this->methodReader->parsePath($this->reflectionMethod);
+        $reflectionParameter->shouldReceive('getName')
+            ->andReturn('bar');
+
+        $reflectionParameter->shouldReceive('getPosition')
+            ->andReturn(0);
+
+        $reflectionParameter->shouldReceive('getAttributes')
+            ->atLeast()
+            ->once()
+            ->andReturn([$reflectionPathParameterAttribute = m::mock(ReflectionAttribute::class)]);
+
+        $reflectionPathParameterAttribute->shouldReceive('newInstance')
+            ->atLeast()
+            ->once()
+            ->andReturn(new PathParam('bar'));
+
+
+        $methodReader = new MethodReader($this->reflectionMethod, [1]);
+
+        $finalPath = $methodReader->parsePath();
         self::assertEquals('api/foo/1', $finalPath);
     }
 
@@ -206,32 +225,11 @@ class MethodReaderTest extends TestCase
             ->with(m::any())
             ->andReturn([]);
 
-        $this->parameterReader->shouldReceive('getHeaderParams')
-            ->once()
-            ->andReturn([]);
-        $this->parameterReader->shouldReceive('getBodyParam')
-            ->once()
-            ->andReturn(null);
-        $this->parameterReader->shouldReceive('getJsonParams')
-            ->once()
-            ->andReturn(null);
-        $this->parameterReader->shouldReceive('getQueryParams')
-            ->once()
-            ->andReturn([]);
-        $this->parameterReader->shouldReceive('getFormParams')
-            ->once()
-            ->andReturn([]);
-        $this->parameterReader->shouldReceive('getMultipartParams')
-            ->once()
-            ->andReturn([]);
-        $this->parameterReader->shouldReceive('getAuthParams')
-            ->once()
-            ->andReturn(null);
-        $this->parameterReader->shouldReceive('getRawOptions')
+        $this->reflectionMethod->shouldReceive('getParameters')
             ->once()
             ->andReturn([]);
 
-        $options = $this->methodReader->getOptions($this->reflectionMethod);
+        $options = $this->methodReader->getOptions();
 
         self::assertEquals([
             RequestOptions::HTTP_ERRORS => true
@@ -241,22 +239,23 @@ class MethodReaderTest extends TestCase
     // private
 
     /**
-     * @param class-string<TAttrName> $attributeName
-     * @param string                  $method
-     * @param array                   $returnValue
+     * @param \Waffler\Client\Readers\MethodReader $methodReader
+     * @param class-string<TAttrName>              $attributeName
+     * @param string                               $method
+     * @param array                                $returnValue
      *
      * @return bool
      * @author ErickJMenezes <erickmenezes.dev@gmail.com>
      * @phpstan-template TAttrName of object
      */
-    private function prepareHasAttributeTest(string $attributeName, string $method, array $returnValue = []): bool
+    private function prepareHasAttributeTest(MethodReader $methodReader, string $attributeName, string $method, array $returnValue = []): bool
     {
         $this->reflectionMethod->shouldReceive('getAttributes')
             ->once()
             ->with($attributeName)
             ->andReturn($returnValue);
 
-        return $this->methodReader->{$method}($this->reflectionMethod);
+        return $methodReader->{$method}();
     }
 
     private function prepareGetReturnTypeTest(?string $typeName = null, bool $isNamedType = true): void

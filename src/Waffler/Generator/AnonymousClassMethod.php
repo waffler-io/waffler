@@ -1,14 +1,22 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
+
+/*
+ * This file is part of Waffler.
+ *
+ * (c) Erick Johnson Almeida de Menezes <erickmenezes.dev@gmail.com>
+ *
+ * This source file is subject to the MIT licence that is bundled
+ * with this source code in the file LICENCE.
+ */
 
 namespace Waffler\Generator;
 
-use ReflectionIntersectionType;
 use ReflectionMethod;
 use ReflectionNamedType;
 use ReflectionParameter;
-use ReflectionUnionType;
+use ReflectionType;
 use Stringable;
 use Waffler\Generator\Exceptions\MethodCompilingException;
 
@@ -45,7 +53,7 @@ class AnonymousClassMethod implements Stringable
         [$returnType, $returnStatement] = $this->getReturnTypeAndReturnStatement();
         return (string)preg_replace_callback(
             '/<(\w*)>/',
-            fn(array $matches) => match ($matches[1]) {
+            fn (array $matches) => match ($matches[1]) {
                 'method' => $methodName,
                 'args' => $argList,
                 'rt' => $returnType,
@@ -180,12 +188,9 @@ class AnonymousClassMethod implements Stringable
     /**
      * @throws \Exception
      */
-    private function checkReflectionType(?\ReflectionType $reflectionType, string $errorQuote = ''): void
+    private function checkReflectionType(?ReflectionType $reflectionType, string $errorQuote = ''): void
     {
-        if (
-            $reflectionType instanceof ReflectionUnionType ||
-            PHP_VERSION_ID >= 80100 && $reflectionType instanceof ReflectionIntersectionType
-        ) {
+        if (!$reflectionType instanceof ReflectionNamedType) {
             throw new MethodCompilingException(
                 "Union types or intersection types are not allowed. $errorQuote",
                 3

@@ -1,10 +1,21 @@
 <?php
 
+/*
+ * This file is part of Waffler.
+ *
+ * (c) Erick Johnson Almeida de Menezes <erickmenezes.dev@gmail.com>
+ *
+ * This source file is subject to the MIT licence that is bundled
+ * with this source code in the file LICENCE.
+ */
+
 namespace Waffler\Attributes\Request;
 
 use Attribute;
 
-use function Waffler\array_wrap;
+use JetBrains\PhpStorm\Pure;
+
+use function Waffler\arrayWrap;
 
 /**
  * Class Produces.
@@ -19,10 +30,11 @@ class Produces extends Headers
     /**
      * @param string|array<string> $mimes
      */
+    #[Pure]
     public function __construct(string|array $mimes)
     {
         parent::__construct([
-            'Accept' => array_wrap($mimes)
+            'Accept' => arrayWrap($mimes)
         ]);
     }
 }

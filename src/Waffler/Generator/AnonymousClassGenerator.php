@@ -1,9 +1,20 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
+
+/*
+ * This file is part of Waffler.
+ *
+ * (c) Erick Johnson Almeida de Menezes <erickmenezes.dev@gmail.com>
+ *
+ * This source file is subject to the MIT licence that is bundled
+ * with this source code in the file LICENCE.
+ */
 
 namespace Waffler\Generator;
 
+use Closure;
+use InvalidArgumentException;
 use ReflectionClass;
 use Waffler\Generator\Contracts\InterfaceInstantiator;
 use Waffler\Generator\Contracts\MethodCallHandler;
@@ -25,29 +36,15 @@ class AnonymousClassGenerator implements InterfaceInstantiator
      * @inheritDoc
      * @throws \Exception
      */
-    public function instantiate(
-        string $interfaceName,
-        MethodCallHandler $methodCallHandler
-    ): object {
-        return $this->instantiateFromReflection(
-            new ReflectionClass($interfaceName),
-            $methodCallHandler
-        );
-    }
+    public function instantiate(MethodCallHandler $methodCallHandler): object
+    {
+        $reflectedInterface = $methodCallHandler->getReflectedInterface();
 
-    /**
-     * @inheritDoc
-     * @throws \Exception
-     */
-    public function instantiateFromReflection(
-        ReflectionClass $reflectionInterface,
-        MethodCallHandler $methodCallHandler
-    ): object {
-        if (!$reflectionInterface->isInterface()) {
-            throw new \InvalidArgumentException("The type is not an interface");
+        if (!$reflectedInterface->isInterface()) {
+            throw new InvalidArgumentException("The type is not an interface");
         }
 
-        $factoryFunction = $this->getFactoryFunction($reflectionInterface);
+        $factoryFunction = $this->getFactoryFunction($reflectedInterface);
 
         return $factoryFunction($methodCallHandler);
     }
@@ -62,7 +59,7 @@ class AnonymousClassGenerator implements InterfaceInstantiator
      * @phpstan-template TInterfaceType of object
      * @author   ErickJMenezes <erickmenezes.dev@gmail.com>
      */
-    private function getFactoryFunction(\ReflectionClass $reflectionInterface): FactoryFunction
+    private function getFactoryFunction(ReflectionClass $reflectionInterface): FactoryFunction
     {
         // @phpstan-ignore-next-line
         return self::$cache[$reflectionInterface->name]
@@ -74,12 +71,12 @@ class AnonymousClassGenerator implements InterfaceInstantiator
      *
      * @param \ReflectionClass<TInterfaceType> $reflectionInterface
      *
-     * @return \Closure(MethodCallHandler): TInterfaceType
+     * @return \Closure(MethodCallHandler<TInterfaceType>): TInterfaceType
      * @throws \Exception
      * @author   ErickJMenezes <erickmenezes.dev@gmail.com>
      * @phpstan-template TInterfaceType of object
      */
-    private function createClosure(\ReflectionClass $reflectionInterface): \Closure
+    private function createClosure(ReflectionClass $reflectionInterface): Closure
     {
         $anonymousClassGenerator = sprintf(
             'return fn($handler) => new class($handler) implements %s {

@@ -1,8 +1,18 @@
 <?php
 
+/*
+ * This file is part of Waffler.
+ *
+ * (c) Erick Johnson Almeida de Menezes <erickmenezes.dev@gmail.com>
+ *
+ * This source file is subject to the MIT licence that is bundled
+ * with this source code in the file LICENCE.
+ */
+
 namespace Waffler\Client;
 
 use BadMethodCallException;
+use ReflectionClass;
 use Waffler\Generator\Contracts\MethodCallHandler;
 
 /**
@@ -12,6 +22,7 @@ use Waffler\Generator\Contracts\MethodCallHandler;
  *
  * @author ErickJMenezes <erickmenezes.dev@gmail.com>
  * @phpstan-template TInterfaceType of object
+ * @implements MethodCallHandler<TInterfaceType>
  */
 class Proxy implements MethodCallHandler
 {
@@ -20,7 +31,7 @@ class Proxy implements MethodCallHandler
      * @param \Waffler\Client\MethodInvoker    $methodInvoker
      */
     public function __construct(
-        private \ReflectionClass $interface,
+        private ReflectionClass $interface,
         private MethodInvoker $methodInvoker
     ) {
     }
@@ -48,5 +59,15 @@ class Proxy implements MethodCallHandler
         throw new BadMethodCallException(
             "The method $name is not declared in {$this->interface->getName()}."
         );
+    }
+
+    /**
+     * @inheritDoc
+     * @return \ReflectionClass<TInterfaceType>
+     * @author ErickJMenezes <erickmenezes.dev@gmail.com>
+     */
+    public function getReflectedInterface(): ReflectionClass
+    {
+        return $this->interface;
     }
 }

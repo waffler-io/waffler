@@ -1,6 +1,17 @@
 <?php
 
+/*
+ * This file is part of Waffler.
+ *
+ * (c) Erick Johnson Almeida de Menezes <erickmenezes.dev@gmail.com>
+ *
+ * This source file is subject to the MIT licence that is bundled
+ * with this source code in the file LICENCE.
+ */
+
 namespace Waffler\Generator\Contracts;
+
+use ReflectionClass;
 
 /**
  * Interface MethodCallHandler.
@@ -8,6 +19,7 @@ namespace Waffler\Generator\Contracts;
  * Receives all method calls from the anonymous implementation of the interface.
  *
  * @author ErickJMenezes <erickmenezes.dev@gmail.com>
+ * @template TInterface of object
  */
 interface MethodCallHandler
 {
@@ -21,4 +33,12 @@ interface MethodCallHandler
      * @author ErickJMenezes <erickmenezes.dev@gmail.com>
      */
     public function __call(string $name, array $arguments): mixed;
+
+    /**
+     * Retrieves the interface that is reflected.
+     *
+     * @return \ReflectionClass<TInterface>
+     * @author ErickJMenezes <erickmenezes.dev@gmail.com>
+     */
+    public function getReflectedInterface(): ReflectionClass;
 }

@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of Waffler.
+ *
+ * (c) Erick Johnson Almeida de Menezes <erickmenezes.dev@gmail.com>
+ *
+ * This source file is subject to the MIT licence that is bundled
+ * with this source code in the file LICENCE.
+ */
+
 namespace Waffler\Generator\Contracts;
 
 use ReflectionClass;
@@ -14,8 +23,7 @@ interface InterfaceInstantiator
     /**
      * Instantiate an interface by its name.
      *
-     * @param class-string<TInterfaceType>                   $interfaceName
-     * @param \Waffler\Generator\Contracts\MethodCallHandler $methodCallHandler
+     * @param \Waffler\Generator\Contracts\MethodCallHandler<TInterfaceType> $methodCallHandler
      *
      * @return TInterfaceType
      * @throws \ReflectionException If the interface name is not instantiable
@@ -23,24 +31,5 @@ interface InterfaceInstantiator
      * @author   ErickJMenezes <erickmenezes.dev@gmail.com>
      * @template TInterfaceType of object
      */
-    public function instantiate(
-        string $interfaceName,
-        MethodCallHandler $methodCallHandler
-    ): object;
-
-    /**
-     * Instantiate an interface by its name.
-     *
-     * @param \ReflectionClass<TInterfaceType>               $reflectionInterface
-     * @param \Waffler\Generator\Contracts\MethodCallHandler $methodCallHandler
-     *
-     * @return TInterfaceType
-     * @throws \InvalidArgumentException If the Reflection class or the name of the type is not an interface.
-     * @author   ErickJMenezes <erickmenezes.dev@gmail.com>
-     * @template TInterfaceType of object
-     */
-    public function instantiateFromReflection(
-        ReflectionClass $reflectionInterface,
-        MethodCallHandler $methodCallHandler
-    ): object;
+    public function instantiate(MethodCallHandler $methodCallHandler): object;
 }
