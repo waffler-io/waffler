@@ -36,12 +36,12 @@ class JsonAndJsonParamTest extends FeatureTestCase
     public function testRequestShouldHaveJsonKey(): void
     {
         $this->createRequestExpectation()
-            ->expectBody(['foo' => 'bar'])
+            ->expectBody(['foo' => 'bar', 'bar' => ['baz' => 'gim']])
             ->expectHeaders([
                 'Content-Type' => ['application/json']
             ])
             ->build()
-            ->client->testJsonParam('bar');
+            ->client->testJsonParam('bar', 'gim');
     }
 
     public function testRequestShouldHaveMixedJsonArrayAndParam(): void

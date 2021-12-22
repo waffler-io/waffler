@@ -12,6 +12,7 @@
 namespace Waffler\Attributes\Request;
 
 use Attribute;
+use Waffler\Attributes\Contracts\KeyedAttribute;
 
 /**
  * Class QueryParam.
@@ -20,10 +21,16 @@ use Attribute;
  * @package Waffler\Attributes\Request
  */
 #[Attribute(Attribute::TARGET_PARAMETER)]
-class QueryParam
+class QueryParam implements KeyedAttribute
 {
     public function __construct(
         public string $key
     ) {
+    }
+
+
+    public function getKey(): string
+    {
+        return $this->key;
     }
 }

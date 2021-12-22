@@ -19,6 +19,7 @@ use Waffler\Attributes\Auth\Basic;
 use Waffler\Attributes\Auth\Bearer;
 use Waffler\Attributes\Auth\Digest;
 use Waffler\Attributes\Auth\Ntml;
+use Waffler\Attributes\Contracts\ArraySettable;
 use Waffler\Attributes\Request\Body;
 use Waffler\Attributes\Request\FormData;
 use Waffler\Attributes\Request\FormParam;
@@ -32,6 +33,8 @@ use Waffler\Attributes\Request\QueryParam;
 use Waffler\Attributes\Utils\RawOptions;
 use Waffler\Client\AttributeChecker;
 use Waffler\Client\Traits\InteractsWithAttributes;
+
+use function Waffler\arraySet;
 
 /**
  * Class ParameterReader.
@@ -227,20 +230,29 @@ class ParameterReader
     }
 
     /**
-     * @param class-string<TFirstAttributeType>  $listTypeAttribute
-     * @param class-string<TSecondAttributeType> $singleTypeAttribute
+     * @param class-string                                               $listTypeAttribute
+     * @param class-string<\Waffler\Attributes\Contracts\KeyedAttribute> $singleTypeAttribute
      *
      * @return array<int|string, mixed>
      * @throws \Exception
-     * @template TFirstAttributeType of object
-     * @template TSecondAttributeType of object
      */
     private function valuesForPair(string $listTypeAttribute, string $singleTypeAttribute): array
     {
         $group = $this->valueFor($listTypeAttribute, []);
         foreach ($this->withAttributes($singleTypeAttribute) as $parameter) {
-            $key = $parameter->getAttributes($singleTypeAttribute)[0]->getArguments()[0];
-            $group[$key] = $this->get($parameter);
+            $attributeInstance = $parameter->getAttributes($singleTypeAttribute)[0]->newInstance();
+            $key = $attributeInstance->getKey();
+            $value = $this->get($parameter);
+            if ($attributeInstance instanceof ArraySettable) {
+                arraySet(
+                    $group,
+                    $key,
+                    $value,
+                    $attributeInstance->getPathSeparator()
+                );
+            } else {
+                $group[$key] = $value;
+            }
         }
         return $group;
     }

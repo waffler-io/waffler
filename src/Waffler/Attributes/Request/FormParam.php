@@ -12,6 +12,7 @@
 namespace Waffler\Attributes\Request;
 
 use Attribute;
+use Waffler\Attributes\Contracts\KeyedAttribute;
 
 /**
  * Class FormParam.
@@ -20,10 +21,15 @@ use Attribute;
  * @package Waffler\Attributes\Request
  */
 #[Attribute(Attribute::TARGET_PARAMETER)]
-class FormParam
+class FormParam implements KeyedAttribute
 {
     public function __construct(
         public string $key
     ) {
+    }
+
+    public function getKey(): string
+    {
+        return $this->key;
     }
 }

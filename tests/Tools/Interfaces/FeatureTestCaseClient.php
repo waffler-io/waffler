@@ -58,7 +58,7 @@ interface FeatureTestCaseClient
     public function testJson(#[Json] array $json): void;
 
     #[Get]
-    public function testJsonParam(#[JsonParam('foo')] string $foo): void;
+    public function testJsonParam(#[JsonParam('foo')] string $foo, #[JsonParam('bar.baz')] string $gim): void;
 
     #[Get]
     public function testJsonAndJsonParam(#[Json] array $json, #[JsonParam('baz')] string $gim);

@@ -101,38 +101,28 @@ Import the class `Waffler\Client\Factory` and call the static method `make` pass
 options as second argument.
 
 ```php
-<?php // PostsController.php
+<?php
 
-namespace App\Controllers;
+namespace App;
 
 use Waffler\Client\Factory;
 use App\Clients\FooClient;
 
-class PostsController
-{
-    private FooClient $fooClient;
+// Instantiate the client passing the interface as first argument.
+$fooClient = Factory::make(FooClient::class, ['base_uri' => '<api-base-uri>']);
 
-    public function __constructor() 
-    {
-        $this->fooClient = Factory::make(FooClient::class, ['base_uri' => '<api-base-uri>']);
-    }
+// Retrieve the credentials
+$credentials = $this->fooClient->login([
+    'email' => 'email@test.com',
+    'password' => '<secret>'
+]);
 
-    /**
-     * Get all posts.
-     *  
-     * @return array
-     */
-    public function index()
-    {
-        $credentials = $this->fooClient->login([
-            'email' => 'email@test.com',
-            'password' => 'secret'
-        ]);
-        
-        $posts = $this->fooClient->getPosts($credentials['token'], ['created_at' => '2020-01-01'])
-        
-        return response()->json($posts)
-    }
+// Retrieve the posts.
+$posts = $this->fooClient->getPosts($credentials['token'], ['created_at' => '2020-01-01'])
 ```
 
+## Usage examples
+See the [Examples folder](./examples).
+
+## Attributes docs
 ** Work in progress **

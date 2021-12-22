@@ -14,20 +14,47 @@ namespace Waffler;
 /**
  * Dot notation for get data inside array
  *
- * @param array<T> $_
- * @param string   $path
+ * @param array<T>             $_
+ * @param string|array<string> $path
+ * @param non-empty-string     $pathSeparator
  *
  * @return T
  * @template T
  */
-function arrayGet(array $_, string $path): mixed
+function arrayGet(array $_, string|array $path, string $pathSeparator = '.'): mixed
 {
-    $propNames = explode('.', $path);
+    $propNames = is_array($path) ? $path : explode($pathSeparator, $path);
     $nested = $_;
     foreach ($propNames as $propName) {
         $nested = $nested[$propName];
     }
     return $nested;
+}
+
+/**
+ * Dot notation for set value inside array.
+ *
+ * @param array<string, mixed> $_
+ * @param string|array<string> $path
+ * @param mixed                $value
+ * @param non-empty-string     $pathSeparator
+ *
+ * @return void
+ * @author ErickJMenezes <erickmenezes.dev@gmail.com>
+ */
+function arraySet(array &$_, string|array $path, mixed $value, string $pathSeparator = '.'): void
+{
+    $keyChain = is_array($path) ? $path : explode($pathSeparator, $path);
+    $path = array_slice($keyChain, 0, -1);
+    $nested = &$_;
+    foreach ($path as $keyName) {
+        if (!isset($nested[$keyName]) || !is_array($nested[$keyName])) {
+            $nested[$keyName] = [];
+        }
+        $nested = &$nested[$keyName];
+    }
+    $target = array_slice($keyChain, -1)[0];
+    $nested[$target] = $value;
 }
 
 /**
