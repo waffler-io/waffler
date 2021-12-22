@@ -24,8 +24,14 @@ use Waffler\Attributes\Contracts\KeyedAttribute;
 #[Attribute(Attribute::TARGET_PARAMETER)]
 class JsonParam implements KeyedAttribute, ArraySettable
 {
+    /**
+     * @param string           $key
+     * @param non-empty-string $pathSeparator The separator to insert the data using the "dot notation".
+     *                                        You can use any value you want. Example: '.', '->', ':', etc...
+     */
     public function __construct(
-        public string $key
+        private string $key,
+        private string $pathSeparator = '.'
     ) {
     }
 
@@ -36,6 +42,6 @@ class JsonParam implements KeyedAttribute, ArraySettable
 
     public function getPathSeparator(): string
     {
-        return '.';
+        return $this->pathSeparator;
     }
 }

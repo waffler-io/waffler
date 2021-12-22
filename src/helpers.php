@@ -14,7 +14,7 @@ namespace Waffler;
 /**
  * Dot notation for get data inside array
  *
- * @param array<T>             $_
+ * @param array<string, T>     $_
  * @param string|array<string> $path
  * @param non-empty-string     $pathSeparator
  *
