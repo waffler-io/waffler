@@ -160,7 +160,8 @@ class AnonymousClassMethod implements Stringable
             $paramType = $this->getParameterType($parameter);
             $argName = $parameter->getName();
             $defaultValue = $this->getParameterDefaultValue($parameter);
-            $parameterList[] = "{$paramType} \${$argName}{$defaultValue}";
+            $allowsNull = $parameter->allowsNull() ? '?' : '';
+            $parameterList[] = "{$allowsNull}{$paramType} \${$argName}{$defaultValue}";
         }
         return join(',', $parameterList);
     }

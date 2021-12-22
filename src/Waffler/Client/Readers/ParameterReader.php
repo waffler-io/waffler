@@ -178,14 +178,14 @@ class ParameterReader
             $count = 0;
             $path = str_replace('{'.$placeholder.'}', (string) $value, $path, $count);
             if ($count === 0) {
-                throw new Exception("The argument \"{$pathParameter->getName()}\" is not used by any path parameter.");
+                throw new Exception("The argument \"$placeholder\" is not used by any path parameter.");
             } elseif ($count > 1) {
                 throw new Exception("The path parameter \"$placeholder\" is repeated.");
             }
         }
         $missing = [];
         if (preg_match('/{.*?}/', $path, $missing)) {
-            throw new Exception("The path parameter \"$missing[0]\" has no replacement");
+            throw new Exception("The path parameter \"$missing[0]\" has no replacement.");
         }
         return $path;
     }
@@ -276,18 +276,18 @@ class ParameterReader
     private function loadParameterMap(): void
     {
         foreach ($this->reflectionParameters as $parameter) {
-            $this->parameterMap[$parameter->getName()] =
-                // Load by name or by position
-                $this->arguments[$parameter->getName()] ??
-                $this->arguments[$parameter->getPosition()] ??
-                // If the parameter is not available by name or by position
-                // we will try to get the default value. If the default value is not available,
-                // we will throw an exception.
-                (
-                    $parameter->isDefaultValueAvailable()
-                    ? $parameter->getDefaultValue()
-                    : throw new InvalidArgumentException("Required argument {$parameter->getName()} is missing.")
-                );
+            $parameterName = $parameter->getName();
+            $parameterPosition = $parameter->getPosition();
+
+            if (array_key_exists($parameterName, $this->arguments)) {
+                $this->parameterMap[$parameterName] = $this->arguments[$parameterName];
+            } elseif (array_key_exists($parameterPosition, $this->arguments)) {
+                $this->parameterMap[$parameterName] = $this->arguments[$parameterPosition];
+            } elseif ($parameter->isDefaultValueAvailable()) {
+                $this->parameterMap[$parameterName] = $parameter->getDefaultValue();
+            } else {
+                throw new InvalidArgumentException("Required argument {$parameter->getName()} is missing.");
+            }
         }
     }
 
