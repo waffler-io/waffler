@@ -54,8 +54,8 @@ class AttributeChecker
             Query::class, Json::class, Headers::class, Multipart::class, FormData::class, RawOptions::class => self::expectsArray(
                 $value
             ),
-            HeaderParam::class => self::expectsString($value),
-            JsonParam::class => self::expectsStringOrIntOrArray($value),
+            HeaderParam::class => self::expectsStringOrNull($value),
+            JsonParam::class => self::expectsStringOrIntOrArrayOrNull($value),
             default => null
         };
     }
@@ -78,12 +78,15 @@ class AttributeChecker
         }
     }
 
-    private static function expectsStringOrIntOrArray(mixed $value): void
+    private static function expectsStringOrIntOrArrayOrNull(mixed $value): void
     {
-        if (!is_string($value)
+        if (
+            !is_string($value)
             && !is_a($value, Stringable::class)
             && !is_int($value)
-            && !is_array($value)) {
+            && !is_array($value)
+            && !is_null($value)
+        ) {
             throw new InvalidArgumentException(
                 sprintf(
                     "The attribute %s was expecting string or int, %s given.",
@@ -94,9 +97,13 @@ class AttributeChecker
         }
     }
 
-    private static function expectsString(mixed $value): void
+    private static function expectsStringOrNull(mixed $value): void
     {
-        if (!is_string($value) && !is_a($value, Stringable::class)) {
+        if (
+            !is_string($value) &&
+            !is_a($value, Stringable::class) &&
+            !is_null($value)
+        ) {
             throw new InvalidArgumentException(
                 sprintf(
                     "The attribute %s was expecting string, %s given.",
