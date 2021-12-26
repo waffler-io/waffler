@@ -17,15 +17,15 @@
       "email": "erickmenezes.dev@gmail.com"
     }
   ],
-  "minimum-stability": "dev",
+  "minimum-stability": "stable",
   "require": {
     "php": "^8.0",
     "guzzlehttp/guzzle": "^7.4.0"
   },
   "require-dev": {
     "phpunit/phpunit": "^9.5.10",
-    "mockery/mockery": "1.4.x-dev",
-    "phpstan/phpstan": "1.2.x-dev",
+    "mockery/mockery": "^1.4",
+    "phpstan/phpstan": "^1.2",
     "jetbrains/phpstorm-attributes": "dev-master",
     "friendsofphp/php-cs-fixer": "^3.4"
   },

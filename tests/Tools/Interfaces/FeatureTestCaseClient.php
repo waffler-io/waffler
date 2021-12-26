@@ -115,6 +115,15 @@ interface FeatureTestCaseClient
     public function testFormParam(#[FormParam('foo')] string $foo): void;
 
     #[Get]
+    public function testFormParam2(#[FormParam('foo')] ?string $foo = null): void;
+
+    #[Get]
+    public function testFormParam3(#[FormParam('foo')] mixed $foo = null): void;
+
+    #[Get]
+    public function testFormParam4(#[FormParam('foo')] $foo = null): void;
+
+    #[Get]
     public function testFormParamAndFormData(#[FormData] array $formData, #[FormParam('baz')] string $baz): void;
 
     #[Get]

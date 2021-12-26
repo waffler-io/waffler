@@ -119,7 +119,7 @@ class AnonymousClassMethod implements Stringable
      */
     private function getParameterType(ReflectionParameter $parameter): string
     {
-        $name = '';
+        $name = 'mixed';
         if ($parameter->hasType()) {
             /** @var ReflectionNamedType $parameterType */
             $parameterType = $parameter->getType();
@@ -160,7 +160,7 @@ class AnonymousClassMethod implements Stringable
             $paramType = $this->getParameterType($parameter);
             $argName = $parameter->getName();
             $defaultValue = $this->getParameterDefaultValue($parameter);
-            $allowsNull = $parameter->allowsNull() ? '?' : '';
+            $allowsNull = $parameter->allowsNull() && $paramType !== 'mixed' ? '?' : '';
             $parameterList[] = "{$allowsNull}{$paramType} \${$argName}{$defaultValue}";
         }
         return join(',', $parameterList);
