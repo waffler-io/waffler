@@ -23,6 +23,7 @@ use function Waffler\arrayWrap;
  * Add "Content-Type" headers.
  *
  * @author ErickJMenezes <erickmenezes.dev@gmail.com>
+ * @deprecated Will be removed in 1.0.0
  */
 #[Attribute(Attribute::TARGET_METHOD)]
 class Consumes extends Headers
