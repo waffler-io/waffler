@@ -60,10 +60,11 @@ function arraySet(array &$_, string|array $path, mixed $value, string $pathSepar
 /**
  * Wraps a given value into an array.
  *
- * @param mixed|array<int|string, mixed> $value
+ * @param T|array<T> $value
  *
- * @return array<int|string, mixed>
+ * @return array<T>
  * @author ErickJMenezes <erickmenezes.dev@gmail.com>
+ * @template T
  */
 function arrayWrap(mixed $value): array
 {

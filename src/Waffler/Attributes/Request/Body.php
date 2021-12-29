@@ -13,6 +13,10 @@ namespace Waffler\Attributes\Request;
 
 use Attribute;
 
+use JetBrains\PhpStorm\Pure;
+
+use function Waffler\arrayWrap;
+
 /**
  * Class Body.
  *
@@ -22,4 +26,21 @@ use Attribute;
 #[Attribute(Attribute::TARGET_PARAMETER)]
 class Body
 {
+    /**
+     * @param non-empty-string|array<non-empty-string> $mimeTypes
+     */
+    #[Pure]
+    public function __construct(
+        private string|array $mimeTypes = []
+    ) {
+    }
+
+    /**
+     * @return array<string>
+     */
+    #[Pure]
+    public function getMimeTypes(): array
+    {
+        return arrayWrap($this->mimeTypes);
+    }
 }

@@ -26,6 +26,9 @@ class BodyTest extends FeatureTestCase
         $body = 'foo bar baz';
         $this->createRequestExpectation()
             ->expectBody($body)
+            ->expectHeaders([
+                'Content-Type' => ['text/plain']
+            ])
             ->build()
             ->client
             ->testBody($body);

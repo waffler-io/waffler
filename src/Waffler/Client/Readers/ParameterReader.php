@@ -79,7 +79,11 @@ class ParameterReader
      */
     public function getHeaderParams(): array
     {
-        return $this->valuesFor(HeaderParam::class) + $this->getBearerParam();
+        return array_merge_recursive(
+            $this->valuesFor(HeaderParam::class),
+            $this->getBearerParam(),
+            $this->getBodyMimes(),
+        );
     }
 
     /**
@@ -295,5 +299,20 @@ class ParameterReader
     private function get(ReflectionParameter $parameter): mixed
     {
         return $this->parameterMap[$parameter->getName()];
+    }
+
+    /**
+     * @return array<string, array<string>>
+     * @author ErickJMenezes <erickmenezes.dev@gmail.com>
+     */
+    private function getBodyMimes(): array
+    {
+        if ($param = $this->withAttributes(Body::class)[0] ?? false) {
+            $bodyAttribute = $param->getAttributes(Body::class)[0]->newInstance();
+            return [
+                'Content-Type' => $bodyAttribute->getMimeTypes()
+            ];
+        }
+        return [];
     }
 }

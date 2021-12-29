@@ -147,7 +147,7 @@ interface FeatureTestCaseClient
     // Attribute: Request/Body
 
     #[Get]
-    public function testBody(#[Body] string $body): void;
+    public function testBody(#[Body('text/plain')] string $body): void;
 
     // Attribute: Auth/Basic
 
