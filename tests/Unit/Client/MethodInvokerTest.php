@@ -13,9 +13,9 @@ namespace Waffler\Tests\Unit\Client;
 
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Promise\PromiseInterface;
+use Mockery as m;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use PHPUnit\Framework\TestCase;
-use Mockery as m;
 use Psr\Http\Message\ResponseInterface;
 use ReflectionAttribute;
 use ReflectionClass;
@@ -38,6 +38,12 @@ use Waffler\Client\ResponseParser;
  *
  * @author ErickJMenezes <erickmenezes.dev@gmail.com>
  * @covers \Waffler\Client\MethodInvoker
+ * @uses   \Waffler\Attributes\Verbs\AbstractHttpMethod
+ * @uses   \Waffler\Attributes\Verbs\Get
+ * @uses   \Waffler\Client\Readers\MethodReader
+ * @uses   \Waffler\Client\Readers\ParameterReader
+ * @uses   \Waffler\Client\Traits\InteractsWithAttributes
+ * @uses   \Waffler\Attributes\Utils\Unwrap
  */
 class MethodInvokerTest extends TestCase
 {
@@ -77,7 +83,7 @@ class MethodInvokerTest extends TestCase
 
     public function testMustNotReturnPromiseIfTheMethodIsNotAsynchronous(): void
     {
-        $this->prepareBasicsInteractions();
+        $this->prepareBasicsInteractions(true);
 
         $this->method->shouldReceive('hasReturnType')
             ->atLeast()
@@ -88,9 +94,15 @@ class MethodInvokerTest extends TestCase
             ->once()
             ->andReturn($this->responseInterface);
 
+        $this->method->shouldReceive('getAttributes')
+            ->with(Unwrap::class)
+            ->atLeast()->once()
+            ->andReturn([$unwrap = m::mock(ReflectionAttribute::class)]);
+        $unwrap->shouldReceive('newInstance')->atLeast()->once()->andReturn(new Unwrap());
+
         $this->responseParser->shouldReceive('parse')
             ->once()
-            ->with(m::type(ResponseInterface::class), 'mixed', false)
+            ->withAnyArgs()
             ->andReturn($this->responseInterface);
 
         $response = $this->methodInvoker->invokeMethod($this->method, []);
@@ -120,7 +132,7 @@ class MethodInvokerTest extends TestCase
         self::assertInstanceOf(PromiseInterface::class, $response);
     }
 
-    private function prepareBasicsInteractions(): void
+    private function prepareBasicsInteractions(bool $wrap = false): void
     {
         $this->declaringClass->shouldReceive('getAttributes')
             ->andReturn([]);
@@ -149,8 +161,11 @@ class MethodInvokerTest extends TestCase
             Consumes::class,
             Timeout::class,
             Suppress::class,
-            Unwrap::class
         ];
+
+        if (!$wrap) {
+            $ignoredAttributes[] = Unwrap::class;
+        }
 
         foreach ($ignoredAttributes as $ignoredAttribute) {
             $this->method->shouldReceive('getAttributes')
