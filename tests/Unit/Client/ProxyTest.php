@@ -72,8 +72,13 @@ class ProxyTest extends TestCase
         $this->reflectionClass->shouldReceive('hasMethod')
             ->once()
             ->with('foo')
-            ->andReturn('false');
+            ->andReturn(false);
 
         $this->proxy->foo();
+    }
+
+    public function testGetReflectedInterfaceMustReturnAnInstanceOfReflectionClass(): void
+    {
+        self::assertEquals($this->reflectionClass, $this->proxy->getReflectedInterface());
     }
 }
