@@ -22,8 +22,12 @@ use ReflectionClass;
 use ReflectionMethod;
 use ReflectionParameter;
 use Waffler\Attributes\Contracts\Verb;
+use Waffler\Attributes\Request\Consumes;
+use Waffler\Attributes\Request\Headers;
 use Waffler\Attributes\Request\Path;
 use Waffler\Attributes\Request\PathParam;
+use Waffler\Attributes\Request\Produces;
+use Waffler\Attributes\Request\Timeout;
 use Waffler\Attributes\Utils\Suppress;
 use Waffler\Attributes\Utils\Unwrap;
 use Waffler\Attributes\Verbs\Get;
@@ -33,7 +37,19 @@ use Waffler\Client\Readers\MethodReader;
  * Class MethodReaderTest.
  *
  * @author ErickJMenezes <erickmenezes.dev@gmail.com>
- * @covers \Waffler\Client\MethodReader
+ * @covers \Waffler\Client\Readers\MethodReader
+ * @uses   \Waffler\Attributes\Verbs\AbstractHttpMethod
+ * @uses   \Waffler\Attributes\Verbs\Get
+ * @uses   \Waffler\Attributes\Request\Path
+ * @uses   \Waffler\Attributes\Request\PathParam
+ * @uses   \Waffler\Client\AttributeChecker
+ * @uses   \Waffler\Attributes\Utils\Unwrap
+ * @uses   \Waffler\Attributes\Request\Headers
+ * @uses   \Waffler\Attributes\Request\Produces
+ * @uses   \Waffler\Attributes\Request\Consumes
+ * @uses   \Waffler\Attributes\Request\Timeout
+ * @uses   \Waffler\arrayWrap()
+ * @uses   \Waffler\Client\Readers\ParameterReader
  */
 class MethodReaderTest extends TestCase
 {
@@ -171,11 +187,7 @@ class MethodReaderTest extends TestCase
             ->twice()
             ->andReturn($declaringClass);
 
-        $this->reflectionMethod->shouldReceive('getAttributes')
-            ->atLeast()
-            ->once()
-            ->with(Path::class)
-            ->andReturn([]);
+        $this->prepareHasAttributeValue(new Path('/'));
 
         $reflectionVerbAttribute = m::mock(ReflectionAttribute::class);
         $reflectionVerbAttribute->shouldReceive('newInstance')
@@ -217,7 +229,7 @@ class MethodReaderTest extends TestCase
         self::assertEquals('api/foo/1', $finalPath);
     }
 
-    public function testGetOptionsMustReturnTheListOfGuzzleHttpOptionsFromTheParameterReader(): void
+    public function testGetOptionsMustReturnTheEmptyOfGuzzleHttpOptionsFromTheParameterReader(): void
     {
         $this->reflectionMethod->shouldReceive('getAttributes')
             ->atLeast()
@@ -236,6 +248,34 @@ class MethodReaderTest extends TestCase
         ], $options);
     }
 
+    public function testGetOptionsMustReturnTheListOfGuzzleHttpOptionsFromTheParameterReader(): void
+    {
+        $this->reflectionMethod->shouldReceive('getAttributes')
+            ->with(Suppress::class)
+            ->atLeast()->once()
+            ->andReturn([m::mock(ReflectionAttribute::class)]);
+        $this->prepareHasAttributeValue(new Headers(['foo' => 'bar']));
+        $this->prepareHasAttributeValue(new Produces('Application/Json'));
+        $this->prepareHasAttributeValue(new Consumes('Application/Json'));
+        $this->prepareHasAttributeValue(new Timeout(100));
+
+        $this->reflectionMethod->shouldReceive('getParameters')
+            ->once()
+            ->andReturn([]);
+
+        $options = $this->methodReader->getOptions();
+
+        self::assertEquals([
+            RequestOptions::HTTP_ERRORS => false,
+            RequestOptions::HEADERS => [
+                'foo' => ['bar'],
+                'Content-Type' => ['Application/Json'],
+                'Accept' => ['Application/Json']
+            ],
+            RequestOptions::TIMEOUT => 100
+        ], $options);
+    }
+
     // private
 
     /**
@@ -248,8 +288,12 @@ class MethodReaderTest extends TestCase
      * @author ErickJMenezes <erickmenezes.dev@gmail.com>
      * @phpstan-template TAttrName of object
      */
-    private function prepareHasAttributeTest(MethodReader $methodReader, string $attributeName, string $method, array $returnValue = []): bool
-    {
+    private function prepareHasAttributeTest(
+        MethodReader $methodReader,
+        string $attributeName,
+        string $method,
+        array $returnValue = []
+    ): bool {
         $this->reflectionMethod->shouldReceive('getAttributes')
             ->once()
             ->with($attributeName)
@@ -284,5 +328,26 @@ class MethodReaderTest extends TestCase
                 ->once()
                 ->andReturn(false);
         }
+    }
+
+    /**
+     * @param TAttr $attributeInstance
+     *
+     * @return void
+     * @author   ErickJMenezes <erickmenezes.dev@gmail.com>
+     * @template TAttr of Object
+     */
+    private function prepareHasAttributeValue(object $attributeInstance): void
+    {
+        $reflectionAttr = m::mock(ReflectionAttribute::class);
+
+        $reflectionAttr->shouldReceive('newInstance')
+            ->atLeast()->once()
+            ->andReturn($attributeInstance);
+
+        $this->reflectionMethod->shouldReceive('getAttributes')
+            ->with($attributeInstance::class)
+            ->atLeast()->once()
+            ->andReturn([$reflectionAttr]);
     }
 }

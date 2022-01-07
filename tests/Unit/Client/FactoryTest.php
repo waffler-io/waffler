@@ -26,6 +26,15 @@ use Waffler\Tests\Tools\InvalidType;
  *
  * @author ErickJMenezes <erickmenezes.dev@gmail.com>
  * @covers \Waffler\Client\Factory
+ * @uses \Waffler\Pipeline\Pipeline
+ * @uses \Waffler\Client\MethodInvoker
+ * @uses \Waffler\Generator\AnonymousClassGenerator
+ * @uses \Waffler\Generator\AnonymousClassMethod
+ * @uses \Waffler\Client\Pipeline\Stages\CreateMethodCallProxy
+ * @uses \Waffler\Client\Pipeline\Stages\EnsureReflectionClassIsFromAnInterface
+ * @uses \Waffler\Client\Pipeline\Stages\CreateInterfaceImplementation
+ * @uses \Waffler\Generator\FactoryFunction
+ * @uses \Waffler\Client\Proxy
  */
 class FactoryTest extends TestCase
 {
