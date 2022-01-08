@@ -35,8 +35,14 @@
     }
   },
   "scripts": {
-    "phpstan": "./vendor/bin/phpstan",
-    "phpunit": "./vendor/bin/phpunit",
+    "phpstan": [
+      "@composer dump-autoload",
+      "./vendor/bin/phpstan"
+    ],
+    "phpunit": [
+      "@composer dump-autoload",
+      "./vendor/bin/phpunit"
+    ],
     "php-cs-fixer": "./vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.dist.php --allow-risky=yes"
   }
 }
