@@ -80,7 +80,7 @@ class ParameterReader
     public function getHeaderParams(): array
     {
         return array_merge_recursive(
-            $this->valuesFor(HeaderParam::class),
+            $this->valuesForKeyedAttribute(HeaderParam::class),
             $this->getBearerParam(),
             $this->getBodyMimes(),
         );
@@ -90,7 +90,7 @@ class ParameterReader
      * @return array<string,string>
      * @throws \Exception
      */
-    public function getBearerParam(): array
+    private function getBearerParam(): array
     {
         $token = $this->valueFor(Bearer::class);
         return $token ? ['Authorization' => "Bearer $token"] : [];
@@ -243,21 +243,11 @@ class ParameterReader
     private function valuesForPair(string $listTypeAttribute, string $singleTypeAttribute): array
     {
         $group = $this->valueFor($listTypeAttribute, []);
-        foreach ($this->withAttributes($singleTypeAttribute) as $parameter) {
-            $attributeInstance = $parameter->getAttributes($singleTypeAttribute)[0]->newInstance();
-            $key = $attributeInstance->getKey();
-            $value = $this->get($parameter);
-            if ($attributeInstance instanceof ArraySettable) {
-                arraySet(
-                    $group,
-                    $key,
-                    $value,
-                    $attributeInstance->getPathSeparator()
-                );
-            } else {
-                $group[$key] = $value;
-            }
+
+        foreach ($this->valuesForKeyedAttribute($singleTypeAttribute) as $k => $v) {
+            $group[$k] = $v;
         }
+
         return $group;
     }
 
@@ -307,12 +297,38 @@ class ParameterReader
      */
     private function getBodyMimes(): array
     {
+        $result = [];
         if ($param = $this->withAttributes(Body::class)[0] ?? false) {
             $bodyAttribute = $param->getAttributes(Body::class)[0]->newInstance();
-            return [
-                'Content-Type' => $bodyAttribute->getMimeTypes()
-            ];
+            $result['Content-Type'] = $bodyAttribute->getMimeTypes();
         }
-        return [];
+        return $result;
+    }
+
+    /**
+     * @param class-string<\Waffler\Attributes\Contracts\KeyedAttribute> $singleTypeAttribute
+     *
+     * @return array<int|string, mixed>
+     * @author ErickJMenezes <erickmenezes.dev@gmail.com>
+     */
+    private function valuesForKeyedAttribute(string $singleTypeAttribute): array
+    {
+        $group = [];
+        foreach ($this->withAttributes($singleTypeAttribute) as $parameter) {
+            $attributeInstance = $parameter->getAttributes($singleTypeAttribute)[0]->newInstance();
+            $key = $attributeInstance->getKey();
+            $value = $this->get($parameter);
+            if ($attributeInstance instanceof ArraySettable) {
+                arraySet(
+                    $group,
+                    $key,
+                    $value,
+                    $attributeInstance->getPathSeparator()
+                );
+            } else {
+                $group[$key] = $value;
+            }
+        }
+        return $group;
     }
 }
