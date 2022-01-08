@@ -22,7 +22,6 @@ use ReflectionClass;
 use ReflectionMethod;
 use ReflectionNamedType;
 use Waffler\Attributes\Contracts\Verb;
-use Waffler\Attributes\Request\Consumes;
 use Waffler\Attributes\Request\Headers;
 use Waffler\Attributes\Request\Path;
 use Waffler\Attributes\Request\Produces;
@@ -158,7 +157,6 @@ class MethodInvokerTest extends TestCase
             Path::class,
             Headers::class,
             Produces::class,
-            Consumes::class,
             Timeout::class,
             Suppress::class,
         ];

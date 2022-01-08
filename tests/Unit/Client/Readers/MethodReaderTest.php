@@ -22,7 +22,6 @@ use ReflectionClass;
 use ReflectionMethod;
 use ReflectionParameter;
 use Waffler\Attributes\Contracts\Verb;
-use Waffler\Attributes\Request\Consumes;
 use Waffler\Attributes\Request\Headers;
 use Waffler\Attributes\Request\Path;
 use Waffler\Attributes\Request\PathParam;
@@ -46,7 +45,6 @@ use Waffler\Client\Readers\MethodReader;
  * @uses   \Waffler\Attributes\Utils\Unwrap
  * @uses   \Waffler\Attributes\Request\Headers
  * @uses   \Waffler\Attributes\Request\Produces
- * @uses   \Waffler\Attributes\Request\Consumes
  * @uses   \Waffler\Attributes\Request\Timeout
  * @uses   \Waffler\arrayWrap()
  * @uses   \Waffler\Client\Readers\ParameterReader
@@ -256,7 +254,6 @@ class MethodReaderTest extends TestCase
             ->andReturn([m::mock(ReflectionAttribute::class)]);
         $this->prepareHasAttributeValue(new Headers(['foo' => 'bar']));
         $this->prepareHasAttributeValue(new Produces('Application/Json'));
-        $this->prepareHasAttributeValue(new Consumes('Application/Json'));
         $this->prepareHasAttributeValue(new Timeout(100));
 
         $this->reflectionMethod->shouldReceive('getParameters')
@@ -269,7 +266,6 @@ class MethodReaderTest extends TestCase
             RequestOptions::HTTP_ERRORS => false,
             RequestOptions::HEADERS => [
                 'foo' => ['bar'],
-                'Content-Type' => ['Application/Json'],
                 'Accept' => ['Application/Json']
             ],
             RequestOptions::TIMEOUT => 100

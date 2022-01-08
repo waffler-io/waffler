@@ -21,17 +21,6 @@ use Waffler\Tests\Tools\FeatureTestCase;
  */
 class ConsumesAndProducesTest extends FeatureTestCase
 {
-    public function testRequestMustHaveAcceptHeader(): void
-    {
-        $this->createRequestExpectation()
-            ->expectHeaders([
-                'Content-Type' => 'application/json'
-            ])
-            ->build()
-            ->client
-            ->testConsumes();
-    }
-
     public function testRequestMustHaveContentTypeHeader(): void
     {
         $this->createRequestExpectation()

@@ -16,7 +16,6 @@ use Waffler\Attributes\Auth\Bearer;
 use Waffler\Attributes\Auth\Digest;
 use Waffler\Attributes\Auth\Ntml;
 use Waffler\Attributes\Request\Body;
-use Waffler\Attributes\Request\Consumes;
 use Waffler\Attributes\Request\FormData;
 use Waffler\Attributes\Request\FormParam;
 use Waffler\Attributes\Request\Json;
@@ -135,10 +134,6 @@ interface FeatureTestCaseClient
     public function testMultipart(#[Multipart] array $data): void;
 
     // Attribute: Request/Consumes and Request/Produces
-
-    #[Get]
-    #[Consumes('application/json')]
-    public function testConsumes(): void;
 
     #[Get]
     #[Produces('application/json')]

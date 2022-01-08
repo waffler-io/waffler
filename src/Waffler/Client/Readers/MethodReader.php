@@ -19,7 +19,6 @@ use ReflectionAttribute;
 use ReflectionMethod;
 use ReflectionNamedType;
 use Waffler\Attributes\Contracts\Verb;
-use Waffler\Attributes\Request\Consumes;
 use Waffler\Attributes\Request\Headers;
 use Waffler\Attributes\Request\Path;
 use Waffler\Attributes\Request\Produces;
@@ -181,10 +180,6 @@ class MethodReader
 
         if ($producesAttribute = $this->hasAttribute(Produces::class)) {
             $headers = array_merge_recursive($headers, $producesAttribute[0]->headers);
-        }
-
-        if ($consumesAttribute = $this->hasAttribute(Consumes::class)) {
-            $headers = array_merge_recursive($headers, $consumesAttribute[0]->headers);
         }
 
         return $headers;
