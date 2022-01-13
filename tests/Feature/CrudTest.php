@@ -16,7 +16,7 @@ use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\RequestInterface;
 use Waffler\Client\Factory;
-use Waffler\Tests\Tools\CrudTestCaseClient;
+use Waffler\Tests\Fixtures\CrudTestCaseClient;
 
 /**
  * Class CrudTest.

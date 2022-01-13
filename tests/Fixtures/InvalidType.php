@@ -9,7 +9,7 @@
  * with this source code in the file LICENCE.
  */
 
-namespace Waffler\Tests\Tools;
+namespace Waffler\Tests\Fixtures;
 
 class InvalidType
 {

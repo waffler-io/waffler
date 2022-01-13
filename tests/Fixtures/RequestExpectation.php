@@ -9,14 +9,14 @@
  * with this source code in the file LICENCE.
  */
 
-namespace Waffler\Tests\Tools;
+namespace Waffler\Tests\Fixtures;
 
 use Closure;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\RequestInterface;
-use Waffler\Tests\Tools\FeatureTestCase;
+use Waffler\Tests\Fixtures\FeatureTestCase;
 
 use function json_decode;
 use function Waffler\arrayWrap;

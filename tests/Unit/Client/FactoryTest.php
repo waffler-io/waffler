@@ -18,21 +18,17 @@ use ReflectionClass;
 use Waffler\Client\Factory;
 use Waffler\Client\Proxy;
 use Waffler\Generator\AnonymousClassGenerator;
-use Waffler\Tests\Tools\Interfaces\InterfaceWithValidMethodSignature;
-use Waffler\Tests\Tools\InvalidType;
+use Waffler\Tests\Fixtures\Interfaces\InterfaceWithValidMethodSignature;
+use Waffler\Tests\Fixtures\InvalidType;
 
 /**
  * Class FactoryTest.
  *
  * @author ErickJMenezes <erickmenezes.dev@gmail.com>
  * @covers \Waffler\Client\Factory
- * @uses \Waffler\Pipeline\Pipeline
  * @uses \Waffler\Client\MethodInvoker
  * @uses \Waffler\Generator\AnonymousClassGenerator
  * @uses \Waffler\Generator\AnonymousClassMethod
- * @uses \Waffler\Client\Pipeline\Stages\CreateMethodCallProxy
- * @uses \Waffler\Client\Pipeline\Stages\EnsureReflectionClassIsFromAnInterface
- * @uses \Waffler\Client\Pipeline\Stages\CreateInterfaceImplementation
  * @uses \Waffler\Generator\FactoryFunction
  * @uses \Waffler\Client\Proxy
  */

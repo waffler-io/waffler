@@ -13,12 +13,10 @@ declare(strict_types=1);
 
 namespace Waffler\Client;
 
+use GuzzleHttp\Client;
 use ReflectionClass;
 use Waffler\Client\Contracts\FactoryInterface;
-use Waffler\Client\Pipeline\Stages\CreateInterfaceImplementation;
-use Waffler\Client\Pipeline\Stages\CreateMethodCallProxy;
-use Waffler\Client\Pipeline\Stages\EnsureReflectionClassIsFromAnInterface;
-use Waffler\Pipeline\Pipeline;
+use Waffler\Generator\AnonymousClassGenerator;
 
 /**
  * Class Client
@@ -32,15 +30,10 @@ class Factory implements FactoryInterface
      */
     public static function make(string $interfaceName, array $options = []): object
     {
-        // The process of instantiating the given interface name is abstracted in the pipeline below.
-
-        return (new Pipeline())
-            ->run(new ReflectionClass($interfaceName))
-            ->through([
-                new EnsureReflectionClassIsFromAnInterface(),
-                new CreateMethodCallProxy($options),
-                new CreateInterfaceImplementation()
-            ])
-            ->thenReturn();
+        return (new AnonymousClassGenerator())
+            ->instantiate(new Proxy(
+                new ReflectionClass($interfaceName),
+                new MethodInvoker(new ResponseParser(), new Client($options))
+            ));
     }
 }

@@ -14,8 +14,8 @@ namespace Waffler\Tests\Unit\Generator;
 use Waffler\Generator\Exceptions\MethodCompilingException;
 use Waffler\Generator\AnonymousClassMethod;
 use PHPUnit\Framework\TestCase;
-use Waffler\Tests\Tools\Interfaces\InterfaceWithInvalidMethodSignature;
-use Waffler\Tests\Tools\Interfaces\InterfaceWithValidMethodSignature;
+use Waffler\Tests\Fixtures\Interfaces\InterfaceWithInvalidMethodSignature;
+use Waffler\Tests\Fixtures\Interfaces\InterfaceWithValidMethodSignature;
 
 /**
  * Class MethodCompilerTest.
@@ -87,7 +87,8 @@ class AnonymousClassMethodTest extends TestCase
     {
         $this->expectNotToPerformAssertions();
         $reflectionClass = new \ReflectionClass(InterfaceWithValidMethodSignature::class);
-        $methodRepresentation = (string)new AnonymousClassMethod($reflectionClass->getMethod('validSignature2'));
-        eval("new class { $methodRepresentation };");
+        $methodRepresentation = new AnonymousClassMethod($reflectionClass->getMethod('validSignature2'));
+        $stringRepresentation = $methodRepresentation->__toString();
+        eval("new class { $stringRepresentation };");
     }
 }

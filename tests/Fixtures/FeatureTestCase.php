@@ -9,13 +9,13 @@
  * with this source code in the file LICENCE.
  */
 
-namespace Waffler\Tests\Tools;
+namespace Waffler\Tests\Fixtures;
 
 use GuzzleHttp\Handler\MockHandler;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 use Waffler\Client\Factory;
-use Waffler\Tests\Tools\Interfaces\FeatureTestCaseClient;
+use Waffler\Tests\Fixtures\Interfaces\FeatureTestCaseClient;
 
 /**
  * Class BaseFeatureTestCase.
@@ -51,7 +51,7 @@ class FeatureTestCase extends TestCase
     }
 
     /**
-     * @return \Waffler\Tests\Tools\RequestExpectation<static>
+     * @return \Waffler\Tests\Fixtures\RequestExpectation<static>
      * @author ErickJMenezes <erickmenezes.dev@gmail.com>
      */
     protected function createRequestExpectation(): RequestExpectation

@@ -41,7 +41,7 @@ class AnonymousClassGenerator implements InterfaceInstantiator
         $reflectedInterface = $methodCallHandler->getReflectedInterface();
 
         if (!$reflectedInterface->isInterface()) {
-            throw new InvalidArgumentException("The type is not an interface");
+            throw new InvalidArgumentException("The type is not an interface", 10);
         }
 
         $factoryFunction = $this->getFactoryFunction($reflectedInterface);

@@ -12,7 +12,7 @@
 namespace Waffler\Tests\Feature\Attributes\Request;
 
 use Exception;
-use Waffler\Tests\Tools\FeatureTestCase;
+use Waffler\Tests\Fixtures\FeatureTestCase;
 
 /**
  * Class PathAndPathParamTest.

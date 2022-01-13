@@ -9,7 +9,7 @@
  * with this source code in the file LICENCE.
  */
 
-namespace Waffler\Tests\Tools\Interfaces;
+namespace Waffler\Tests\Fixtures\Interfaces;
 
 use Waffler\Attributes\Auth\Basic;
 use Waffler\Attributes\Auth\Bearer;

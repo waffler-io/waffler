@@ -17,7 +17,7 @@ namespace Waffler\Tests\Feature\Attributes\Auth;
  * @author ErickJMenezes <erickmenezes.dev@gmail.com>
  * @coversNothing
  */
-class BearerTest extends \Waffler\Tests\Tools\FeatureTestCase
+class BearerTest extends \Waffler\Tests\Fixtures\FeatureTestCase
 {
     public function testRequestMustHaveBearerAuthorizationHeader(): void
     {

@@ -11,7 +11,7 @@
 
 namespace Waffler\Tests\Feature\Attributes\Utils;
 
-use Waffler\Tests\Tools\FeatureTestCase;
+use Waffler\Tests\Fixtures\FeatureTestCase;
 
 /**
  * Class RawOptionsTest.

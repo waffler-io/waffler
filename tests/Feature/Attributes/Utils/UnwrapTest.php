@@ -13,7 +13,7 @@ namespace Waffler\Tests\Feature\Attributes\Utils;
 
 use GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
-use Waffler\Tests\Tools\FeatureTestCase;
+use Waffler\Tests\Fixtures\FeatureTestCase;
 
 /**
  * Class UnwrapTest.
