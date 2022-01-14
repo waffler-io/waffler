@@ -49,90 +49,48 @@ class AttributeChecker
     public static function check(string $attribute, mixed $value): void
     {
         match ($attribute) {
-            Bearer::class, PathParam::class, QueryParam::class, => self::expectsStringOrIntOrNull($value),
             Basic::class, Digest::class, Ntml::class => self::authHeaders($value),
-            Query::class, Json::class, Headers::class, Multipart::class, FormData::class, RawOptions::class => self::expectsArray(
-                $value
-            ),
-            HeaderParam::class => self::expectsStringOrNull($value),
-            JsonParam::class => self::expectsStringOrIntOrArrayOrNull($value),
+            Query::class, Json::class, Headers::class, Multipart::class, FormData::class, RawOptions::class => self::expectTypes($attribute, ['array'], $value),
+            Bearer::class, PathParam::class, QueryParam::class => self::expectTypes($attribute, ['string', 'integer', 'NULL'], $value),
+            HeaderParam::class => self::expectTypes($attribute, ['string', 'NULL'], $value),
+            JsonParam::class => self::expectTypes($attribute, ['string', 'integer', 'NULL', 'array'], $value),
             default => null
         };
     }
 
-    private static function expectsStringOrIntOrNull(mixed $value): void
-    {
-        if (
-            !is_string($value) &&
-            !is_a($value, Stringable::class) &&
-            !is_int($value) &&
-            !is_null($value)
-        ) {
-            throw new InvalidArgumentException(
-                sprintf(
-                    "The attribute %s was expecting string or int, %s given.",
-                    static::class,
-                    gettype($value)
-                )
-            );
-        }
-    }
-
-    private static function expectsStringOrIntOrArrayOrNull(mixed $value): void
-    {
-        if (
-            !is_string($value)
-            && !is_a($value, Stringable::class)
-            && !is_int($value)
-            && !is_array($value)
-            && !is_null($value)
-        ) {
-            throw new InvalidArgumentException(
-                sprintf(
-                    "The attribute %s was expecting string or int, %s given.",
-                    static::class,
-                    gettype($value)
-                )
-            );
-        }
-    }
-
-    private static function expectsStringOrNull(mixed $value): void
-    {
-        if (
-            !is_string($value) &&
-            !is_a($value, Stringable::class) &&
-            !is_null($value)
-        ) {
-            throw new InvalidArgumentException(
-                sprintf(
-                    "The attribute %s was expecting string, %s given.",
-                    static::class,
-                    gettype($value)
-                )
-            );
-        }
-    }
-
     private static function authHeaders(mixed $value): void
     {
-        if (!is_array($value) || count($value) < 2) {
-            throw new InvalidArgumentException(
-                "Auth attributes must have at least 2 values: username and password."
-            );
+        if (is_array($value) && count($value) >= 2) {
+            return;
         }
+        throw new InvalidArgumentException(
+            "Auth attributes must have at least 2 values: username and password."
+        );
     }
 
-    private static function expectsArray(mixed $value): void
+    /**
+     * @param class-string  $attribute
+     * @param array<string> $types
+     * @param mixed         $value
+     *
+     * @return void
+     * @author ErickJMenezes <erickmenezes.dev@gmail.com>
+     */
+    private static function expectTypes(string $attribute, array $types, mixed $value): void
     {
-        if (!is_array($value)) {
-            throw new InvalidArgumentException(
-                sprintf(
-                    "The attribute %s was expecting an argument of type array, %s given.",
-                    static::class,
-                    gettype($value)
-                )
-            );
+        $type = gettype($value);
+        if (
+            in_array($type, $types, true)
+            && ($type !== 'object' || in_array($value::class, $types, true))
+        ) {
+            return;
         }
+        throw new InvalidArgumentException(
+            sprintf(
+                "The attribute %s was expecting string or int, %s given.",
+                $attribute,
+                $type === 'object' ? $value::class : $type
+            )
+        );
     }
 }

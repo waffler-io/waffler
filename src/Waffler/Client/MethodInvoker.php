@@ -40,13 +40,14 @@ class MethodInvoker
     /**
      * @param \ReflectionMethod        $method
      * @param array<int|string, mixed> $arguments
+     * @param array<string>            $pathPrefix
      *
      * @return mixed
      * @throws \Exception
      */
-    public function invokeMethod(ReflectionMethod $method, array $arguments): mixed
+    public function invokeMethod(ReflectionMethod $method, array $arguments, array $pathPrefix = []): mixed
     {
-        $methodReader = $this->newMethodReader($method, $arguments);
+        $methodReader = $this->newMethodReader($method, $arguments, $pathPrefix);
 
         $response = $this->client->requestAsync(
             $methodReader->getVerb()->getName(),
@@ -70,13 +71,17 @@ class MethodInvoker
     /**
      * @param \ReflectionMethod        $reflectionMethod
      * @param array<int|string, mixed> $arguments
+     * @param array<string>            $pathPrefix
      *
      * @return \Waffler\Client\Readers\MethodReader
      * @author ErickJMenezes <erickmenezes.dev@gmail.com>
      */
     #[Pure]
-    private function newMethodReader(ReflectionMethod $reflectionMethod, array $arguments): MethodReader
-    {
-        return new MethodReader($reflectionMethod, $arguments);
+    private function newMethodReader(
+        ReflectionMethod $reflectionMethod,
+        array $arguments,
+        array $pathPrefix = []
+    ): MethodReader {
+        return new MethodReader($reflectionMethod, $arguments, $pathPrefix);
     }
 }

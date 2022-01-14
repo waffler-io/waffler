@@ -27,6 +27,7 @@ use Waffler\Attributes\Request\Produces;
 use Waffler\Attributes\Request\Query;
 use Waffler\Attributes\Request\QueryParam;
 use Waffler\Attributes\Request\Timeout;
+use Waffler\Attributes\Utils\NestedResource;
 use Waffler\Attributes\Utils\RawOptions;
 use Waffler\Attributes\Utils\Suppress;
 use Waffler\Attributes\Utils\Unwrap;
@@ -199,4 +200,10 @@ interface FeatureTestCaseClient
     #[Get]
     #[Unwrap('data.contents')]
     public function testUnwrap(): array;
+
+    // Attribute: NestedResource
+
+    #[Path('foo/{fooId}')]
+    #[NestedResource]
+    public function nested(#[PathParam] int $fooId): NestedResourceClient;
 }

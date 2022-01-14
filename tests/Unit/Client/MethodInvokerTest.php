@@ -26,6 +26,7 @@ use Waffler\Attributes\Request\Headers;
 use Waffler\Attributes\Request\Path;
 use Waffler\Attributes\Request\Produces;
 use Waffler\Attributes\Request\Timeout;
+use Waffler\Attributes\Utils\NestedResource;
 use Waffler\Attributes\Utils\Suppress;
 use Waffler\Attributes\Utils\Unwrap;
 use Waffler\Attributes\Verbs\Get;
@@ -159,6 +160,7 @@ class MethodInvokerTest extends TestCase
             Produces::class,
             Timeout::class,
             Suppress::class,
+            NestedResource::class,
         ];
 
         if (!$wrap) {

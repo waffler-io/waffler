@@ -20,11 +20,6 @@ use Waffler\Attributes\Verbs\Patch;
 use Waffler\Attributes\Verbs\Post;
 use Waffler\Client\Factory;
 
-/**
- * Interface JsonPlaceholderInterface.
- *
- * @author ErickJMenezes <erickmenezes.dev@gmail.com>
- */
 interface JsonPlaceholderInterface
 {
     #[Get('users')]

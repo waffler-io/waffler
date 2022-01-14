@@ -33,7 +33,8 @@ class Factory implements FactoryInterface
         return (new AnonymousClassGenerator())
             ->instantiate(new Proxy(
                 new ReflectionClass($interfaceName),
-                new MethodInvoker(new ResponseParser(), new Client($options))
+                new MethodInvoker(new ResponseParser(), new Client($options)),
+                $options
             ));
     }
 }

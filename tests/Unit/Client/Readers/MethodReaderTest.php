@@ -27,6 +27,7 @@ use Waffler\Attributes\Request\Path;
 use Waffler\Attributes\Request\PathParam;
 use Waffler\Attributes\Request\Produces;
 use Waffler\Attributes\Request\Timeout;
+use Waffler\Attributes\Utils\NestedResource;
 use Waffler\Attributes\Utils\Suppress;
 use Waffler\Attributes\Utils\Unwrap;
 use Waffler\Attributes\Verbs\Get;
@@ -175,6 +176,8 @@ class MethodReaderTest extends TestCase
             ->andReturn(new Path('api'));
 
         $declaringClass = m::mock(ReflectionClass::class);
+        $declaringClass->shouldReceive('getName')
+            ->andReturn('Foo');
         $declaringClass->shouldReceive('getAttributes')
             ->atLeast()
             ->once()
@@ -182,7 +185,7 @@ class MethodReaderTest extends TestCase
             ->andReturn([$reflectionAttribute]);
 
         $this->reflectionMethod->shouldReceive('getDeclaringClass')
-            ->twice()
+            ->once()
             ->andReturn($declaringClass);
 
         $this->prepareHasAttributeValue(new Path('/'));
@@ -192,6 +195,10 @@ class MethodReaderTest extends TestCase
             ->once()
             ->withNoArgs()
             ->andReturn(new Get('foo/{bar}'));
+
+        $this->reflectionMethod->shouldReceive('getAttributes')
+            ->with(NestedResource::class)
+            ->andReturn([]);
 
         $this->reflectionMethod->shouldReceive('getAttributes')
             ->with(Verb::class, ReflectionAttribute::IS_INSTANCEOF)

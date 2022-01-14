@@ -23,6 +23,7 @@ use Waffler\Attributes\Request\Headers;
 use Waffler\Attributes\Request\Path;
 use Waffler\Attributes\Request\Produces;
 use Waffler\Attributes\Request\Timeout;
+use Waffler\Attributes\Utils\NestedResource;
 use Waffler\Attributes\Utils\Suppress;
 use Waffler\Attributes\Utils\Unwrap;
 use Waffler\Client\Traits\InteractsWithAttributes;
@@ -39,10 +40,12 @@ class MethodReader
     /**
      * @param \ReflectionMethod        $reflectionMethod
      * @param array<int|string, mixed> $arguments
+     * @param array<string>            $pathPrefix
      */
     public function __construct(
         private ReflectionMethod $reflectionMethod,
-        private array $arguments
+        private array $arguments,
+        private array $pathPrefix = []
     ) {
     }
 
@@ -88,20 +91,22 @@ class MethodReader
 
     private function getPath(): string
     {
-        $method = $this->reflectionMethod;
-        $path = [];
+        $declaringClass = $this->reflectionMethod->getDeclaringClass();
 
-        if ($this->reflectionHasAttribute($method->getDeclaringClass(), Path::class)) {
-            $piece = $this->getAttributeInstance($method->getDeclaringClass(), Path::class)->path;
-            $this->addPathParts($piece, $path);
+        $path = $this->pathPrefix;
+
+        $pathAttributes = [
+            ...$this->getAttributeInstances($declaringClass, Path::class),
+            ...$this->getAttributeInstances($this->reflectionMethod, Path::class)
+        ];
+
+        foreach ($pathAttributes as $pathAttribute) {
+            $this->addPathParts($pathAttribute->path, $path);
         }
 
-        if ($this->hasAttribute(Path::class)) {
-            $piece = $this->getAttributeInstance($method, Path::class)->path;
-            $this->addPathParts($piece, $path);
+        if (!$this->reflectionHasAttribute($this->reflectionMethod, NestedResource::class)) {
+            $this->addPathParts($this->getVerb()->getPath(), $path);
         }
-
-        $this->addPathParts($this->getVerb()->getPath(), $path);
 
         return join('/', $path);
     }
