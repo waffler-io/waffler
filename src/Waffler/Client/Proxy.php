@@ -112,7 +112,13 @@ class Proxy implements MethodCallHandler
 
         if ($this->reflectionHasAttribute($reflectionMethod, Path::class)) {
             $methodReader = new MethodReader($reflectionMethod, $arguments);
-            $options['waffler_client_path_prefix'] = explode('/', $methodReader->parsePath());
+            $options['waffler_client_path_prefix'] = [
+                ...($options['waffler_client_path_prefix'] ?? []),
+                ...array_filter(
+                    explode('/', $methodReader->parsePath()),
+                    fn ($element) => $element !== ''
+                )
+            ];
         } else {
             $options['waffler_client_path_prefix'] = [];
         }
