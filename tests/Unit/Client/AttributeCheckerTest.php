@@ -64,7 +64,7 @@ class AttributeCheckerTest extends TestCase
                 ],
                 [
                     [JsonParam::class],
-                    ['foo', 1, null, []]
+                    ['foo', 1, null, [], 1.5]
                 ]
             ]);
         } catch (\InvalidArgumentException) {

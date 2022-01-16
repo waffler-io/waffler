@@ -58,14 +58,20 @@ class Proxy implements MethodCallHandler
 
         $method = $this->interface->getMethod($name);
 
+        // If the method has the "NestedResource" attribute, it means that the return type is another interface
+        // that the user wants to instantiate. The "child" interface will inherit the parent guzzle http options
+        // plus the extra path if it has in the method parameters. All others parameters will be ignored except
+        // "PathParam".
         if ($this->reflectionHasAttribute($method, NestedResource::class)) {
             return $this->buildNestedResource($method, $arguments);
         }
 
+        // If the method doesn't have the "NestedResource" attribute, we will just make the request using the arguments
+        // and the attributes of the method and parameters.
         return $this->methodInvoker->invokeMethod(
             $method,
             $arguments,
-            arrayWrap($this->options['waffler_client_path_prefix'] ?? [])
+            arrayWrap($this->options['waffler_client_path_prefix'] ?? []) // Extra path if it has.
         );
     }
 
@@ -92,6 +98,8 @@ class Proxy implements MethodCallHandler
     }
 
     /**
+     * Builds an interface using the parent options and extra a extra path from the method arguments if it has.
+     *
      * @param \ReflectionMethod        $reflectionMethod
      * @param array<int|string, mixed> $arguments
      *
@@ -103,26 +111,33 @@ class Proxy implements MethodCallHandler
     {
         $returnType = $reflectionMethod->getReturnType();
 
+        // If the method does not have a return type or is not a type of reflection named type, we will throw an error.
+        // If the method return type is not an interface, the Factory::make() on the last line of this method will
+        // handle this properly.
         if (!$returnType instanceof \ReflectionNamedType) {
             throw new BadMethodCallException("Nested resource methods must return an interface type.");
         }
 
         $options = $this->options;
+        $options['waffler_client_path_prefix'] ??= [];
         $interfaceName = $returnType->getName();
 
+        // If the method has A "Path" attribute, it means that the "nested" interface must inherit the parent base_uri
+        // plus this extra path. We will build the path, using the path params if it has.
         if ($this->reflectionHasAttribute($reflectionMethod, Path::class)) {
             $methodReader = new MethodReader($reflectionMethod, $arguments);
+
+            // If the parent is another nested resource, we need to merge the parent path with this new path.
             $options['waffler_client_path_prefix'] = [
-                ...($options['waffler_client_path_prefix'] ?? []),
+                ...$options['waffler_client_path_prefix'],
                 ...array_filter(
                     explode('/', $methodReader->parsePath()),
                     fn ($element) => $element !== ''
                 )
             ];
-        } else {
-            $options['waffler_client_path_prefix'] = [];
         }
 
+        // Finally, build the nested resource interface.
         return Factory::make($interfaceName, $options); //@phpstan-ignore-line
     }
 }

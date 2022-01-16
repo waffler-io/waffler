@@ -51,9 +51,9 @@ class AttributeChecker
         match ($attribute) {
             Basic::class, Digest::class, Ntml::class => self::authHeaders($value),
             Query::class, Json::class, Headers::class, Multipart::class, FormData::class, RawOptions::class => self::expectTypes($attribute, ['array'], $value),
-            Bearer::class, PathParam::class, QueryParam::class => self::expectTypes($attribute, ['string', 'integer', 'NULL'], $value),
+            Bearer::class, PathParam::class, QueryParam::class => self::expectTypes($attribute, ['string', 'integer', 'NULL', 'float', 'double'], $value),
             HeaderParam::class => self::expectTypes($attribute, ['string', 'NULL'], $value),
-            JsonParam::class => self::expectTypes($attribute, ['string', 'integer', 'NULL', 'array'], $value),
+            JsonParam::class => self::expectTypes($attribute, ['string', 'integer', 'NULL', 'array', 'float', 'double'], $value),
             default => null
         };
     }
