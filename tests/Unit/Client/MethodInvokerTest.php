@@ -42,8 +42,6 @@ class MethodInvokerTest extends TestCase
 {
     use MockeryPHPUnitIntegration;
 
-    private ResponseParser|MockInterface $responseParser;
-
     private MockHandler $handler;
 
     private MethodInvoker $methodInvoker;
@@ -53,10 +51,8 @@ class MethodInvokerTest extends TestCase
         parent::setUp();
 
         $this->methodInvoker = new MethodInvoker(
-            new ResponseParser(), //@phpstan-ignore-line
-            $this->client = new Client([
-                'handler' => $this->handler = new MockHandler()
-            ])
+            new ResponseParser(),
+            new Client(['handler' => $this->handler = new MockHandler()])
         );
     }
 
