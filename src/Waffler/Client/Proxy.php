@@ -29,6 +29,7 @@ use function Waffler\arrayWrap;
  * @author ErickJMenezes <erickmenezes.dev@gmail.com>
  * @phpstan-template TInterfaceType of object
  * @implements MethodCallHandler<TInterfaceType>
+ * @mixin TInterfaceType
  */
 class Proxy implements MethodCallHandler
 {
@@ -111,16 +112,14 @@ class Proxy implements MethodCallHandler
     {
         $returnType = $reflectionMethod->getReturnType();
 
-        // If the method does not have a return type or is not a type of reflection named type, we will throw an error.
-        // If the method return type is not an interface, the Factory::make() on the last line of this method will
-        // handle this properly.
-        if (!$returnType instanceof \ReflectionNamedType) {
+        // If the method does not have a return type or is not a type of reflection named type, or the method return
+        // type is not an interface, we will throw an error.
+        if (!$returnType instanceof \ReflectionNamedType || !interface_exists($returnType->getName())) {
             throw new BadMethodCallException("Nested resource methods must return an interface type.");
         }
 
         $options = $this->options;
         $options['waffler_client_path_prefix'] ??= [];
-        $interfaceName = $returnType->getName();
 
         // If the method has A "Path" attribute, it means that the "nested" interface must inherit the parent base_uri
         // plus this extra path. We will build the path, using the path params if it has.
@@ -138,6 +137,6 @@ class Proxy implements MethodCallHandler
         }
 
         // Finally, build the nested resource interface.
-        return Factory::make($interfaceName, $options); //@phpstan-ignore-line
+        return Factory::make($returnType->getName(), $options);
     }
 }

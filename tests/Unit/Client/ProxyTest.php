@@ -11,24 +11,25 @@
 
 namespace Waffler\Tests\Unit\Client;
 
-use Mockery;
+use GuzzleHttp\Handler\MockHandler;
+use GuzzleHttp\Psr7\Response;
+use Mockery as m;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
+use Mockery\MockInterface;
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Message\RequestInterface;
 use ReflectionClass;
 use ReflectionMethod;
-use ReflectionNamedType;
-use Waffler\Attributes\Request\Path;
-use Waffler\Attributes\Utils\NestedResource;
 use Waffler\Client\MethodInvoker;
 use Waffler\Client\Proxy;
-use Mockery as m;
-use Waffler\Tests\Fixtures\Interfaces\NestedResourceClient;
+use Waffler\Tests\Fixtures\Interfaces\ProxyTestClientInterface;
 
 /**
  * Class ProxyTest.
  *
  * @author ErickJMenezes <erickmenezes.dev@gmail.com>
  * @covers \Waffler\Client\Proxy
+ * @uses \Waffler\Client\Factory
  * @uses \Waffler\Generator\FactoryFunction
  * @uses \Waffler\Generator\AnonymousClassGenerator
  * @uses \Waffler\Generator\AnonymousClassMethod
@@ -36,45 +37,40 @@ use Waffler\Tests\Fixtures\Interfaces\NestedResourceClient;
  * @uses \Waffler\Client\Readers\MethodReader
  * @uses \Waffler\Client\MethodInvoker
  * @uses \Waffler\Attributes\Request\Path
+ * @uses \Waffler\Attributes\Verbs\Get
+ * @uses \Waffler\Client\AttributeChecker
+ * @uses \Waffler\Client\ResponseParser
+ * @uses \Waffler\Attributes\Request\PathParam
+ * @uses \Waffler\Attributes\Verbs\AbstractHttpMethod
  * @uses \Waffler\arrayWrap()
  */
 class ProxyTest extends TestCase
 {
     use MockeryPHPUnitIntegration;
 
+    /**
+     * @var \Waffler\Client\Proxy<ProxyTestClientInterface>
+     */
     private Proxy $proxy;
 
-    private ReflectionClass $reflectionClass;
+    private MethodInvoker|MockInterface $methodInvoker;
 
-    private MethodInvoker $methodInvoker;
+    private MockHandler $handlerStack;
 
     protected function setUp(): void
     {
         parent::setUp();
         $this->proxy = new Proxy(
-            $this->reflectionClass = m::mock(ReflectionClass::class),
-            $this->methodInvoker = m::mock(MethodInvoker::class),
-            []
+            new ReflectionClass(ProxyTestClientInterface::class),
+            $this->methodInvoker = m::mock(MethodInvoker::class), //@phpstan-ignore-line
+            [
+                'handler' => $this->handlerStack = new MockHandler()
+            ]
         );
     }
 
     public function testMustProxyAllCallsToMethodInvoker(): void
     {
-        $this->reflectionClass->shouldReceive('hasMethod')
-            ->once()
-            ->with('foo')
-            ->andReturn(true);
-
-        $this->reflectionClass->shouldReceive('getMethod')
-            ->once()
-            ->with('foo')
-            ->andReturn($method = m::mock(ReflectionMethod::class));
-
-        $method->shouldReceive('getAttributes')
-            ->atLeast()->once()
-            ->with(NestedResource::class)
-            ->andReturn([]);
-
         $this->methodInvoker->shouldReceive('invokeMethod')
             ->once()
             ->with(m::type(ReflectionMethod::class), ['bar', 'baz'], [])
@@ -87,17 +83,12 @@ class ProxyTest extends TestCase
     {
         $this->expectException(\BadMethodCallException::class);
 
-        $this->reflectionClass->shouldReceive('hasMethod')
-            ->once()
-            ->with('foo')
-            ->andReturn(false);
-
-        $this->proxy->foo();
+        $this->proxy->undefinedMethod();
     }
 
     public function testGetReflectedInterfaceMustReturnAnInstanceOfReflectionClass(): void
     {
-        self::assertEquals($this->reflectionClass, $this->proxy->getReflectedInterface());
+        self::assertInstanceOf(ReflectionClass::class, $this->proxy->getReflectedInterface());
     }
 
     public function testItMustThrowExceptionWhenTheMethodReturnsNestedResourceButTheReturnTypeIsInvalid(): void
@@ -105,82 +96,37 @@ class ProxyTest extends TestCase
         $this->expectException(\BadMethodCallException::class);
         $this->expectExceptionMessage('must return an interface type');
 
-        $this->reflectionClass->shouldReceive('hasMethod')
-            ->once()
-            ->with('foo')
-            ->andReturn(true);
+        $this->proxy->invalidNestedResource();
+    }
 
-        $this->reflectionClass->shouldReceive('getMethod')
-            ->once()
-            ->with('foo')
-            ->andReturn($method = m::mock(ReflectionMethod::class));
+    public function testItMustThrowExceptionWhenTheNestedResourceMethodDoesNotHaveReturnType(): void
+    {
+        $this->expectException(\BadMethodCallException::class);
+        $this->expectExceptionMessage('must return an interface type');
 
-        $method->shouldReceive('getReturnType')
-            ->atLeast()->once()
-            ->andReturn(null);
-
-        $method->shouldReceive('getAttributes')
-            ->atLeast()->once()
-            ->with(NestedResource::class)
-            ->andReturn([m::mock(\ReflectionAttribute::class)]);
-
-        $this->proxy->foo('bar', 'baz');
+        $this->proxy->invalidNestedResource2();
     }
 
     /**
      * @return void
      * @author ErickJMenezes <erickmenezes.dev@gmail.com>
-     * @uses \Waffler\Client\Factory
      */
     public function testItMustReturnAnotherClientInterfaceWhenTheMethodReturnNestedResource(): void
     {
-        $this->reflectionClass->shouldReceive('getAttributes')
-            ->atLeast()
-            ->once()
-            ->andReturn([]);
+        $nestedResource = $this->proxy->validNestedResource();
 
-        $this->reflectionClass->shouldReceive('hasMethod')
-            ->once()
-            ->with('foo')
-            ->andReturn(true);
+        self::assertInstanceOf(ProxyTestClientInterface::class, $nestedResource);
+    }
 
-        $this->reflectionClass->shouldReceive('getMethod')
-            ->once()
-            ->with('foo')
-            ->andReturn($method = m::mock(ReflectionMethod::class));
+    public function testItMustConcatenateTheParsedPathOfParentInterfaceWithTheNestedResourceUri(): void
+    {
+        $this->handlerStack->append(function (RequestInterface $request) {
+            self::assertEquals('foo/foo2/bar/baz', $request->getUri()->getPath());
+            return new Response();
+        });
 
-        $method->shouldReceive('getDeclaringClass')
-            ->atLeast()->once()
-            ->andReturn($this->reflectionClass);
-
-        $method->shouldReceive('getReturnType')
-            ->atLeast()->once()
-            ->andReturn($returnType = m::mock(ReflectionNamedType::class));
-
-        $method->shouldReceive('getAttributes')
-            ->atLeast()->once()
-            ->with(NestedResource::class)
-            ->andReturn([m::mock(\ReflectionAttribute::class)]);
-
-        $returnType->shouldReceive('getName')
-            ->atLeast()
-            ->once()
-            ->andReturn(NestedResourceClient::class);
-
-        $method->shouldReceive('getAttributes')
-            ->atLeast()
-            ->once()
-            ->with(Path::class)
-            ->andReturn([$reflectionPathAttribute = m::mock(\ReflectionAttribute::class)]);
-
-        $method->shouldReceive('getParameters')
-            ->atLeast()
-            ->once()
-            ->andReturn([]);
-
-        $reflectionPathAttribute->shouldReceive('newInstance')
-            ->andReturn(new Path('foo'));
-
-        $this->assertInstanceOf(NestedResourceClient::class, $this->proxy->foo());
+        $this->proxy->validNestedResourceWithPath('foo')
+            ->validNestedResourceWithPath('foo2')
+            ->foo('bar', 'baz');
     }
 }
