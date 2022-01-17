@@ -15,8 +15,6 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\Promise\PromiseInterface;
 use GuzzleHttp\Psr7\Response;
-use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
-use Mockery\MockInterface;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 use ReflectionMethod;
@@ -40,8 +38,6 @@ use Waffler\Tests\Fixtures\Interfaces\MethodInvokerTestClientInterface;
  */
 class MethodInvokerTest extends TestCase
 {
-    use MockeryPHPUnitIntegration;
-
     private MockHandler $handler;
 
     private MethodInvoker $methodInvoker;
