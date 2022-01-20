@@ -25,7 +25,6 @@ use function Waffler\arrayWrap;
  * Class RequestExpectation.
  *
  * @author ErickJMenezes <erickmenezes.dev@gmail.com>
- * @phpstan-template TTestCaseType of \Waffler\Tests\Tools\FeatureTestCase
  */
 class RequestExpectation
 {
@@ -38,7 +37,7 @@ class RequestExpectation
 
     /**
      * @param \Closure      $callback
-     * @param TTestCaseType $testCase
+     * @param FeatureTestCase $testCase
      */
     public function __construct(
         private Closure $callback,
@@ -50,7 +49,7 @@ class RequestExpectation
     /**
      * @param string $toBe
      *
-     * @return self<TTestCaseType>
+     * @return self
      * @author ErickJMenezes <erickmenezes.dev@gmail.com>
      */
     public function expectMethod(string $toBe): self
@@ -68,7 +67,7 @@ class RequestExpectation
     /**
      * @param array<string, string|int>|string $query
      *
-     * @return self<TTestCaseType>
+     * @return self
      * @author ErickJMenezes <erickmenezes.dev@gmail.com>
      */
     public function expectQueryString(array|string $query): self
@@ -83,7 +82,7 @@ class RequestExpectation
     /**
      * @param array<string, array<string|int>|string|callable> $headers
      *
-     * @return self<TTestCaseType>
+     * @return self
      * @author ErickJMenezes <erickmenezes.dev@gmail.com>
      */
     public function expectHeaders(array $headers): self
@@ -124,7 +123,7 @@ class RequestExpectation
     /**
      * @param string $toBe
      *
-     * @return self<TTestCaseType>
+     * @return self
      * @author ErickJMenezes <erickmenezes.dev@gmail.com>
      */
     public function expectPath(string $toBe): self
@@ -138,7 +137,7 @@ class RequestExpectation
      * @param string $key
      * @param mixed  $toBe
      *
-     * @return self<TTestCaseType>
+     * @return self
      * @author ErickJMenezes <erickmenezes.dev@gmail.com>
      */
     public function expectGuzzleOption(string $key, mixed $toBe): self
@@ -156,7 +155,7 @@ class RequestExpectation
     /**
      * @param array<int|string, mixed>|string $toBe
      *
-     * @return self<TTestCaseType>
+     * @return self
      * @author ErickJMenezes <erickmenezes.dev@gmail.com>
      */
     public function expectBody(array|string $toBe): self
@@ -177,7 +176,7 @@ class RequestExpectation
     /**
      * @param array<array<string,mixed>> $values
      *
-     * @return self<TTestCaseType>
+     * @return self
      * @author ErickJMenezes <erickmenezes.dev@gmail.com>
      */
     public function expectMultipartFormData(array $values): self
@@ -199,7 +198,7 @@ class RequestExpectation
     /**
      * @param Response $response
      *
-     * @return self<TTestCaseType>
+     * @return self
      * @author ErickJMenezes <erickmenezes.dev@gmail.com>
      */
     public function respondWith(Response $response): self
@@ -215,7 +214,7 @@ class RequestExpectation
     /**
      * @param \GuzzleHttp\Psr7\Response $response
      *
-     * @return self<TTestCaseType>
+     * @return self
      * @author ErickJMenezes <erickmenezes.dev@gmail.com>
      */
     public function setResponse(Response $response): self
@@ -228,7 +227,7 @@ class RequestExpectation
     /**
      * @param \Closure $checker
      *
-     * @return self<TTestCaseType>
+     * @return self
      * @author ErickJMenezes <erickmenezes.dev@gmail.com>
      */
     public function addExpectation(\Closure $checker): self
@@ -238,7 +237,6 @@ class RequestExpectation
     }
 
     /**
-     * @return TTestCaseType
      * @author ErickJMenezes <erickmenezes.dev@gmail.com>
      */
     public function build(): FeatureTestCase

@@ -18,6 +18,5 @@
         "psalm.xml",
         "psalm.xml.dist"
     ],
-    "psalm.enableVerbose": true,
     "psalm.unusedVariableDetection": true,
 }

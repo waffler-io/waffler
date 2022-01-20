@@ -51,14 +51,11 @@ class FeatureTestCase extends TestCase
     }
 
     /**
-     * @return \Waffler\Tests\Fixtures\RequestExpectation<static>
+     * @return \Waffler\Tests\Fixtures\RequestExpectation
      * @author ErickJMenezes <erickmenezes.dev@gmail.com>
      */
     protected function createRequestExpectation(): RequestExpectation
     {
-        // @phpstan-ignore-next-line
-        return new RequestExpectation(function (\Closure $handler) {
-            $this->addHandler($handler);
-        }, $this);
+        return new RequestExpectation(fn (\Closure $handler) => $this->addHandler($handler), $this);
     }
 }

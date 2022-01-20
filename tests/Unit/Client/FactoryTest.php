@@ -43,10 +43,14 @@ class FactoryTest extends TestCase
         Factory::make(InvalidType::class);
     }
 
+    /**
+     * @psalm-suppress UndefinedClass
+     * @return void
+     */
     public function testMustRejectNonObjectLikeTypeName(): void
     {
         $this->expectException(\ReflectionException::class);
-        Factory::make('string'); //@phpstan-ignore-line
+        Factory::make('invalid interface name');
     }
 
     public function testMustGenerateValidImplementationForValidInterfaces(): void
