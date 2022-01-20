@@ -23,7 +23,7 @@ interface ArraySettable
     /**
      * Retrieves the path separator to be used in arraySet function.
      *
-     * @return non-empty-string
+     * @return string
      * @author ErickJMenezes <erickmenezes.dev@gmail.com>
      * @see \Waffler\arraySet()
      */

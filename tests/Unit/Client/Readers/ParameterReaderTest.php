@@ -32,6 +32,7 @@ use Waffler\Attributes\Request\PathParam;
 use Waffler\Attributes\Request\Query;
 use Waffler\Attributes\Request\QueryParam;
 use Waffler\Attributes\Utils\RawOptions;
+use Waffler\Client\Readers\Exceptions\UnableToParsePathException;
 use Waffler\Client\Readers\ParameterReader;
 
 /**
@@ -360,7 +361,7 @@ class ParameterReaderTest extends TestCase
      */
     public function testParsePathMustThrowErrorWhenPathParameterIsNotUsed(): void
     {
-        $this->expectException(Exception::class);
+        $this->expectException(UnableToParsePathException::class);
         $this->expectExceptionMessage('is not used by any path parameter');
         $path1 = $this->createReflectionParameter(
             'id',
@@ -389,7 +390,7 @@ class ParameterReaderTest extends TestCase
      */
     public function testParsePathMustThrowErrorWhenPathParameterIsRepeated(): void
     {
-        $this->expectException(Exception::class);
+        $this->expectException(UnableToParsePathException::class);
         $this->expectExceptionMessage('repeated');
         $path1 = $this->createReflectionParameter(
             'id',
@@ -418,7 +419,7 @@ class ParameterReaderTest extends TestCase
      */
     public function testParsePathMustThrowErrorWhenPathParameterHasNoReplacement(): void
     {
-        $this->expectException(Exception::class);
+        $this->expectException(UnableToParsePathException::class);
         $this->expectExceptionMessage('no replacement');
         $path1 = $this->createReflectionParameter(
             'id',

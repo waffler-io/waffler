@@ -14,7 +14,6 @@ namespace Waffler\Client\Readers;
 use BadMethodCallException;
 use GuzzleHttp\Promise\PromiseInterface;
 use GuzzleHttp\RequestOptions;
-use JetBrains\PhpStorm\Pure;
 use ReflectionAttribute;
 use ReflectionMethod;
 use ReflectionNamedType;
@@ -49,13 +48,11 @@ class MethodReader
     ) {
     }
 
-    #[Pure]
     public function isSuppressed(): bool
     {
         return $this->reflectionHasAttribute($this->reflectionMethod, Suppress::class);
     }
 
-    #[Pure]
     public function mustUnwrap(): bool
     {
         return $this->reflectionHasAttribute($this->reflectionMethod, Unwrap::class);
@@ -76,7 +73,7 @@ class MethodReader
     }
 
     /**
-     * @param class-string<TAttributeName> $name
+     * @psalm-param class-string<TAttributeName> $name
      *
      * @return false|array<TAttributeName>
      * @author   ErickJMenezes <erickmenezes.dev@gmail.com>
@@ -216,12 +213,11 @@ class MethodReader
      */
     public function getReturnType(): string
     {
-        $method = $this->reflectionMethod;
-        if ($method->hasReturnType() && $method->getReturnType() instanceof ReflectionNamedType) {
-            return $method->getReturnType()->getName();
-        } else {
-            return 'mixed';
-        }
+        $reflectionReturnType = $this->reflectionMethod->getReturnType();
+
+        return $reflectionReturnType instanceof ReflectionNamedType
+            ? $reflectionReturnType->getName()
+            : 'mixed';
     }
 
     /**

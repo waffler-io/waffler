@@ -11,6 +11,8 @@
 
 namespace Waffler;
 
+use JetBrains\PhpStorm\Pure;
+
 /**
  * Dot notation for get data inside array
  *
@@ -21,6 +23,7 @@ namespace Waffler;
  * @return T
  * @template T
  */
+#[Pure]
 function arrayGet(array $_, string|array $path, string $pathSeparator = '.'): mixed
 {
     $propNames = is_array($path) ? $path : explode($pathSeparator, $path);
@@ -66,6 +69,7 @@ function arraySet(array &$_, string|array $path, mixed $value, string $pathSepar
  * @author ErickJMenezes <erickmenezes.dev@gmail.com>
  * @template T
  */
+#[Pure]
 function arrayWrap(mixed $value): array
 {
     if (is_array($value)) {

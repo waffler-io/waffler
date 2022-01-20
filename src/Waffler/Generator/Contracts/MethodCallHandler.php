@@ -27,7 +27,7 @@ interface MethodCallHandler
      * Handle the method calls.
      *
      * @param string            $name
-     * @param array<int, mixed> $arguments
+     * @psalm-param array<int, mixed> $arguments
      *
      * @return mixed
      * @author ErickJMenezes <erickmenezes.dev@gmail.com>

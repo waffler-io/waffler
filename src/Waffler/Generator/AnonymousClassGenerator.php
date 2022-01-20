@@ -27,8 +27,7 @@ use Waffler\Generator\Contracts\MethodCallHandler;
 class AnonymousClassGenerator implements InterfaceInstantiator
 {
     /**
-     * @phpstan-var array<string, TFactoryFunction>
-     * @phpstan-template TFactoryFunction of \Waffler\Generator\FactoryFunction
+     * @psalm-var array<string, \Waffler\Generator\FactoryFunction>
      */
     private static array $cache = [];
 
@@ -52,16 +51,15 @@ class AnonymousClassGenerator implements InterfaceInstantiator
     /**
      * Retrieves the factory function that generates the anonymous class.
      *
-     * @param \ReflectionClass<TInterfaceType> $reflectionInterface
+     * @psalm-param \ReflectionClass<TInterfaceType> $reflectionInterface
      *
      * @return \Waffler\Generator\FactoryFunction<TInterfaceType>
      * @throws \Exception
-     * @phpstan-template TInterfaceType of object
+     * @psalm-template TInterfaceType of object
      * @author   ErickJMenezes <erickmenezes.dev@gmail.com>
      */
     private function getFactoryFunction(ReflectionClass $reflectionInterface): FactoryFunction
     {
-        // @phpstan-ignore-next-line
         return self::$cache[$reflectionInterface->name]
             ??= new FactoryFunction($this->createClosure($reflectionInterface));
     }
@@ -69,12 +67,12 @@ class AnonymousClassGenerator implements InterfaceInstantiator
     /**
      * Generates the closure that creates the anonymous class implementation of the interface.
      *
-     * @param \ReflectionClass<TInterfaceType> $reflectionInterface
+     * @psalm-param \ReflectionClass<TInterfaceType> $reflectionInterface
      *
      * @return \Closure(MethodCallHandler<TInterfaceType>): TInterfaceType
      * @throws \Exception
      * @author   ErickJMenezes <erickmenezes.dev@gmail.com>
-     * @phpstan-template TInterfaceType of object
+     * @psalm-template TInterfaceType of object
      */
     private function createClosure(ReflectionClass $reflectionInterface): Closure
     {
@@ -93,7 +91,7 @@ class AnonymousClassGenerator implements InterfaceInstantiator
     /**
      * Retrieves the methods in its string representation.
      *
-     * @param array<\ReflectionMethod> $reflectionMethods
+     * @psalm-param array<\ReflectionMethod> $reflectionMethods
      *
      * @return string
      * @throws \Exception

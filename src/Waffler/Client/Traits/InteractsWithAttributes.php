@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Waffler\Client\Traits;
 
 use JetBrains\PhpStorm\Pure;
+use ReflectionAttribute;
 use ReflectionClass;
 use ReflectionMethod;
 use ReflectionParameter;
@@ -28,13 +29,12 @@ use ReflectionParameter;
 trait InteractsWithAttributes
 {
     /**
-     * @param \ReflectionMethod|\ReflectionParameter|\ReflectionClass<TParentType> $reflection
-     * @param class-string                                                         $name
+     * @psalm-param \ReflectionMethod|\ReflectionParameter|\ReflectionClass<TParentType> $reflection
+     * @psalm-param class-string                                                         $name
      *
      * @return bool
-     * @phpstan-template TParentType of object
+     * @psalm-template TParentType of object
      */
-    #[Pure]
     private function reflectionHasAttribute(
         ReflectionMethod|ReflectionParameter|ReflectionClass $reflection,
         string $name
@@ -43,12 +43,12 @@ trait InteractsWithAttributes
     }
 
     /**
-     * @param \ReflectionMethod|\ReflectionParameter|\ReflectionClass<TParentType> $reflection
-     * @param class-string<TAttributeType>                                         $name
+     * @psalm-param \ReflectionMethod|\ReflectionParameter|\ReflectionClass<TParentType> $reflection
+     * @psalm-param class-string<TAttributeType>                                         $name
      *
      * @return TAttributeType
-     * @phpstan-template TAttributeType of object
-     * @phpstan-template TParentType of object
+     * @psalm-template TAttributeType of object
+     * @psalm-template TParentType of object
      */
     private function getAttributeInstance(
         ReflectionMethod|ReflectionParameter|ReflectionClass $reflection,
@@ -58,21 +58,20 @@ trait InteractsWithAttributes
     }
 
     /**
-     * @param \ReflectionMethod|\ReflectionParameter|\ReflectionClass<TParentType> $reflection
-     * @param class-string<TAttributeType>                                         $name
+     * @psalm-param \ReflectionMethod|\ReflectionParameter|\ReflectionClass<TParentType> $reflection
+     * @psalm-param class-string<TAttributeType>                                         $name
      *
-     * @return array<TAttributeType>
-     * @phpstan-template TAttributeType of object
-     * @phpstan-template TParentType of object
+     * @return array<int, TAttributeType>
+     * @psalm-template TAttributeType of object
+     * @psalm-template TParentType of object
      */
     private function getAttributeInstances(
         ReflectionMethod|ReflectionParameter|ReflectionClass $reflection,
         string $name
     ): array {
-        $instances = [];
-        foreach ($reflection->getAttributes($name) as $attribute) {
-            $instances[] = $attribute->newInstance();
-        }
-        return $instances;
+        return array_map(
+            fn (ReflectionAttribute $attribute) => $attribute->newInstance(),
+            $reflection->getAttributes($name)
+        );
     }
 }

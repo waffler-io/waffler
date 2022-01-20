@@ -27,7 +27,7 @@ use function Waffler\arrayWrap;
  * This class proxies all calls form the anonymous implementation to the real method.
  *
  * @author ErickJMenezes <erickmenezes.dev@gmail.com>
- * @phpstan-template TInterfaceType of object
+ * @psalm-template TInterfaceType of object
  * @implements MethodCallHandler<TInterfaceType>
  * @mixin TInterfaceType
  */
@@ -38,7 +38,7 @@ class Proxy implements MethodCallHandler
     /**
      * @param \ReflectionClass<TInterfaceType> $interface
      * @param \Waffler\Client\MethodInvoker    $methodInvoker
-     * @param array<string, mixed>             $options
+     * @psalm-param array<string, mixed>       $options
      */
     public function __construct(
         private ReflectionClass $interface,

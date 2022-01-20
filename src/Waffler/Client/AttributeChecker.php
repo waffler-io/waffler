@@ -39,7 +39,7 @@ class AttributeChecker
     /**
      * Checks if the attribute has the expected parameters.
      *
-     * @param class-string<T> $attribute
+     * @psalm-param class-string<T> $attribute
      * @param mixed           $value
      *
      * @return void

@@ -21,8 +21,8 @@ interface FactoryInterface
     /**
      * Factory method to create the client implementation.
      *
-     * @param class-string<TInterface> $interfaceName Fully qualified name of the client interface.
-     * @param array<string, mixed>     $options       An array of guzzle http client options.
+     * @psalm-param class-string<TInterface> $interfaceName Fully qualified name of the client interface.
+     * @psalm-param array<string, mixed>     $options       An array of guzzle http client options.
      *
      * @return TInterface
      * @throws \ReflectionException

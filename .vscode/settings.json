@@ -10,9 +10,14 @@
             "source.organizeImports": true,
         },
     },
-    "phpstan.memoryLimit": "2048M",
     "php-docblocker.qualifyClassNames": true,
     "php.validate.enable": true,
     "php.validate.run": "onType",
     "php.suggest.basic": false,
+    "psalm.configPaths": [
+        "psalm.xml",
+        "psalm.xml.dist"
+    ],
+    "psalm.enableVerbose": true,
+    "psalm.unusedVariableDetection": true,
 }

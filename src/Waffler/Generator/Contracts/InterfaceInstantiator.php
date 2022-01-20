@@ -23,7 +23,7 @@ interface InterfaceInstantiator
     /**
      * Instantiate an interface by its name.
      *
-     * @param \Waffler\Generator\Contracts\MethodCallHandler<TInterfaceType> $methodCallHandler
+     * @psalm-param \Waffler\Generator\Contracts\MethodCallHandler<TInterfaceType> $methodCallHandler
      *
      * @return TInterfaceType
      * @throws \ReflectionException If the interface name is not instantiable

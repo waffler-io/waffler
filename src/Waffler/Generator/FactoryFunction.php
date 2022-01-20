@@ -20,12 +20,12 @@ use Waffler\Generator\Contracts\MethodCallHandler;
  * Class FactoryFunction.
  *
  * @author   ErickJMenezes <erickmenezes.dev@gmail.com>
- * @phpstan-template TInterfaceType of object
+ * @psalm-template TInterfaceType of object
  */
 class FactoryFunction
 {
     /**
-     * @phpstan-param \Closure(MethodCallHandler<TInterfaceType>): TInterfaceType $factoryFunction
+     * @psalm-param \Closure(MethodCallHandler<TInterfaceType>): TInterfaceType $factoryFunction
      */
     public function __construct(
         private Closure $factoryFunction
@@ -33,7 +33,7 @@ class FactoryFunction
     }
 
     /**
-     * @param MethodCallHandler<TInterfaceType> $handler
+     * @psalm-param MethodCallHandler<TInterfaceType> $handler
      *
      * @return TInterfaceType
      * @author ErickJMenezes <erickmenezes.dev@gmail.com>

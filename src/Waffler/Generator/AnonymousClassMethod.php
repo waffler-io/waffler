@@ -80,7 +80,7 @@ class AnonymousClassMethod implements Stringable
         }
 
         foreach ($this->method->getParameters() as $parameter) {
-            if (($parameter->isVariadic() || $parameter->isPassedByReference())) {
+            if ($parameter->isVariadic() || $parameter->isPassedByReference()) {
                 throw new MethodCompilingException(
                     "Variadic or passed by reference parameters are forbidden. {$finalQuote}",
                     2

@@ -32,6 +32,7 @@ use Waffler\Attributes\Request\Query;
 use Waffler\Attributes\Request\QueryParam;
 use Waffler\Attributes\Utils\RawOptions;
 use Waffler\Client\AttributeChecker;
+use Waffler\Client\Readers\Exceptions\UnableToParsePathException;
 use Waffler\Client\Traits\InteractsWithAttributes;
 
 use function Waffler\arraySet;
@@ -74,7 +75,7 @@ class ParameterReader
     }
 
     /**
-     * @return array<int|string,string>
+     * @return array<int|string, array<array-key, string>|mixed|string>
      * @throws \Exception
      */
     public function getHeaderParams(): array
@@ -169,7 +170,7 @@ class ParameterReader
      *
      * @return string
      * @throws \InvalidArgumentException If the Value of PathParam does not pass the type check.
-     * @throws \Exception If the path param is not used, or is repeated, or has no replacement that use it.
+     * @throws UnableToParsePathException If the path param is not used, or is repeated, or has no replacement that use it.
      */
     public function parsePath(string $path): string
     {
@@ -182,14 +183,14 @@ class ParameterReader
             $count = 0;
             $path = str_replace('{'.$placeholder.'}', (string) $value, $path, $count);
             if ($count === 0) {
-                throw new Exception("The argument \"$placeholder\" is not used by any path parameter.");
+                throw new UnableToParsePathException("The argument \"$placeholder\" is not used by any path parameter.", 1);
             } elseif ($count > 1) {
-                throw new Exception("The path parameter \"$placeholder\" is repeated.");
+                throw new UnableToParsePathException("The path parameter \"$placeholder\" is repeated.", 2);
             }
         }
         $missing = [];
         if (preg_match('/{.*?}/', $path, $missing)) {
-            throw new Exception("The path parameter \"$missing[0]\" has no replacement.");
+            throw new UnableToParsePathException("The path parameter \"$missing[0]\" has no replacement.", 3);
         }
         return $path;
     }
@@ -197,8 +198,8 @@ class ParameterReader
     // private
 
     /**
-     * @param class-string<TAttributeType> $attribute
-     * @param mixed                        $default
+     * @psalm-param class-string<TAttributeType> $attribute
+     * @param mixed                              $default
      *
      * @return mixed
      * @template TAttributeType
@@ -214,7 +215,7 @@ class ParameterReader
     }
 
     /**
-     * @param class-string<T> $attribute
+     * @psalm-param class-string<T> $attribute
      *
      * @return array<int,mixed>
      * @template T
@@ -234,8 +235,8 @@ class ParameterReader
     }
 
     /**
-     * @param class-string                                               $listTypeAttribute
-     * @param class-string<\Waffler\Attributes\Contracts\KeyedAttribute> $singleTypeAttribute
+     * @psalm-param class-string                                               $listTypeAttribute
+     * @psalm-param class-string<\Waffler\Attributes\Contracts\KeyedAttribute> $singleTypeAttribute
      *
      * @return array<int|string, mixed>
      * @throws \Exception
@@ -252,7 +253,7 @@ class ParameterReader
     }
 
     /**
-     * @param class-string<T> $attribute
+     * @psalm-param class-string<T> $attribute
      *
      * @return array<ReflectionParameter>
      * @template T
@@ -306,7 +307,7 @@ class ParameterReader
     }
 
     /**
-     * @param class-string<\Waffler\Attributes\Contracts\KeyedAttribute> $singleTypeAttribute
+     * @psalm-param class-string<\Waffler\Attributes\Contracts\KeyedAttribute> $singleTypeAttribute
      *
      * @return array<int|string, mixed>
      * @author ErickJMenezes <erickmenezes.dev@gmail.com>
