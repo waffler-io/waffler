@@ -34,7 +34,7 @@ use Waffler\Attributes\Utils\RawOptions;
 use Waffler\Client\AttributeChecker;
 use Waffler\Client\Readers\Exceptions\UnableToParsePathException;
 use Waffler\Client\Traits\InteractsWithAttributes;
-
+use MultipleValuesFoundException;
 use function Waffler\arraySet;
 
 /**
@@ -203,13 +203,13 @@ class ParameterReader
      *
      * @return mixed
      * @template TAttributeType
-     * @throws \Exception
+     * @throws MultipleValuesFoundException
      */
     private function valueFor(string $attribute, mixed $default = null): mixed
     {
         $data = $this->valuesFor($attribute);
         if (count($data) > 1) {
-            throw new Exception("Only one attribute of type {$attribute} are allowed");
+            throw new MultipleValuesFoundException("Only one attribute of type {$attribute} are allowed");
         }
         return $data[0] ?? $default;
     }

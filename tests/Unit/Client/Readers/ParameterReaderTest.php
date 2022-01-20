@@ -15,6 +15,7 @@ use Exception;
 use InvalidArgumentException;
 use Mockery as m;
 use Mockery\MockInterface;
+use MultipleValuesFoundException;
 use PHPUnit\Framework\TestCase;
 use ReflectionParameter;
 use Waffler\Attributes\Auth\Basic;
@@ -180,7 +181,7 @@ class ParameterReaderTest extends TestCase
      */
     public function testGetMultipartParamMustThrowErrorIfMoreThanOneMultipartParamIsGiven(): void
     {
-        $this->expectException(Exception::class);
+        $this->expectException(MultipleValuesFoundException::class);
         $this->expectExceptionMessage('Only one');
 
         $multipart1 = $this->createReflectionParameter('foo', 0, new Multipart());
