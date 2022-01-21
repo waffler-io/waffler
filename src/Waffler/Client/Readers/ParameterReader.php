@@ -32,9 +32,9 @@ use Waffler\Attributes\Request\Query;
 use Waffler\Attributes\Request\QueryParam;
 use Waffler\Attributes\Utils\RawOptions;
 use Waffler\Client\AttributeChecker;
+use Waffler\Client\Readers\Exceptions\MultipleValuesFoundException;
 use Waffler\Client\Readers\Exceptions\UnableToParsePathException;
 use Waffler\Client\Traits\InteractsWithAttributes;
-use MultipleValuesFoundException;
 use function Waffler\arraySet;
 
 /**

@@ -35,8 +35,9 @@
     }
   },
   "scripts": {
-    "psalm": "./vendor/bin/psalm",
-    "phpunit": "./vendor/bin/phpunit",
-    "php-cs-fixer": "./vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.dist.php --allow-risky=yes"
+    "psalm": "@php ./vendor/bin/psalm",
+    "phpunit": "@php ./vendor/bin/phpunit",
+    "php-cs-fixer": "@php ./vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.dist.php --allow-risky=yes",
+    "test": "@phpunit"
   }
 }

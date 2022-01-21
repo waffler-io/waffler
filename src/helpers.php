@@ -21,7 +21,8 @@ use JetBrains\PhpStorm\Pure;
  * @param non-empty-string     $pathSeparator
  *
  * @return T
- * @template T
+ * @template       T
+ * @psalm-suppress DuplicateFunction
  */
 #[Pure]
 function arrayGet(array $_, string|array $path, string $pathSeparator = '.'): mixed
@@ -43,7 +44,8 @@ function arrayGet(array $_, string|array $path, string $pathSeparator = '.'): mi
  * @param non-empty-string     $pathSeparator
  *
  * @return void
- * @author ErickJMenezes <erickmenezes.dev@gmail.com>
+ * @author         ErickJMenezes <erickmenezes.dev@gmail.com>
+ * @psalm-suppress DuplicateFunction
  */
 function arraySet(array &$_, string|array $path, mixed $value, string $pathSeparator = '.'): void
 {
@@ -66,8 +68,9 @@ function arraySet(array &$_, string|array $path, mixed $value, string $pathSepar
  * @param T|array<T> $value
  *
  * @return array<T>
- * @author ErickJMenezes <erickmenezes.dev@gmail.com>
- * @template T
+ * @author         ErickJMenezes <erickmenezes.dev@gmail.com>
+ * @template       T
+ * @psalm-suppress DuplicateFunction
  */
 #[Pure]
 function arrayWrap(mixed $value): array

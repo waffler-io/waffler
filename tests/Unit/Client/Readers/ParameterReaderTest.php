@@ -11,11 +11,9 @@
 
 namespace Waffler\Tests\Unit\Client\Readers;
 
-use Exception;
 use InvalidArgumentException;
 use Mockery as m;
 use Mockery\MockInterface;
-use MultipleValuesFoundException;
 use PHPUnit\Framework\TestCase;
 use ReflectionParameter;
 use Waffler\Attributes\Auth\Basic;
@@ -33,6 +31,7 @@ use Waffler\Attributes\Request\PathParam;
 use Waffler\Attributes\Request\Query;
 use Waffler\Attributes\Request\QueryParam;
 use Waffler\Attributes\Utils\RawOptions;
+use Waffler\Client\Readers\Exceptions\MultipleValuesFoundException;
 use Waffler\Client\Readers\Exceptions\UnableToParsePathException;
 use Waffler\Client\Readers\ParameterReader;
 
