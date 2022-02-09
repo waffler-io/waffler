@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of Waffler.
+ * This file is part of Waffler\Waffler.
  *
  * (c) Erick Johnson Almeida de Menezes <erickmenezes.dev@gmail.com>
  *
@@ -9,7 +9,7 @@
  * with this source code in the file LICENCE.
  */
 
-namespace Waffler\Tests\Fixtures\Interfaces;
+namespace Waffler\Waffler\Tests\Fixtures\Interfaces;
 
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -26,7 +26,7 @@ interface InterfaceWithValidMethodSignature
      *
      * @return \Psr\Http\Message\ResponseInterface
      * @author ErickJMenezes <erickmenezes.dev@gmail.com>
-     * @phpstan-template T
+     * @template T
      */
     public function validSignature2(
         int $first,

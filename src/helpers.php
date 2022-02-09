@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of Waffler.
+ * This file is part of Waffler\Waffler.
  *
  * (c) Erick Johnson Almeida de Menezes <erickmenezes.dev@gmail.com>
  *
@@ -9,7 +9,9 @@
  * with this source code in the file LICENCE.
  */
 
-namespace Waffler;
+namespace Waffler\Waffler;
+
+use JetBrains\PhpStorm\Pure;
 
 /**
  * Dot notation for get data inside array
@@ -19,8 +21,10 @@ namespace Waffler;
  * @param non-empty-string     $pathSeparator
  *
  * @return T
- * @template T
+ * @template       T
+ * @psalm-suppress DuplicateFunction
  */
+#[Pure]
 function arrayGet(array $_, string|array $path, string $pathSeparator = '.'): mixed
 {
     $propNames = is_array($path) ? $path : explode($pathSeparator, $path);
@@ -40,7 +44,8 @@ function arrayGet(array $_, string|array $path, string $pathSeparator = '.'): mi
  * @param non-empty-string     $pathSeparator
  *
  * @return void
- * @author ErickJMenezes <erickmenezes.dev@gmail.com>
+ * @author         ErickJMenezes <erickmenezes.dev@gmail.com>
+ * @psalm-suppress DuplicateFunction
  */
 function arraySet(array &$_, string|array $path, mixed $value, string $pathSeparator = '.'): void
 {
@@ -63,9 +68,11 @@ function arraySet(array &$_, string|array $path, mixed $value, string $pathSepar
  * @param T|array<T> $value
  *
  * @return array<T>
- * @author ErickJMenezes <erickmenezes.dev@gmail.com>
- * @template T
+ * @author         ErickJMenezes <erickmenezes.dev@gmail.com>
+ * @template       T
+ * @psalm-suppress DuplicateFunction
  */
+#[Pure]
 function arrayWrap(mixed $value): array
 {
     if (is_array($value)) {

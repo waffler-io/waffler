@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of Waffler.
+ * This file is part of Waffler\Waffler.
  *
  * (c) Erick Johnson Almeida de Menezes <erickmenezes.dev@gmail.com>
  *
@@ -9,9 +9,9 @@
  * with this source code in the file LICENCE.
  */
 
-namespace Waffler\Attributes\Request;
+namespace Waffler\Waffler\Attributes\Request;
 
-use Waffler\Attributes\Contracts\Pathable;
+use Waffler\Waffler\Attributes\Contracts\Pathable;
 
 /**
  * Class Path.
@@ -23,7 +23,7 @@ use Waffler\Attributes\Contracts\Pathable;
  * just for this specific method.
  *
  * @author  ErickJMenezes <erickmenezes.dev@gmail.com>
- * @package Waffler\Attributes\Request
+ * @package Waffler\Waffler\Attributes\Request
  */
 #[\Attribute(\Attribute::TARGET_CLASS | \Attribute::TARGET_METHOD)]
 class Path implements Pathable

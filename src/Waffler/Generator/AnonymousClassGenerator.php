@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of Waffler.
+ * This file is part of Waffler\Waffler.
  *
  * (c) Erick Johnson Almeida de Menezes <erickmenezes.dev@gmail.com>
  *
@@ -11,13 +11,13 @@ declare(strict_types=1);
  * with this source code in the file LICENCE.
  */
 
-namespace Waffler\Generator;
+namespace Waffler\Waffler\Generator;
 
 use Closure;
 use InvalidArgumentException;
 use ReflectionClass;
-use Waffler\Generator\Contracts\InterfaceInstantiator;
-use Waffler\Generator\Contracts\MethodCallHandler;
+use Waffler\Waffler\Generator\Contracts\InterfaceInstantiator;
+use Waffler\Waffler\Generator\Contracts\MethodCallHandler;
 
 /**
  * Class ClassGenerator.
@@ -27,8 +27,7 @@ use Waffler\Generator\Contracts\MethodCallHandler;
 class AnonymousClassGenerator implements InterfaceInstantiator
 {
     /**
-     * @phpstan-var array<string, TFactoryFunction>
-     * @phpstan-template TFactoryFunction of \Waffler\Generator\FactoryFunction
+     * @psalm-var array<string, \Waffler\Waffler\Generator\FactoryFunction>
      */
     private static array $cache = [];
 
@@ -54,14 +53,13 @@ class AnonymousClassGenerator implements InterfaceInstantiator
      *
      * @param \ReflectionClass<TInterfaceType> $reflectionInterface
      *
-     * @return \Waffler\Generator\FactoryFunction<TInterfaceType>
+     * @return \Waffler\Waffler\Generator\FactoryFunction<TInterfaceType>
      * @throws \Exception
-     * @phpstan-template TInterfaceType of object
+     * @psalm-template TInterfaceType of object
      * @author   ErickJMenezes <erickmenezes.dev@gmail.com>
      */
     private function getFactoryFunction(ReflectionClass $reflectionInterface): FactoryFunction
     {
-        // @phpstan-ignore-next-line
         return self::$cache[$reflectionInterface->name]
             ??= new FactoryFunction($this->createClosure($reflectionInterface));
     }
@@ -74,7 +72,7 @@ class AnonymousClassGenerator implements InterfaceInstantiator
      * @return \Closure(MethodCallHandler<TInterfaceType>): TInterfaceType
      * @throws \Exception
      * @author   ErickJMenezes <erickmenezes.dev@gmail.com>
-     * @phpstan-template TInterfaceType of object
+     * @psalm-template TInterfaceType of object
      */
     private function createClosure(ReflectionClass $reflectionInterface): Closure
     {

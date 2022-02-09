@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of Waffler.
+ * This file is part of Waffler\Waffler.
  *
  * (c) Erick Johnson Almeida de Menezes <erickmenezes.dev@gmail.com>
  *
@@ -11,12 +11,12 @@ declare(strict_types=1);
  * with this source code in the file LICENCE.
  */
 
-namespace Waffler\Client;
+namespace Waffler\Waffler\Client;
 
 use GuzzleHttp\Client;
 use ReflectionClass;
-use Waffler\Client\Contracts\FactoryInterface;
-use Waffler\Generator\AnonymousClassGenerator;
+use Waffler\Waffler\Client\Contracts\FactoryInterface;
+use Waffler\Waffler\Generator\AnonymousClassGenerator;
 
 /**
  * Class Client

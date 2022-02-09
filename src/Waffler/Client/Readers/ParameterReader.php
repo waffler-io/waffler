@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of Waffler.
+ * This file is part of Waffler\Waffler.
  *
  * (c) Erick Johnson Almeida de Menezes <erickmenezes.dev@gmail.com>
  *
@@ -9,32 +9,33 @@
  * with this source code in the file LICENCE.
  */
 
-namespace Waffler\Client\Readers;
+namespace Waffler\Waffler\Client\Readers;
 
-use Exception;
 use InvalidArgumentException;
 use JetBrains\PhpStorm\Pure;
 use ReflectionParameter;
-use Waffler\Attributes\Auth\Basic;
-use Waffler\Attributes\Auth\Bearer;
-use Waffler\Attributes\Auth\Digest;
-use Waffler\Attributes\Auth\Ntml;
-use Waffler\Attributes\Contracts\ArraySettable;
-use Waffler\Attributes\Request\Body;
-use Waffler\Attributes\Request\FormData;
-use Waffler\Attributes\Request\FormParam;
-use Waffler\Attributes\Request\HeaderParam;
-use Waffler\Attributes\Request\Json;
-use Waffler\Attributes\Request\JsonParam;
-use Waffler\Attributes\Request\Multipart;
-use Waffler\Attributes\Request\PathParam;
-use Waffler\Attributes\Request\Query;
-use Waffler\Attributes\Request\QueryParam;
-use Waffler\Attributes\Utils\RawOptions;
-use Waffler\Client\AttributeChecker;
-use Waffler\Client\Traits\InteractsWithAttributes;
+use Waffler\Waffler\Attributes\Auth\Basic;
+use Waffler\Waffler\Attributes\Auth\Bearer;
+use Waffler\Waffler\Attributes\Auth\Digest;
+use Waffler\Waffler\Attributes\Auth\Ntml;
+use Waffler\Waffler\Attributes\Contracts\ArraySettable;
+use Waffler\Waffler\Attributes\Request\Body;
+use Waffler\Waffler\Attributes\Request\FormData;
+use Waffler\Waffler\Attributes\Request\FormParam;
+use Waffler\Waffler\Attributes\Request\HeaderParam;
+use Waffler\Waffler\Attributes\Request\Json;
+use Waffler\Waffler\Attributes\Request\JsonParam;
+use Waffler\Waffler\Attributes\Request\Multipart;
+use Waffler\Waffler\Attributes\Request\PathParam;
+use Waffler\Waffler\Attributes\Request\Query;
+use Waffler\Waffler\Attributes\Request\QueryParam;
+use Waffler\Waffler\Attributes\Utils\RawOptions;
+use Waffler\Waffler\Client\AttributeChecker;
+use Waffler\Waffler\Client\Readers\Exceptions\MultipleValuesFoundException;
+use Waffler\Waffler\Client\Readers\Exceptions\UnableToParsePathException;
+use Waffler\Waffler\Client\Traits\InteractsWithAttributes;
 
-use function Waffler\arraySet;
+use function Waffler\Waffler\arraySet;
 
 /**
  * Class ParameterReader.
@@ -74,7 +75,7 @@ class ParameterReader
     }
 
     /**
-     * @return array<int|string,string>
+     * @return array<int|string, array<array-key, string>|mixed|string>
      * @throws \Exception
      */
     public function getHeaderParams(): array
@@ -169,7 +170,7 @@ class ParameterReader
      *
      * @return string
      * @throws \InvalidArgumentException If the Value of PathParam does not pass the type check.
-     * @throws \Exception If the path param is not used, or is repeated, or has no replacement that use it.
+     * @throws UnableToParsePathException If the path param is not used, or is repeated, or has no replacement that use it.
      */
     public function parsePath(string $path): string
     {
@@ -182,14 +183,14 @@ class ParameterReader
             $count = 0;
             $path = str_replace('{'.$placeholder.'}', (string) $value, $path, $count);
             if ($count === 0) {
-                throw new Exception("The argument \"$placeholder\" is not used by any path parameter.");
+                throw new UnableToParsePathException("The argument \"$placeholder\" is not used by any path parameter.", 1);
             } elseif ($count > 1) {
-                throw new Exception("The path parameter \"$placeholder\" is repeated.");
+                throw new UnableToParsePathException("The path parameter \"$placeholder\" is repeated.", 2);
             }
         }
         $missing = [];
         if (preg_match('/{.*?}/', $path, $missing)) {
-            throw new Exception("The path parameter \"$missing[0]\" has no replacement.");
+            throw new UnableToParsePathException("The path parameter \"$missing[0]\" has no replacement.", 3);
         }
         return $path;
     }
@@ -198,17 +199,17 @@ class ParameterReader
 
     /**
      * @param class-string<TAttributeType> $attribute
-     * @param mixed                        $default
+     * @param mixed                              $default
      *
      * @return mixed
      * @template TAttributeType
-     * @throws \Exception
+     * @throws MultipleValuesFoundException
      */
     private function valueFor(string $attribute, mixed $default = null): mixed
     {
         $data = $this->valuesFor($attribute);
         if (count($data) > 1) {
-            throw new Exception("Only one attribute of type {$attribute} are allowed");
+            throw new MultipleValuesFoundException("Only one attribute of type {$attribute} are allowed");
         }
         return $data[0] ?? $default;
     }
@@ -234,8 +235,8 @@ class ParameterReader
     }
 
     /**
-     * @param class-string                                               $listTypeAttribute
-     * @param class-string<\Waffler\Attributes\Contracts\KeyedAttribute> $singleTypeAttribute
+     * @param class-string                                                       $listTypeAttribute
+     * @param class-string<\Waffler\Waffler\Attributes\Contracts\KeyedAttribute> $singleTypeAttribute
      *
      * @return array<int|string, mixed>
      * @throws \Exception
@@ -306,7 +307,7 @@ class ParameterReader
     }
 
     /**
-     * @param class-string<\Waffler\Attributes\Contracts\KeyedAttribute> $singleTypeAttribute
+     * @param class-string<\Waffler\Waffler\Attributes\Contracts\KeyedAttribute> $singleTypeAttribute
      *
      * @return array<int|string, mixed>
      * @author ErickJMenezes <erickmenezes.dev@gmail.com>

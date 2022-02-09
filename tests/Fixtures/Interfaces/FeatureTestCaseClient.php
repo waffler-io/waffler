@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of Waffler.
+ * This file is part of Waffler\Waffler.
  *
  * (c) Erick Johnson Almeida de Menezes <erickmenezes.dev@gmail.com>
  *
@@ -9,35 +9,35 @@
  * with this source code in the file LICENCE.
  */
 
-namespace Waffler\Tests\Fixtures\Interfaces;
+namespace Waffler\Waffler\Tests\Fixtures\Interfaces;
 
-use Waffler\Attributes\Auth\Basic;
-use Waffler\Attributes\Auth\Bearer;
-use Waffler\Attributes\Auth\Digest;
-use Waffler\Attributes\Auth\Ntml;
-use Waffler\Attributes\Request\Body;
-use Waffler\Attributes\Request\FormData;
-use Waffler\Attributes\Request\FormParam;
-use Waffler\Attributes\Request\Json;
-use Waffler\Attributes\Request\JsonParam;
-use Waffler\Attributes\Request\Multipart;
-use Waffler\Attributes\Request\Path;
-use Waffler\Attributes\Request\PathParam;
-use Waffler\Attributes\Request\Produces;
-use Waffler\Attributes\Request\Query;
-use Waffler\Attributes\Request\QueryParam;
-use Waffler\Attributes\Request\Timeout;
-use Waffler\Attributes\Utils\NestedResource;
-use Waffler\Attributes\Utils\RawOptions;
-use Waffler\Attributes\Utils\Suppress;
-use Waffler\Attributes\Utils\Unwrap;
-use Waffler\Attributes\Verbs\Delete;
-use Waffler\Attributes\Verbs\Get;
-use Waffler\Attributes\Verbs\Head;
-use Waffler\Attributes\Verbs\Options;
-use Waffler\Attributes\Verbs\Patch;
-use Waffler\Attributes\Verbs\Post;
-use Waffler\Attributes\Verbs\Put;
+use Waffler\Waffler\Attributes\Auth\Basic;
+use Waffler\Waffler\Attributes\Auth\Bearer;
+use Waffler\Waffler\Attributes\Auth\Digest;
+use Waffler\Waffler\Attributes\Auth\Ntml;
+use Waffler\Waffler\Attributes\Request\Body;
+use Waffler\Waffler\Attributes\Request\FormData;
+use Waffler\Waffler\Attributes\Request\FormParam;
+use Waffler\Waffler\Attributes\Request\Json;
+use Waffler\Waffler\Attributes\Request\JsonParam;
+use Waffler\Waffler\Attributes\Request\Multipart;
+use Waffler\Waffler\Attributes\Request\Path;
+use Waffler\Waffler\Attributes\Request\PathParam;
+use Waffler\Waffler\Attributes\Request\Produces;
+use Waffler\Waffler\Attributes\Request\Query;
+use Waffler\Waffler\Attributes\Request\QueryParam;
+use Waffler\Waffler\Attributes\Request\Timeout;
+use Waffler\Waffler\Attributes\Utils\NestedResource;
+use Waffler\Waffler\Attributes\Utils\RawOptions;
+use Waffler\Waffler\Attributes\Utils\Suppress;
+use Waffler\Waffler\Attributes\Utils\Unwrap;
+use Waffler\Waffler\Attributes\Verbs\Delete;
+use Waffler\Waffler\Attributes\Verbs\Get;
+use Waffler\Waffler\Attributes\Verbs\Head;
+use Waffler\Waffler\Attributes\Verbs\Options;
+use Waffler\Waffler\Attributes\Verbs\Patch;
+use Waffler\Waffler\Attributes\Verbs\Post;
+use Waffler\Waffler\Attributes\Verbs\Put;
 
 /**
  * Interface FeatureTestCaseClient.

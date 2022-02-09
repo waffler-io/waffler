@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of Waffler.
+ * This file is part of Waffler\Waffler.
  *
  * (c) Erick Johnson Almeida de Menezes <erickmenezes.dev@gmail.com>
  *
@@ -9,13 +9,13 @@
  * with this source code in the file LICENCE.
  */
 
-namespace Waffler\Tests\Fixtures;
+namespace Waffler\Waffler\Tests\Fixtures;
 
 use GuzzleHttp\Handler\MockHandler;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
-use Waffler\Client\Factory;
-use Waffler\Tests\Fixtures\Interfaces\FeatureTestCaseClient;
+use Waffler\Waffler\Client\Factory;
+use Waffler\Waffler\Tests\Fixtures\Interfaces\FeatureTestCaseClient;
 
 /**
  * Class BaseFeatureTestCase.
@@ -51,14 +51,11 @@ class FeatureTestCase extends TestCase
     }
 
     /**
-     * @return \Waffler\Tests\Fixtures\RequestExpectation<static>
+     * @return \Waffler\Waffler\Tests\Fixtures\RequestExpectation
      * @author ErickJMenezes <erickmenezes.dev@gmail.com>
      */
     protected function createRequestExpectation(): RequestExpectation
     {
-        // @phpstan-ignore-next-line
-        return new RequestExpectation(function (\Closure $handler) {
-            $this->addHandler($handler);
-        }, $this);
+        return new RequestExpectation(fn (\Closure $handler) => $this->addHandler($handler), $this);
     }
 }

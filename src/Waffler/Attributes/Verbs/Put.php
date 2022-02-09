@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of Waffler.
+ * This file is part of Waffler\Waffler.
  *
  * (c) Erick Johnson Almeida de Menezes <erickmenezes.dev@gmail.com>
  *
@@ -9,7 +9,7 @@
  * with this source code in the file LICENCE.
  */
 
-namespace Waffler\Attributes\Verbs;
+namespace Waffler\Waffler\Attributes\Verbs;
 
 use Attribute;
 
@@ -17,7 +17,7 @@ use Attribute;
  * Class Put.
  *
  * @author  ErickJMenezes <erickmenezes.dev@gmail.com>
- * @package Waffler\Attributes\Verbs
+ * @package Waffler\Waffler\Attributes\Verbs
  */
 #[Attribute(Attribute::TARGET_METHOD)]
 class Put extends AbstractHttpMethod

@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of Waffler.
+ * This file is part of Waffler\Waffler.
  *
  * (c) Erick Johnson Almeida de Menezes <erickmenezes.dev@gmail.com>
  *
@@ -11,11 +11,9 @@
 
 require __DIR__ . '/../vendor/autoload.php';
 
-use Waffler\Attributes\Auth\Bearer;
-use Waffler\Attributes\Request\Headers;
-use Waffler\Attributes\Request\PathParam;
-use Waffler\Attributes\Verbs\Get;
-use Waffler\Client\Factory;
+use Waffler\Waffler\Attributes\Auth\Bearer;
+use Waffler\Waffler\Attributes\Verbs\Get;
+use Waffler\Waffler\Client\Factory;
 
 interface ExampleClientInterface
 {

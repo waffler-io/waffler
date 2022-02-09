@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of Waffler.
+ * This file is part of Waffler\Waffler.
  *
  * (c) Erick Johnson Almeida de Menezes <erickmenezes.dev@gmail.com>
  *
@@ -9,7 +9,7 @@
  * with this source code in the file LICENCE.
  */
 
-namespace Waffler\Attributes\Contracts;
+namespace Waffler\Waffler\Attributes\Contracts;
 
 /**
  * Interface ArraySettable.
@@ -23,9 +23,9 @@ interface ArraySettable
     /**
      * Retrieves the path separator to be used in arraySet function.
      *
-     * @return non-empty-string
-     * @author ErickJMenezes <erickmenezes.dev@gmail.com>
-     * @see \Waffler\arraySet()
+     * @return string
+     * @see \Waffler\Waffler\arraySet()
+     *@author ErickJMenezes <erickmenezes.dev@gmail.com>
      */
     public function getPathSeparator(): string;
 }

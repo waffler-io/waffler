@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of Waffler.
+ * This file is part of Waffler\Waffler.
  *
  * (c) Erick Johnson Almeida de Menezes <erickmenezes.dev@gmail.com>
  *
@@ -11,14 +11,14 @@
 
 require __DIR__ . '/../vendor/autoload.php';
 
-use Waffler\Attributes\Request\Json;
-use Waffler\Attributes\Request\PathParam;
-use Waffler\Attributes\Request\Query;
-use Waffler\Attributes\Verbs\Delete;
-use Waffler\Attributes\Verbs\Get;
-use Waffler\Attributes\Verbs\Patch;
-use Waffler\Attributes\Verbs\Post;
-use Waffler\Client\Factory;
+use Waffler\Waffler\Attributes\Request\Json;
+use Waffler\Waffler\Attributes\Request\PathParam;
+use Waffler\Waffler\Attributes\Request\Query;
+use Waffler\Waffler\Attributes\Verbs\Delete;
+use Waffler\Waffler\Attributes\Verbs\Get;
+use Waffler\Waffler\Attributes\Verbs\Patch;
+use Waffler\Waffler\Attributes\Verbs\Post;
+use Waffler\Waffler\Client\Factory;
 
 interface JsonPlaceholderInterface
 {

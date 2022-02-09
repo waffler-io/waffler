@@ -9,19 +9,14 @@
  * with this source code in the file LICENCE.
  */
 
-namespace Waffler\Waffler\Attributes\Request;
+namespace Waffler\Waffler\Tests\Fixtures\Interfaces;
 
 /**
- * Class Timeout.
+ * Interface AnonymousClassGenerationTestCaseClientInterface.
  *
- * @see    \GuzzleHttp\RequestOptions::TIMEOUT
  * @author ErickJMenezes <erickmenezes.dev@gmail.com>
  */
-#[\Attribute(\Attribute::TARGET_METHOD)]
-class Timeout
+interface AnonymousClassGenerationTestCaseClientInterface
 {
-    public function __construct(
-        public int $timeout = 0
-    ) {
-    }
+    public function foo(string $foo): string;
 }

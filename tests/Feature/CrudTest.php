@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of Waffler.
+ * This file is part of Waffler\Waffler.
  *
  * (c) Erick Johnson Almeida de Menezes <erickmenezes.dev@gmail.com>
  *
@@ -9,14 +9,14 @@
  * with this source code in the file LICENCE.
  */
 
-namespace Waffler\Tests\Feature;
+namespace Waffler\Waffler\Tests\Feature;
 
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\RequestInterface;
-use Waffler\Client\Factory;
-use Waffler\Tests\Fixtures\CrudTestCaseClient;
+use Waffler\Waffler\Client\Factory;
+use Waffler\Waffler\Tests\Fixtures\CrudTestCaseClient;
 
 /**
  * Class CrudTest.
