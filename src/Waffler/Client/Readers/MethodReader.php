@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of Waffler.
+ * This file is part of Waffler\Waffler.
  *
  * (c) Erick Johnson Almeida de Menezes <erickmenezes.dev@gmail.com>
  *
@@ -9,24 +9,23 @@
  * with this source code in the file LICENCE.
  */
 
-namespace Waffler\Client\Readers;
+namespace Waffler\Waffler\Client\Readers;
 
 use BadMethodCallException;
 use GuzzleHttp\Promise\PromiseInterface;
 use GuzzleHttp\RequestOptions;
-use JetBrains\PhpStorm\Pure;
 use ReflectionAttribute;
 use ReflectionMethod;
 use ReflectionNamedType;
-use Waffler\Attributes\Contracts\Verb;
-use Waffler\Attributes\Request\Headers;
-use Waffler\Attributes\Request\Path;
-use Waffler\Attributes\Request\Produces;
-use Waffler\Attributes\Request\Timeout;
-use Waffler\Attributes\Utils\NestedResource;
-use Waffler\Attributes\Utils\Suppress;
-use Waffler\Attributes\Utils\Unwrap;
-use Waffler\Client\Traits\InteractsWithAttributes;
+use Waffler\Waffler\Attributes\Contracts\Verb;
+use Waffler\Waffler\Attributes\Request\Headers;
+use Waffler\Waffler\Attributes\Request\Path;
+use Waffler\Waffler\Attributes\Request\Produces;
+use Waffler\Waffler\Attributes\Request\Timeout;
+use Waffler\Waffler\Attributes\Utils\NestedResource;
+use Waffler\Waffler\Attributes\Utils\Suppress;
+use Waffler\Waffler\Attributes\Utils\Unwrap;
+use Waffler\Waffler\Client\Traits\InteractsWithAttributes;
 
 /**
  * Class MethodReader.
@@ -49,13 +48,11 @@ class MethodReader
     ) {
     }
 
-    #[Pure]
     public function isSuppressed(): bool
     {
         return $this->reflectionHasAttribute($this->reflectionMethod, Suppress::class);
     }
 
-    #[Pure]
     public function mustUnwrap(): bool
     {
         return $this->reflectionHasAttribute($this->reflectionMethod, Unwrap::class);
@@ -193,7 +190,7 @@ class MethodReader
     /**
      * Retrieves the verb from the reflection method.
      *
-     * @return \Waffler\Attributes\Contracts\Verb
+     * @return \Waffler\Waffler\Attributes\Contracts\Verb
      * @throws \BadMethodCallException If the reflection method has no verb attribute.
      * @author ErickJMenezes <erickmenezes.dev@gmail.com>
      */
@@ -216,12 +213,11 @@ class MethodReader
      */
     public function getReturnType(): string
     {
-        $method = $this->reflectionMethod;
-        if ($method->hasReturnType() && $method->getReturnType() instanceof ReflectionNamedType) {
-            return $method->getReturnType()->getName();
-        } else {
-            return 'mixed';
-        }
+        $reflectionReturnType = $this->reflectionMethod->getReturnType();
+
+        return $reflectionReturnType instanceof ReflectionNamedType
+            ? $reflectionReturnType->getName()
+            : 'mixed';
     }
 
     /**
@@ -239,7 +235,7 @@ class MethodReader
     /**
      * Retrieves new parameter reader instance.
      *
-     * @return \Waffler\Client\Readers\ParameterReader
+     * @return \Waffler\Waffler\Client\Readers\ParameterReader
      * @author ErickJMenezes <erickmenezes.dev@gmail.com>
      */
     public function newParameterReader(): ParameterReader

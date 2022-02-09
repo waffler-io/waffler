@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of Waffler.
+ * This file is part of Waffler\Waffler.
  *
  * (c) Erick Johnson Almeida de Menezes <erickmenezes.dev@gmail.com>
  *
@@ -9,17 +9,17 @@
  * with this source code in the file LICENCE.
  */
 
-namespace Waffler\Tests\Fixtures\Interfaces;
+namespace Waffler\Waffler\Tests\Fixtures\Interfaces;
 
-use Waffler\Attributes\Request\Path;
-use Waffler\Attributes\Request\PathParam;
-use Waffler\Attributes\Utils\NestedResource;
-use Waffler\Attributes\Verbs\Get;
+use Waffler\Waffler\Attributes\Request\Path;
+use Waffler\Waffler\Attributes\Request\PathParam;
+use Waffler\Waffler\Attributes\Utils\NestedResource;
+use Waffler\Waffler\Attributes\Verbs\Get;
 
 /**
  * Interface ProxyTestClientInterface.
  *
- * This interface is intended for doing the tests for the {@see \Waffler\Tests\Unit\Client\ProxyTest proxy test}.
+ * This interface is intended for doing the tests for the {@see \Waffler\Waffler\Tests\Unit\Client\ProxyTest proxy test}.
  *
  * @author ErickJMenezes <erickmenezes.dev@gmail.com>
  */

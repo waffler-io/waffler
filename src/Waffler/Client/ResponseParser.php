@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of Waffler.
+ * This file is part of Waffler\Waffler.
  *
  * (c) Erick Johnson Almeida de Menezes <erickmenezes.dev@gmail.com>
  *
@@ -11,7 +11,7 @@ declare(strict_types=1);
  * with this source code in the file LICENCE.
  */
 
-namespace Waffler\Client;
+namespace Waffler\Waffler\Client;
 
 use ArrayObject;
 use GuzzleHttp\Psr7\Response;
@@ -20,13 +20,13 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 use TypeError;
 
-use function Waffler\arrayGet;
+use function Waffler\Waffler\arrayGet;
 
 /**
  * Class ResponseTransformer.
  *
  * @author   ErickJMenezes <erickmenezes.dev@gmail.com>
- * @package  Waffler\Client
+ * @package  Waffler\Waffler\Client
  * @internal
  */
 class ResponseParser

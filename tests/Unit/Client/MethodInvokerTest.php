@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of Waffler.
+ * This file is part of Waffler\Waffler.
  *
  * (c) Erick Johnson Almeida de Menezes <erickmenezes.dev@gmail.com>
  *
@@ -9,7 +9,7 @@
  * with this source code in the file LICENCE.
  */
 
-namespace Waffler\Tests\Unit\Client;
+namespace Waffler\Waffler\Tests\Unit\Client;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
@@ -18,23 +18,23 @@ use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 use ReflectionMethod;
-use Waffler\Client\MethodInvoker;
-use Waffler\Client\ResponseParser;
-use Waffler\Tests\Fixtures\Interfaces\MethodInvokerTestClientInterface;
+use Waffler\Waffler\Client\MethodInvoker;
+use Waffler\Waffler\Client\ResponseParser;
+use Waffler\Waffler\Tests\Fixtures\Interfaces\MethodInvokerTestClientInterface;
 
 /**
  * Class MethodInvokerTest.
  *
  * @author ErickJMenezes <erickmenezes.dev@gmail.com>
- * @covers \Waffler\Client\MethodInvoker
- * @uses   \Waffler\Attributes\Verbs\AbstractHttpMethod
- * @uses   \Waffler\Attributes\Verbs\Get
- * @uses   \Waffler\Client\Readers\MethodReader
- * @uses   \Waffler\Client\Readers\ParameterReader
- * @uses   \Waffler\Client\Traits\InteractsWithAttributes
- * @uses   \Waffler\Attributes\Utils\Unwrap
- * @uses   \Waffler\Client\ResponseParser
- * @uses   \Waffler\arrayGet()
+ * @covers \Waffler\Waffler\Client\MethodInvoker
+ * @uses   \Waffler\Waffler\Attributes\Verbs\AbstractHttpMethod
+ * @uses   \Waffler\Waffler\Attributes\Verbs\Get
+ * @uses   \Waffler\Waffler\Client\Readers\MethodReader
+ * @uses   \Waffler\Waffler\Client\Readers\ParameterReader
+ * @uses   \Waffler\Waffler\Client\Traits\InteractsWithAttributes
+ * @uses   \Waffler\Waffler\Attributes\Utils\Unwrap
+ * @uses   \Waffler\Waffler\Client\ResponseParser
+ * @uses   \Waffler\Waffler\arrayGet()
  */
 class MethodInvokerTest extends TestCase
 {

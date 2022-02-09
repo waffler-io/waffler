@@ -9,19 +9,18 @@
  * with this source code in the file LICENCE.
  */
 
-namespace Waffler\Waffler\Attributes\Request;
+namespace Waffler\Waffler\Client\Readers\Exceptions;
+
+use RuntimeException;
 
 /**
- * Class Timeout.
+ * class UnableToParsePathException.
  *
- * @see    \GuzzleHttp\RequestOptions::TIMEOUT
+ * This exception is thrown when is not possible to interpolate the path of the request.
+ *
  * @author ErickJMenezes <erickmenezes.dev@gmail.com>
  */
-#[\Attribute(\Attribute::TARGET_METHOD)]
-class Timeout
+class UnableToParsePathException extends RuntimeException
 {
-    public function __construct(
-        public int $timeout = 0
-    ) {
-    }
+    //
 }

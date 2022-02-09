@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of Waffler.
+ * This file is part of Waffler\Waffler.
  *
  * (c) Erick Johnson Almeida de Menezes <erickmenezes.dev@gmail.com>
  *
@@ -9,30 +9,30 @@
  * with this source code in the file LICENCE.
  */
 
-namespace Waffler\Tests\Unit\Client;
+namespace Waffler\Waffler\Tests\Unit\Client;
 
 use PHPUnit\Framework\TestCase;
-use Waffler\Attributes\Auth\Basic;
-use Waffler\Attributes\Auth\Bearer;
-use Waffler\Attributes\Auth\Digest;
-use Waffler\Attributes\Auth\Ntml;
-use Waffler\Attributes\Request\FormData;
-use Waffler\Attributes\Request\HeaderParam;
-use Waffler\Attributes\Request\Headers;
-use Waffler\Attributes\Request\Json;
-use Waffler\Attributes\Request\JsonParam;
-use Waffler\Attributes\Request\Multipart;
-use Waffler\Attributes\Request\PathParam;
-use Waffler\Attributes\Request\Query;
-use Waffler\Attributes\Request\QueryParam;
-use Waffler\Attributes\Utils\RawOptions;
-use Waffler\Client\AttributeChecker;
+use Waffler\Waffler\Attributes\Auth\Basic;
+use Waffler\Waffler\Attributes\Auth\Bearer;
+use Waffler\Waffler\Attributes\Auth\Digest;
+use Waffler\Waffler\Attributes\Auth\Ntml;
+use Waffler\Waffler\Attributes\Request\FormData;
+use Waffler\Waffler\Attributes\Request\HeaderParam;
+use Waffler\Waffler\Attributes\Request\Headers;
+use Waffler\Waffler\Attributes\Request\Json;
+use Waffler\Waffler\Attributes\Request\JsonParam;
+use Waffler\Waffler\Attributes\Request\Multipart;
+use Waffler\Waffler\Attributes\Request\PathParam;
+use Waffler\Waffler\Attributes\Request\Query;
+use Waffler\Waffler\Attributes\Request\QueryParam;
+use Waffler\Waffler\Attributes\Utils\RawOptions;
+use Waffler\Waffler\Client\AttributeChecker;
 
 /**
  * Class AttributeCheckerTest.
  *
  * @author ErickJMenezes <erickmenezes.dev@gmail.com>
- * @covers \Waffler\Client\AttributeChecker
+ * @covers \Waffler\Waffler\Client\AttributeChecker
  */
 class AttributeCheckerTest extends TestCase
 {
@@ -90,7 +90,7 @@ class AttributeCheckerTest extends TestCase
      * @return void
      * @author ErickJMenezes <erickmenezes.dev@gmail.com>
      */
-    private function createExpectationsFor(array $items): void //@phpstan-ignore-line
+    private function createExpectationsFor(array $items): void
     {
         foreach ($items as [$attributes, $values]) {
             foreach ($attributes as $attribute) {

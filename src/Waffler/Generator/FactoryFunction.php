@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of Waffler.
+ * This file is part of Waffler\Waffler.
  *
  * (c) Erick Johnson Almeida de Menezes <erickmenezes.dev@gmail.com>
  *
@@ -11,21 +11,21 @@ declare(strict_types=1);
  * with this source code in the file LICENCE.
  */
 
-namespace Waffler\Generator;
+namespace Waffler\Waffler\Generator;
 
 use Closure;
-use Waffler\Generator\Contracts\MethodCallHandler;
+use Waffler\Waffler\Generator\Contracts\MethodCallHandler;
 
 /**
  * Class FactoryFunction.
  *
  * @author   ErickJMenezes <erickmenezes.dev@gmail.com>
- * @phpstan-template TInterfaceType of object
+ * @psalm-template TInterfaceType of object
  */
 class FactoryFunction
 {
     /**
-     * @phpstan-param \Closure(MethodCallHandler<TInterfaceType>): TInterfaceType $factoryFunction
+     * @param \Closure(MethodCallHandler<TInterfaceType>): TInterfaceType $factoryFunction
      */
     public function __construct(
         private Closure $factoryFunction

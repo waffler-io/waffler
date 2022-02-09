@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of Waffler.
+ * This file is part of Waffler\Waffler.
  *
  * (c) Erick Johnson Almeida de Menezes <erickmenezes.dev@gmail.com>
  *
@@ -9,9 +9,9 @@
  * with this source code in the file LICENCE.
  */
 
-namespace Waffler\Tests\Feature\Attributes\Verbs;
+namespace Waffler\Waffler\Tests\Feature\Attributes\Verbs;
 
-use Waffler\Tests\Fixtures\FeatureTestCase;
+use Waffler\Waffler\Tests\Fixtures\FeatureTestCase;
 
 /**
  * Class VerbsTest.

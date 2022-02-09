@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of Waffler.
+ * This file is part of Waffler\Waffler.
  *
  * (c) Erick Johnson Almeida de Menezes <erickmenezes.dev@gmail.com>
  *
@@ -9,11 +9,10 @@
  * with this source code in the file LICENCE.
  */
 
-namespace Waffler\Tests\Feature\Attributes\Utils;
+namespace Waffler\Waffler\Tests\Feature\Attributes\Utils;
 
 use GuzzleHttp\Psr7\Response;
-use Psr\Http\Message\ResponseInterface;
-use Waffler\Tests\Fixtures\FeatureTestCase;
+use Waffler\Waffler\Tests\Fixtures\FeatureTestCase;
 
 /**
  * Class UnwrapTest.

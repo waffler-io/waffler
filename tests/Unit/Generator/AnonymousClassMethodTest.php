@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of Waffler.
+ * This file is part of Waffler\Waffler.
  *
  * (c) Erick Johnson Almeida de Menezes <erickmenezes.dev@gmail.com>
  *
@@ -9,19 +9,19 @@
  * with this source code in the file LICENCE.
  */
 
-namespace Waffler\Tests\Unit\Generator;
+namespace Waffler\Waffler\Tests\Unit\Generator;
 
-use Waffler\Generator\Exceptions\MethodCompilingException;
-use Waffler\Generator\AnonymousClassMethod;
 use PHPUnit\Framework\TestCase;
-use Waffler\Tests\Fixtures\Interfaces\InterfaceWithInvalidMethodSignature;
-use Waffler\Tests\Fixtures\Interfaces\InterfaceWithValidMethodSignature;
+use Waffler\Waffler\Generator\AnonymousClassMethod;
+use Waffler\Waffler\Generator\Exceptions\MethodCompilingException;
+use Waffler\Waffler\Tests\Fixtures\Interfaces\InterfaceWithInvalidMethodSignature;
+use Waffler\Waffler\Tests\Fixtures\Interfaces\InterfaceWithValidMethodSignature;
 
 /**
  * Class MethodCompilerTest.
  *
  * @author ErickJMenezes <erickmenezes.dev@gmail.com>
- * @covers \Waffler\Generator\AnonymousClassMethod
+ * @covers \Waffler\Waffler\Generator\AnonymousClassMethod
  */
 class AnonymousClassMethodTest extends TestCase
 {

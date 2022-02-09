@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of Waffler.
+ * This file is part of Waffler\Waffler.
  *
  * (c) Erick Johnson Almeida de Menezes <erickmenezes.dev@gmail.com>
  *
@@ -9,15 +9,15 @@
  * with this source code in the file LICENCE.
  */
 
-namespace Waffler\Attributes\Verbs;
+namespace Waffler\Waffler\Attributes\Verbs;
 
-use Waffler\Attributes\Contracts\Verb;
+use Waffler\Waffler\Attributes\Contracts\Verb;
 
 /**
  * Base http method attribute class.
  *
  * @author  ErickJMenezes <erickmenezes.dev@gmail.com>
- * @package Waffler\Attributes\Verbs
+ * @package Waffler\Waffler\Attributes\Verbs
  * @internal For internal use only.
  */
 abstract class AbstractHttpMethod implements Verb

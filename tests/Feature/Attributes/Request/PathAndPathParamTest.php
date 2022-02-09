@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of Waffler.
+ * This file is part of Waffler\Waffler.
  *
  * (c) Erick Johnson Almeida de Menezes <erickmenezes.dev@gmail.com>
  *
@@ -9,10 +9,10 @@
  * with this source code in the file LICENCE.
  */
 
-namespace Waffler\Tests\Feature\Attributes\Request;
+namespace Waffler\Waffler\Tests\Feature\Attributes\Request;
 
 use Exception;
-use Waffler\Tests\Fixtures\FeatureTestCase;
+use Waffler\Waffler\Tests\Fixtures\FeatureTestCase;
 
 /**
  * Class PathAndPathParamTest.

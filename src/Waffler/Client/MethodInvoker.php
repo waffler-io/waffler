@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of Waffler.
+ * This file is part of Waffler\Waffler.
  *
  * (c) Erick Johnson Almeida de Menezes <erickmenezes.dev@gmail.com>
  *
@@ -11,25 +11,25 @@ declare(strict_types=1);
  * with this source code in the file LICENCE.
  */
 
-namespace Waffler\Client;
+namespace Waffler\Waffler\Client;
 
 use GuzzleHttp\ClientInterface;
 use JetBrains\PhpStorm\Pure;
 use ReflectionMethod;
-use Waffler\Client\Readers\MethodReader;
+use Waffler\Waffler\Client\Readers\MethodReader;
 
 /**
  * Class MethodReader
  *
  * @author  ErickJMenezes <erickmenezes.dev@gmail.com>
- * @package Waffler\Client
+ * @package Waffler\Waffler\Client
  * @internal
  */
 class MethodInvoker
 {
     /**
-     * @param \Waffler\Client\ResponseParser $responseParser
-     * @param \GuzzleHttp\ClientInterface    $client
+     * @param \Waffler\Waffler\Client\ResponseParser $responseParser
+     * @param \GuzzleHttp\ClientInterface            $client
      */
     public function __construct(
         private ResponseParser $responseParser,
@@ -73,7 +73,7 @@ class MethodInvoker
      * @param array<int|string, mixed> $arguments
      * @param array<string>            $pathPrefix
      *
-     * @return \Waffler\Client\Readers\MethodReader
+     * @return \Waffler\Waffler\Client\Readers\MethodReader
      * @author ErickJMenezes <erickmenezes.dev@gmail.com>
      */
     #[Pure]
