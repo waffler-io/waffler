@@ -125,4 +125,4 @@ $posts = $this->fooClient->getPosts($credentials['token'], ['created_at' => '202
 See the [Examples folder](./examples).
 
 ## Attributes docs
-** Work in progress **
+See the [wiki](https://github.com/waffler-io/waffler/wiki/The-Waffler-Attributes) for more information about the Attributes.
