@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of Waffler.
+ * This file is part of Waffler\Waffler.
  *
  * (c) Erick Johnson Almeida de Menezes <erickmenezes.dev@gmail.com>
  *
@@ -9,7 +9,7 @@
  * with this source code in the file LICENCE.
  */
 
-namespace Waffler\Tests\Feature\Attributes\Auth;
+namespace Waffler\Waffler\Tests\Feature\Attributes\Auth;
 
 /**
  * Class BearerTest.
@@ -17,7 +17,7 @@ namespace Waffler\Tests\Feature\Attributes\Auth;
  * @author ErickJMenezes <erickmenezes.dev@gmail.com>
  * @coversNothing
  */
-class BearerTest extends \Waffler\Tests\Fixtures\FeatureTestCase
+class BearerTest extends \Waffler\Waffler\Tests\Fixtures\FeatureTestCase
 {
     public function testRequestMustHaveBearerAuthorizationHeader(): void
     {

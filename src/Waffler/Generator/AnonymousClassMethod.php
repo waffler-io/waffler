@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of Waffler.
+ * This file is part of Waffler\Waffler.
  *
  * (c) Erick Johnson Almeida de Menezes <erickmenezes.dev@gmail.com>
  *
@@ -11,14 +11,14 @@ declare(strict_types=1);
  * with this source code in the file LICENCE.
  */
 
-namespace Waffler\Generator;
+namespace Waffler\Waffler\Generator;
 
 use ReflectionMethod;
 use ReflectionNamedType;
 use ReflectionParameter;
 use ReflectionType;
 use Stringable;
-use Waffler\Generator\Exceptions\MethodCompilingException;
+use Waffler\Waffler\Generator\Exceptions\MethodCompilingException;
 
 /**
  * Class AnonymousClassMethod

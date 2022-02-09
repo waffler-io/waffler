@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of Waffler.
+ * This file is part of Waffler\Waffler.
  *
  * (c) Erick Johnson Almeida de Menezes <erickmenezes.dev@gmail.com>
  *
@@ -9,12 +9,12 @@
  * with this source code in the file LICENCE.
  */
 
-namespace Waffler\Tests\Fixtures\Interfaces;
+namespace Waffler\Waffler\Tests\Fixtures\Interfaces;
 
 use GuzzleHttp\Promise\PromiseInterface;
 use Psr\Http\Message\ResponseInterface;
-use Waffler\Attributes\Utils\Unwrap;
-use Waffler\Attributes\Verbs\Get;
+use Waffler\Waffler\Attributes\Utils\Unwrap;
+use Waffler\Waffler\Attributes\Verbs\Get;
 
 /**
  * Interface MethodInvokerTestClientInterface.

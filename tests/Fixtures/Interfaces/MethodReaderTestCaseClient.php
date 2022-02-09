@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of Waffler.
+ * This file is part of Waffler\Waffler.
  *
  * (c) Erick Johnson Almeida de Menezes <erickmenezes.dev@gmail.com>
  *
@@ -9,16 +9,16 @@
  * with this source code in the file LICENCE.
  */
 
-namespace Waffler\Tests\Fixtures\Interfaces;
+namespace Waffler\Waffler\Tests\Fixtures\Interfaces;
 
 use GuzzleHttp\Promise\PromiseInterface;
-use Waffler\Attributes\Request\Headers;
-use Waffler\Attributes\Request\PathParam;
-use Waffler\Attributes\Request\Produces;
-use Waffler\Attributes\Request\Timeout;
-use Waffler\Attributes\Utils\Suppress;
-use Waffler\Attributes\Utils\Unwrap;
-use Waffler\Attributes\Verbs\Get;
+use Waffler\Waffler\Attributes\Request\Headers;
+use Waffler\Waffler\Attributes\Request\PathParam;
+use Waffler\Waffler\Attributes\Request\Produces;
+use Waffler\Waffler\Attributes\Request\Timeout;
+use Waffler\Waffler\Attributes\Utils\Suppress;
+use Waffler\Waffler\Attributes\Utils\Unwrap;
+use Waffler\Waffler\Attributes\Verbs\Get;
 
 /**
  * Interface MethodReaderTestCaseClient.

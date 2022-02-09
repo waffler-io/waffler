@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of Waffler.
+ * This file is part of Waffler\Waffler.
  *
  * (c) Erick Johnson Almeida de Menezes <erickmenezes.dev@gmail.com>
  *
@@ -9,19 +9,18 @@
  * with this source code in the file LICENCE.
  */
 
-namespace Waffler\Attributes\Request;
+namespace Waffler\Waffler\Attributes\Request;
 
 use Attribute;
-
 use JetBrains\PhpStorm\Pure;
 
-use function Waffler\arrayWrap;
+use function Waffler\Waffler\arrayWrap;
 
 /**
  * Class Body.
  *
  * @author  ErickJMenezes <erickmenezes.dev@gmail.com>
- * @package Waffler\Attributes\Request
+ * @package Waffler\Waffler\Attributes\Request
  */
 #[Attribute(Attribute::TARGET_PARAMETER)]
 class Body

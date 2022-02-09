@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of Waffler.
+ * This file is part of Waffler\Waffler.
  *
  * (c) Erick Johnson Almeida de Menezes <erickmenezes.dev@gmail.com>
  *
@@ -9,16 +9,16 @@
  * with this source code in the file LICENCE.
  */
 
-namespace Waffler\Attributes\Auth;
+namespace Waffler\Waffler\Attributes\Auth;
 
 use Attribute;
-use Waffler\Attributes\Contracts\Auth;
+use Waffler\Waffler\Attributes\Contracts\Auth;
 
 /**
  * Class Digest.
  *
  * @author  ErickJMenezes <erickmenezes.dev@gmail.com>
- * @package Waffler\Attributes\Auth
+ * @package Waffler\Waffler\Attributes\Auth
  */
 #[Attribute(Attribute::TARGET_PARAMETER)]
 class Digest implements Auth

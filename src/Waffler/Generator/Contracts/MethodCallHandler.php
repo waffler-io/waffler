@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of Waffler.
+ * This file is part of Waffler\Waffler.
  *
  * (c) Erick Johnson Almeida de Menezes <erickmenezes.dev@gmail.com>
  *
@@ -9,7 +9,7 @@
  * with this source code in the file LICENCE.
  */
 
-namespace Waffler\Generator\Contracts;
+namespace Waffler\Waffler\Generator\Contracts;
 
 use ReflectionClass;
 
@@ -27,7 +27,7 @@ interface MethodCallHandler
      * Handle the method calls.
      *
      * @param string            $name
-     * @psalm-param array<int, mixed> $arguments
+     * @param array<int, mixed> $arguments
      *
      * @return mixed
      * @author ErickJMenezes <erickmenezes.dev@gmail.com>

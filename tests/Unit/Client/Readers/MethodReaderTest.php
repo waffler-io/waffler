@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of Waffler.
+ * This file is part of Waffler\Waffler.
  *
  * (c) Erick Johnson Almeida de Menezes <erickmenezes.dev@gmail.com>
  *
@@ -9,31 +9,31 @@
  * with this source code in the file LICENCE.
  */
 
-namespace Waffler\Tests\Unit\Client\Readers;
+namespace Waffler\Waffler\Tests\Unit\Client\Readers;
 
 use BadMethodCallException;
 use GuzzleHttp\RequestOptions;
 use PHPUnit\Framework\TestCase;
 use ReflectionMethod;
-use Waffler\Client\Readers\MethodReader;
-use Waffler\Tests\Fixtures\Interfaces\MethodReaderTestCaseClient as Client;
+use Waffler\Waffler\Client\Readers\MethodReader;
+use Waffler\Waffler\Tests\Fixtures\Interfaces\MethodReaderTestCaseClient as Client;
 
 /**
  * Class MethodReaderTest.
  *
  * @author ErickJMenezes <erickmenezes.dev@gmail.com>
- * @covers \Waffler\Client\Readers\MethodReader
- * @uses   \Waffler\Attributes\Verbs\AbstractHttpMethod
- * @uses   \Waffler\Attributes\Verbs\Get
- * @uses   \Waffler\Attributes\Request\Path
- * @uses   \Waffler\Attributes\Request\PathParam
- * @uses   \Waffler\Client\AttributeChecker
- * @uses   \Waffler\Attributes\Utils\Unwrap
- * @uses   \Waffler\Attributes\Request\Headers
- * @uses   \Waffler\Attributes\Request\Produces
- * @uses   \Waffler\Attributes\Request\Timeout
- * @uses   \Waffler\arrayWrap()
- * @uses   \Waffler\Client\Readers\ParameterReader
+ * @covers \Waffler\Waffler\Client\Readers\MethodReader
+ * @uses   \Waffler\Waffler\Attributes\Verbs\AbstractHttpMethod
+ * @uses   \Waffler\Waffler\Attributes\Verbs\Get
+ * @uses   \Waffler\Waffler\Attributes\Request\Path
+ * @uses   \Waffler\Waffler\Attributes\Request\PathParam
+ * @uses   \Waffler\Waffler\Client\AttributeChecker
+ * @uses   \Waffler\Waffler\Attributes\Utils\Unwrap
+ * @uses   \Waffler\Waffler\Attributes\Request\Headers
+ * @uses   \Waffler\Waffler\Attributes\Request\Produces
+ * @uses   \Waffler\Waffler\Attributes\Request\Timeout
+ * @uses   \Waffler\Waffler\arrayWrap()
+ * @uses   \Waffler\Waffler\Client\Readers\ParameterReader
  */
 class MethodReaderTest extends TestCase
 {

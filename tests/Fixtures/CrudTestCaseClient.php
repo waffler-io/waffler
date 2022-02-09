@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of Waffler.
+ * This file is part of Waffler\Waffler.
  *
  * (c) Erick Johnson Almeida de Menezes <erickmenezes.dev@gmail.com>
  *
@@ -9,20 +9,20 @@
  * with this source code in the file LICENCE.
  */
 
-namespace Waffler\Tests\Fixtures;
+namespace Waffler\Waffler\Tests\Fixtures;
 
-use Waffler\Attributes\Request\Headers;
-use Waffler\Attributes\Request\Json;
-use Waffler\Attributes\Request\PathParam;
-use Waffler\Attributes\Request\Produces;
-use Waffler\Attributes\Request\Query;
-use Waffler\Attributes\Verbs\Delete;
-use Waffler\Attributes\Verbs\Get;
-use Waffler\Attributes\Verbs\Head;
-use Waffler\Attributes\Verbs\Options;
-use Waffler\Attributes\Verbs\Patch;
-use Waffler\Attributes\Verbs\Post;
-use Waffler\Attributes\Verbs\Put;
+use Waffler\Waffler\Attributes\Request\Headers;
+use Waffler\Waffler\Attributes\Request\Json;
+use Waffler\Waffler\Attributes\Request\PathParam;
+use Waffler\Waffler\Attributes\Request\Produces;
+use Waffler\Waffler\Attributes\Request\Query;
+use Waffler\Waffler\Attributes\Verbs\Delete;
+use Waffler\Waffler\Attributes\Verbs\Get;
+use Waffler\Waffler\Attributes\Verbs\Head;
+use Waffler\Waffler\Attributes\Verbs\Options;
+use Waffler\Waffler\Attributes\Verbs\Patch;
+use Waffler\Waffler\Attributes\Verbs\Post;
+use Waffler\Waffler\Attributes\Verbs\Put;
 
 interface CrudTestCaseClient
 {

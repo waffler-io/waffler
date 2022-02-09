@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of Waffler.
+ * This file is part of Waffler\Waffler.
  *
  * (c) Erick Johnson Almeida de Menezes <erickmenezes.dev@gmail.com>
  *
@@ -9,12 +9,12 @@
  * with this source code in the file LICENCE.
  */
 
-use Waffler\Attributes\Request\Path;
-use Waffler\Attributes\Request\PathParam;
-use Waffler\Attributes\Request\Query;
-use Waffler\Attributes\Utils\NestedResource;
-use Waffler\Attributes\Verbs\Get;
-use Waffler\Client\Factory;
+use Waffler\Waffler\Attributes\Request\Path;
+use Waffler\Waffler\Attributes\Request\PathParam;
+use Waffler\Waffler\Attributes\Request\Query;
+use Waffler\Waffler\Attributes\Utils\NestedResource;
+use Waffler\Waffler\Attributes\Verbs\Get;
+use Waffler\Waffler\Client\Factory;
 
 require '../vendor/autoload.php';
 

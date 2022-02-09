@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of Waffler.
+ * This file is part of Waffler\Waffler.
  *
  * (c) Erick Johnson Almeida de Menezes <erickmenezes.dev@gmail.com>
  *
@@ -9,7 +9,7 @@
  * with this source code in the file LICENCE.
  */
 
-namespace Waffler\Tests\Unit\Client;
+namespace Waffler\Waffler\Tests\Unit\Client;
 
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\Psr7\Response;
@@ -20,36 +20,36 @@ use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\RequestInterface;
 use ReflectionClass;
 use ReflectionMethod;
-use Waffler\Client\MethodInvoker;
-use Waffler\Client\Proxy;
-use Waffler\Tests\Fixtures\Interfaces\ProxyTestClientInterface;
+use Waffler\Waffler\Client\MethodInvoker;
+use Waffler\Waffler\Client\Proxy;
+use Waffler\Waffler\Tests\Fixtures\Interfaces\ProxyTestClientInterface;
 
 /**
  * Class ProxyTest.
  *
  * @author ErickJMenezes <erickmenezes.dev@gmail.com>
- * @covers \Waffler\Client\Proxy
- * @uses \Waffler\Client\Factory
- * @uses \Waffler\Generator\FactoryFunction
- * @uses \Waffler\Generator\AnonymousClassGenerator
- * @uses \Waffler\Generator\AnonymousClassMethod
- * @uses \Waffler\Client\Readers\ParameterReader
- * @uses \Waffler\Client\Readers\MethodReader
- * @uses \Waffler\Client\MethodInvoker
- * @uses \Waffler\Attributes\Request\Path
- * @uses \Waffler\Attributes\Verbs\Get
- * @uses \Waffler\Client\AttributeChecker
- * @uses \Waffler\Client\ResponseParser
- * @uses \Waffler\Attributes\Request\PathParam
- * @uses \Waffler\Attributes\Verbs\AbstractHttpMethod
- * @uses \Waffler\arrayWrap()
+ * @covers \Waffler\Waffler\Client\Proxy
+ * @uses \Waffler\Waffler\Client\Factory
+ * @uses \Waffler\Waffler\Generator\FactoryFunction
+ * @uses \Waffler\Waffler\Generator\AnonymousClassGenerator
+ * @uses \Waffler\Waffler\Generator\AnonymousClassMethod
+ * @uses \Waffler\Waffler\Client\Readers\ParameterReader
+ * @uses \Waffler\Waffler\Client\Readers\MethodReader
+ * @uses \Waffler\Waffler\Client\MethodInvoker
+ * @uses \Waffler\Waffler\Attributes\Request\Path
+ * @uses \Waffler\Waffler\Attributes\Verbs\Get
+ * @uses \Waffler\Waffler\Client\AttributeChecker
+ * @uses \Waffler\Waffler\Client\ResponseParser
+ * @uses \Waffler\Waffler\Attributes\Request\PathParam
+ * @uses \Waffler\Waffler\Attributes\Verbs\AbstractHttpMethod
+ * @uses \Waffler\Waffler\arrayWrap()
  */
 class ProxyTest extends TestCase
 {
     use MockeryPHPUnitIntegration;
 
     /**
-     * @var \Waffler\Client\Proxy<ProxyTestClientInterface>
+     * @var \Waffler\Waffler\Client\Proxy<ProxyTestClientInterface>
      */
     private Proxy $proxy;
 
@@ -62,7 +62,7 @@ class ProxyTest extends TestCase
         parent::setUp();
         $this->proxy = new Proxy(
             new ReflectionClass(ProxyTestClientInterface::class),
-            $this->methodInvoker = m::mock(MethodInvoker::class), //@phpstan-ignore-line
+            $this->methodInvoker = m::mock(MethodInvoker::class),
             [
                 'handler' => $this->handlerStack = new MockHandler()
             ]

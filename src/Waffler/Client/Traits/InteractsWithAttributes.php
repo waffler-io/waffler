@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of Waffler.
+ * This file is part of Waffler\Waffler.
  *
  * (c) Erick Johnson Almeida de Menezes <erickmenezes.dev@gmail.com>
  *
@@ -11,9 +11,8 @@ declare(strict_types=1);
  * with this source code in the file LICENCE.
  */
 
-namespace Waffler\Client\Traits;
+namespace Waffler\Waffler\Client\Traits;
 
-use JetBrains\PhpStorm\Pure;
 use ReflectionAttribute;
 use ReflectionClass;
 use ReflectionMethod;
@@ -23,14 +22,14 @@ use ReflectionParameter;
  * Trait InteractsWithAttributes
  *
  * @author   ErickJMenezes <erickmenezes.dev@gmail.com>
- * @package  Waffler\Client\Traits
+ * @package  Waffler\Waffler\Client\Traits
  * @internal
  */
 trait InteractsWithAttributes
 {
     /**
-     * @psalm-param \ReflectionMethod|\ReflectionParameter|\ReflectionClass<TParentType> $reflection
-     * @psalm-param class-string                                                         $name
+     * @param \ReflectionMethod|\ReflectionParameter|\ReflectionClass<TParentType> $reflection
+     * @param class-string                                                         $name
      *
      * @return bool
      * @psalm-template TParentType of object
@@ -43,8 +42,8 @@ trait InteractsWithAttributes
     }
 
     /**
-     * @psalm-param \ReflectionMethod|\ReflectionParameter|\ReflectionClass<TParentType> $reflection
-     * @psalm-param class-string<TAttributeType>                                         $name
+     * @param \ReflectionMethod|\ReflectionParameter|\ReflectionClass<TParentType> $reflection
+     * @param class-string<TAttributeType>                                         $name
      *
      * @return TAttributeType
      * @psalm-template TAttributeType of object
@@ -58,8 +57,8 @@ trait InteractsWithAttributes
     }
 
     /**
-     * @psalm-param \ReflectionMethod|\ReflectionParameter|\ReflectionClass<TParentType> $reflection
-     * @psalm-param class-string<TAttributeType>                                         $name
+     * @param \ReflectionMethod|\ReflectionParameter|\ReflectionClass<TParentType> $reflection
+     * @param class-string<TAttributeType>                                         $name
      *
      * @return array<int, TAttributeType>
      * @psalm-template TAttributeType of object

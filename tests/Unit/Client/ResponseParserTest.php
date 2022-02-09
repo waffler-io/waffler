@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of Waffler.
+ * This file is part of Waffler\Waffler.
  *
  * (c) Erick Johnson Almeida de Menezes <erickmenezes.dev@gmail.com>
  *
@@ -9,177 +9,130 @@
  * with this source code in the file LICENCE.
  */
 
-namespace Waffler\Tests\Unit\Client;
+namespace Waffler\Waffler\Tests\Unit\Client;
 
 use ArrayObject;
 use GuzzleHttp\Psr7\Response;
-use Mockery as m;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\MessageInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 use TypeError;
-use Waffler\Client\ResponseParser;
+use Waffler\Waffler\Client\ResponseParser;
 
 /**
  * Class ResponseParserTest.
  *
  * @author ErickJMenezes <erickmenezes.dev@gmail.com>
- * @covers \Waffler\Client\ResponseParser
- * @uses   \Waffler\arrayGet()
+ * @covers \Waffler\Waffler\Client\ResponseParser
+ * @uses   \Waffler\Waffler\arrayGet()
  */
 class ResponseParserTest extends TestCase
 {
-    use MockeryPHPUnitIntegration;
-
     private ResponseParser $parser;
-
-    private ResponseInterface $response;
-
-    private StreamInterface $stream;
 
     protected function setUp(): void
     {
         parent::setUp();
         $this->parser = new ResponseParser();
-        $this->response = m::mock(ResponseInterface::class);
-        $this->stream = m::mock(StreamInterface::class);
     }
 
     public function testItMustThrowTypeErrorIfTheGivenTypeIsNotAllowed(): void
     {
         $this->expectException(TypeError::class);
 
-        $this->parser->parse($this->response, 'foo');
+        $this->parser->parse(new Response(), 'foo');
     }
 
     public function testItMustReturnTheDecodedResponseForAnArrayType(): void
     {
-        $this->response->shouldReceive('getBody')
-            ->atLeast()->once()
-            ->andReturn($this->stream);
-        $this->stream->shouldReceive('getContents')
-            ->atLeast()->once()
-            ->andReturn('{"foo": "bar"}');
-
         self::assertEquals(
             ['foo' => 'bar'],
-            $this->parser->parse($this->response, 'array')
+            $this->parser->parse(new Response(body: '{"foo": "bar"}'), 'array')
         );
     }
 
     public function testItMustReturnTheDecodedResponseForAnArrayTypeUnwrapped(): void
     {
-        $this->response->shouldReceive('getBody')
-            ->atLeast()->once()
-            ->andReturn($this->stream);
-        $this->stream->shouldReceive('getContents')
-            ->atLeast()->once()
-            ->andReturn('{"data": {"foo": "bar"}}');
-
         self::assertEquals(
             ['foo' => 'bar'],
-            $this->parser->parse($this->response, 'array', 'data')
+            $this->parser->parse(new Response(body: '{"data": {"foo": "bar"}}'), 'array', 'data')
         );
     }
 
     public function testItMustReturnNullForVoidOrNullType(): void
     {
-        self::assertEquals(null, $this->parser->parse($this->response, 'null'));
-        self::assertEquals(null, $this->parser->parse($this->response, 'void'));
+        self::assertEquals(null, $this->parser->parse(new Response(), 'null'));
+        self::assertEquals(null, $this->parser->parse(new Response(), 'void'));
     }
 
     public function testItMustReturnBooleanTrueIfTheStatusCodeIsLessThan400(): void
     {
-        $this->response->shouldReceive('getStatusCode')
-            ->atLeast()->once()
-            ->andReturn(200);
-
-        self::assertTrue($this->parser->parse($this->response, 'bool'));
+        self::assertTrue($this->parser->parse(new Response(), 'bool'));
     }
 
     public function testItMustReturnBooleanFaseIfTheStatusCodeIsMoreThanEquals400(): void
     {
-        $this->response->shouldReceive('getStatusCode')
-            ->atLeast()->once()
-            ->andReturn(400);
-
-        self::assertFalse($this->parser->parse($this->response, 'bool'));
+        self::assertFalse($this->parser->parse(new Response(400), 'bool'));
     }
 
     public function testItMustReturnTheBodyContentsIfTheReturnTypeIsString(): void
     {
-        $this->response->shouldReceive('getBody')
-            ->atLeast()->once()
-            ->andReturn($this->stream);
-
-        $this->stream->shouldReceive('getContents')
-            ->atLeast()->once()
-            ->andReturn('foo');
-
-        self::assertEquals('foo', $this->parser->parse($this->response, 'string'));
+        self::assertEquals('foo', $this->parser->parse(new Response(body: 'foo'), 'string'));
     }
 
     public function testItMustReturnTheStatusCodeIfTheReturnTypeIsIntOrFloatOrDouble(): void
     {
-        $this->response->shouldReceive('getStatusCode')
-            ->andReturn(200);
+        $response = new Response();
 
-        self::assertEquals(200, $this->parser->parse($this->response, 'int'));
-        self::assertEquals(200, $this->parser->parse($this->response, 'float'));
-        self::assertEquals(200, $this->parser->parse($this->response, 'double'));
+        self::assertEquals(200, $this->parser->parse($response, 'int'));
+        self::assertEquals(200, $this->parser->parse($response, 'float'));
+        self::assertEquals(200, $this->parser->parse($response, 'double'));
     }
 
     public function testItMustReturnAnArrayObjectInstanceIfTheReturnTypeIsObjectOrArrayObject(): void
     {
-        $this->response->shouldReceive('getBody')
-            ->andReturn($this->stream);
-
-        $this->stream->shouldReceive('getContents')
-            ->atLeast()->once()
-            ->andReturn('{"foo": "bar"}');
+        $response = new Response(body: '{"foo": "bar"}');
 
         $this->assertInstanceOf(
             ArrayObject::class,
-            $this->parser->parse($this->response, 'object')
+            $this->parser->parse($response, 'object')
         );
 
         $this->assertInstanceOf(
             ArrayObject::class,
-            $this->parser->parse($this->response, ArrayObject::class)
+            $this->parser->parse($response, ArrayObject::class)
         );
     }
 
     public function testItMustReturnTheBodyOfTheResponseIfTheReturnTypeIsStreamInterface(): void
     {
-        $this->response->shouldReceive('getBody')
-            ->once()
-            ->andReturn($this->stream);
-
         $this->assertInstanceOf(
             StreamInterface::class,
-            $this->parser->parse($this->response, StreamInterface::class)
+            $this->parser->parse(new Response(), StreamInterface::class)
         );
     }
 
     public function testItMustReturnTheResponseInterfaceIfTheReturnTypeIsResponseInterfaceSubtypeOrMixed(): void
     {
+        $response = new Response();
+
         self::assertInstanceOf(
             ResponseInterface::class,
-            $this->parser->parse($this->response, ResponseInterface::class)
+            $this->parser->parse($response, ResponseInterface::class)
         );
         self::assertInstanceOf(
             ResponseInterface::class,
-            $this->parser->parse($this->response, Response::class)
+            $this->parser->parse($response, Response::class)
         );
         self::assertInstanceOf(
             ResponseInterface::class,
-            $this->parser->parse($this->response, MessageInterface::class)
+            $this->parser->parse($response, MessageInterface::class)
         );
         self::assertInstanceOf(
             ResponseInterface::class,
-            $this->parser->parse($this->response, 'mixed')
+            $this->parser->parse($response, 'mixed')
         );
     }
 }

@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of Waffler.
+ * This file is part of Waffler\Waffler.
  *
  * (c) Erick Johnson Almeida de Menezes <erickmenezes.dev@gmail.com>
  *
@@ -9,24 +9,24 @@
  * with this source code in the file LICENCE.
  */
 
-namespace Waffler\Client;
+namespace Waffler\Waffler\Client;
 
 use BadMethodCallException;
 use ReflectionClass;
-use Waffler\Attributes\Request\Path;
-use Waffler\Attributes\Utils\NestedResource;
-use Waffler\Client\Readers\MethodReader;
-use Waffler\Client\Traits\InteractsWithAttributes;
-use Waffler\Generator\Contracts\MethodCallHandler;
+use Waffler\Waffler\Attributes\Request\Path;
+use Waffler\Waffler\Attributes\Utils\NestedResource;
+use Waffler\Waffler\Client\Readers\MethodReader;
+use Waffler\Waffler\Client\Traits\InteractsWithAttributes;
+use Waffler\Waffler\Generator\Contracts\MethodCallHandler;
 
-use function Waffler\arrayWrap;
+use function Waffler\Waffler\arrayWrap;
 
 /**
  * Class Proxy.
  *
  * This class proxies all calls form the anonymous implementation to the real method.
  *
- * @author ErickJMenezes <erickmenezes.dev@gmail.com>
+ * @author         ErickJMenezes <erickmenezes.dev@gmail.com>
  * @psalm-template TInterfaceType of object
  * @implements MethodCallHandler<TInterfaceType>
  * @mixin TInterfaceType
@@ -36,9 +36,9 @@ class Proxy implements MethodCallHandler
     use InteractsWithAttributes;
 
     /**
-     * @param \ReflectionClass<TInterfaceType> $interface
-     * @param \Waffler\Client\MethodInvoker    $methodInvoker
-     * @psalm-param array<string, mixed>       $options
+     * @param \ReflectionClass<TInterfaceType>      $interface
+     * @param \Waffler\Waffler\Client\MethodInvoker $methodInvoker
+     * @param array<string, mixed>                  $options
      */
     public function __construct(
         private ReflectionClass $interface,

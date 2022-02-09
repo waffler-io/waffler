@@ -65,11 +65,11 @@ Import the Attributes from the `Waffler\Attributes` namespace.
 
 namespace App\Clients;
 
-use Waffler\Attributes\Verbs\Get;
-use Waffler\Attributes\Auth\Bearer;
-use Waffler\Attributes\Request\Json;
-use Waffler\Attributes\Request\Post;
-use Waffler\Attributes\Request\Query;
+use Waffler\Waffler\Attributes\Auth\Bearer;
+use Waffler\Waffler\Attributes\Request\Json;
+use Waffler\Waffler\Attributes\Request\Post;
+use Waffler\Waffler\Attributes\Request\Query;
+use Waffler\Waffler\Attributes\Verbs\Get;
 
 interface FooClient
 {
@@ -105,8 +105,8 @@ options as second argument.
 
 namespace App;
 
-use Waffler\Client\Factory;
 use App\Clients\FooClient;
+use Waffler\Waffler\Client\Factory;
 
 // Instantiate the client passing the interface as first argument.
 $fooClient = Factory::make(FooClient::class, ['base_uri' => '<api-base-uri>']);

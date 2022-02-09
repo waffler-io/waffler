@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of Waffler.
+ * This file is part of Waffler\Waffler.
  *
  * (c) Erick Johnson Almeida de Menezes <erickmenezes.dev@gmail.com>
  *
@@ -9,17 +9,15 @@
  * with this source code in the file LICENCE.
  */
 
-namespace Waffler\Tests\Fixtures;
+namespace Waffler\Waffler\Tests\Fixtures;
 
 use Closure;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
-use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\RequestInterface;
-use Waffler\Tests\Fixtures\FeatureTestCase;
 
 use function json_decode;
-use function Waffler\arrayWrap;
+use function Waffler\Waffler\arrayWrap;
 
 /**
  * Class RequestExpectation.

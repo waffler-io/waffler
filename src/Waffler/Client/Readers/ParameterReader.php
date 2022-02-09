@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of Waffler.
+ * This file is part of Waffler\Waffler.
  *
  * (c) Erick Johnson Almeida de Menezes <erickmenezes.dev@gmail.com>
  *
@@ -9,33 +9,33 @@
  * with this source code in the file LICENCE.
  */
 
-namespace Waffler\Client\Readers;
+namespace Waffler\Waffler\Client\Readers;
 
-use Exception;
 use InvalidArgumentException;
 use JetBrains\PhpStorm\Pure;
 use ReflectionParameter;
-use Waffler\Attributes\Auth\Basic;
-use Waffler\Attributes\Auth\Bearer;
-use Waffler\Attributes\Auth\Digest;
-use Waffler\Attributes\Auth\Ntml;
-use Waffler\Attributes\Contracts\ArraySettable;
-use Waffler\Attributes\Request\Body;
-use Waffler\Attributes\Request\FormData;
-use Waffler\Attributes\Request\FormParam;
-use Waffler\Attributes\Request\HeaderParam;
-use Waffler\Attributes\Request\Json;
-use Waffler\Attributes\Request\JsonParam;
-use Waffler\Attributes\Request\Multipart;
-use Waffler\Attributes\Request\PathParam;
-use Waffler\Attributes\Request\Query;
-use Waffler\Attributes\Request\QueryParam;
-use Waffler\Attributes\Utils\RawOptions;
-use Waffler\Client\AttributeChecker;
-use Waffler\Client\Readers\Exceptions\MultipleValuesFoundException;
-use Waffler\Client\Readers\Exceptions\UnableToParsePathException;
-use Waffler\Client\Traits\InteractsWithAttributes;
-use function Waffler\arraySet;
+use Waffler\Waffler\Attributes\Auth\Basic;
+use Waffler\Waffler\Attributes\Auth\Bearer;
+use Waffler\Waffler\Attributes\Auth\Digest;
+use Waffler\Waffler\Attributes\Auth\Ntml;
+use Waffler\Waffler\Attributes\Contracts\ArraySettable;
+use Waffler\Waffler\Attributes\Request\Body;
+use Waffler\Waffler\Attributes\Request\FormData;
+use Waffler\Waffler\Attributes\Request\FormParam;
+use Waffler\Waffler\Attributes\Request\HeaderParam;
+use Waffler\Waffler\Attributes\Request\Json;
+use Waffler\Waffler\Attributes\Request\JsonParam;
+use Waffler\Waffler\Attributes\Request\Multipart;
+use Waffler\Waffler\Attributes\Request\PathParam;
+use Waffler\Waffler\Attributes\Request\Query;
+use Waffler\Waffler\Attributes\Request\QueryParam;
+use Waffler\Waffler\Attributes\Utils\RawOptions;
+use Waffler\Waffler\Client\AttributeChecker;
+use Waffler\Waffler\Client\Readers\Exceptions\MultipleValuesFoundException;
+use Waffler\Waffler\Client\Readers\Exceptions\UnableToParsePathException;
+use Waffler\Waffler\Client\Traits\InteractsWithAttributes;
+
+use function Waffler\Waffler\arraySet;
 
 /**
  * Class ParameterReader.
@@ -198,7 +198,7 @@ class ParameterReader
     // private
 
     /**
-     * @psalm-param class-string<TAttributeType> $attribute
+     * @param class-string<TAttributeType> $attribute
      * @param mixed                              $default
      *
      * @return mixed
@@ -215,7 +215,7 @@ class ParameterReader
     }
 
     /**
-     * @psalm-param class-string<T> $attribute
+     * @param class-string<T> $attribute
      *
      * @return array<int,mixed>
      * @template T
@@ -235,8 +235,8 @@ class ParameterReader
     }
 
     /**
-     * @psalm-param class-string                                               $listTypeAttribute
-     * @psalm-param class-string<\Waffler\Attributes\Contracts\KeyedAttribute> $singleTypeAttribute
+     * @param class-string                                                       $listTypeAttribute
+     * @param class-string<\Waffler\Waffler\Attributes\Contracts\KeyedAttribute> $singleTypeAttribute
      *
      * @return array<int|string, mixed>
      * @throws \Exception
@@ -253,7 +253,7 @@ class ParameterReader
     }
 
     /**
-     * @psalm-param class-string<T> $attribute
+     * @param class-string<T> $attribute
      *
      * @return array<ReflectionParameter>
      * @template T
@@ -307,7 +307,7 @@ class ParameterReader
     }
 
     /**
-     * @psalm-param class-string<\Waffler\Attributes\Contracts\KeyedAttribute> $singleTypeAttribute
+     * @param class-string<\Waffler\Waffler\Attributes\Contracts\KeyedAttribute> $singleTypeAttribute
      *
      * @return array<int|string, mixed>
      * @author ErickJMenezes <erickmenezes.dev@gmail.com>

@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of Waffler.
+ * This file is part of Waffler\Waffler.
  *
  * (c) Erick Johnson Almeida de Menezes <erickmenezes.dev@gmail.com>
  *
@@ -9,9 +9,7 @@
  * with this source code in the file LICENCE.
  */
 
-namespace Waffler\Generator\Contracts;
-
-use ReflectionClass;
+namespace Waffler\Waffler\Generator\Contracts;
 
 /**
  * Interface InterfaceInstantiator.
@@ -23,7 +21,7 @@ interface InterfaceInstantiator
     /**
      * Instantiate an interface by its name.
      *
-     * @psalm-param \Waffler\Generator\Contracts\MethodCallHandler<TInterfaceType> $methodCallHandler
+     * @param \Waffler\Waffler\Generator\Contracts\MethodCallHandler<TInterfaceType> $methodCallHandler
      *
      * @return TInterfaceType
      * @throws \ReflectionException If the interface name is not instantiable

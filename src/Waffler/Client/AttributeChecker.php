@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of Waffler.
+ * This file is part of Waffler\Waffler.
  *
  * (c) Erick Johnson Almeida de Menezes <erickmenezes.dev@gmail.com>
  *
@@ -9,24 +9,23 @@
  * with this source code in the file LICENCE.
  */
 
-namespace Waffler\Client;
+namespace Waffler\Waffler\Client;
 
 use InvalidArgumentException;
-use Stringable;
-use Waffler\Attributes\Auth\Basic;
-use Waffler\Attributes\Auth\Bearer;
-use Waffler\Attributes\Auth\Digest;
-use Waffler\Attributes\Auth\Ntml;
-use Waffler\Attributes\Request\FormData;
-use Waffler\Attributes\Request\HeaderParam;
-use Waffler\Attributes\Request\Headers;
-use Waffler\Attributes\Request\Json;
-use Waffler\Attributes\Request\JsonParam;
-use Waffler\Attributes\Request\Multipart;
-use Waffler\Attributes\Request\PathParam;
-use Waffler\Attributes\Request\Query;
-use Waffler\Attributes\Request\QueryParam;
-use Waffler\Attributes\Utils\RawOptions;
+use Waffler\Waffler\Attributes\Auth\Basic;
+use Waffler\Waffler\Attributes\Auth\Bearer;
+use Waffler\Waffler\Attributes\Auth\Digest;
+use Waffler\Waffler\Attributes\Auth\Ntml;
+use Waffler\Waffler\Attributes\Request\FormData;
+use Waffler\Waffler\Attributes\Request\HeaderParam;
+use Waffler\Waffler\Attributes\Request\Headers;
+use Waffler\Waffler\Attributes\Request\Json;
+use Waffler\Waffler\Attributes\Request\JsonParam;
+use Waffler\Waffler\Attributes\Request\Multipart;
+use Waffler\Waffler\Attributes\Request\PathParam;
+use Waffler\Waffler\Attributes\Request\Query;
+use Waffler\Waffler\Attributes\Request\QueryParam;
+use Waffler\Waffler\Attributes\Utils\RawOptions;
 
 /**
  * Class AttributeChecker.
@@ -39,7 +38,7 @@ class AttributeChecker
     /**
      * Checks if the attribute has the expected parameters.
      *
-     * @psalm-param class-string<T> $attribute
+     * @param class-string<T> $attribute
      * @param mixed           $value
      *
      * @return void
