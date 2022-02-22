@@ -24,6 +24,8 @@ use Waffler\Waffler\Client\Exceptions\IllegalMethodBatchingException;
 use Waffler\Waffler\Client\Exceptions\InvalidBatchedMethodSignatureException;
 use Waffler\Waffler\Client\Readers\MethodReader;
 
+use function Waffler\Waffler\arrayWrap;
+
 /**
  * Class MethodReader
  *
@@ -57,7 +59,7 @@ class MethodInvoker
 
         if ($methodReader->isBatched()) {
             $this->performBatchedMethodValidations($method, $methodReader);
-            return $this->invokeBatchedMethod($methodReader, $methodReader->getBatchedMethod(), $arguments, $pathPrefix);
+            return $this->invokeBatchedMethod($methodReader, $methodReader->getBatchedMethod(), $arguments[0], $pathPrefix);
         }
 
         $promise = $this->performRequest($methodReader);
@@ -161,7 +163,7 @@ class MethodInvoker
 
         // Performs a request for each argument set and store the request and the method reader.
         foreach ($argumentsList as $arguments) {
-            $methodReader = $this->newMethodReader($method, $arguments, $pathPrefix);
+            $methodReader = $this->newMethodReader($method, arrayWrap($arguments), $pathPrefix);
             $promises[]  = $this->performRequest($methodReader);
             $readers[] = $methodReader;
         }

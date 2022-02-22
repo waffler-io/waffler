@@ -162,7 +162,7 @@ class MethodInvokerTest extends TestCase
                 MethodInvokerTestClientInterface::class,
                 'batchMethodSync'
             ),
-            [['foo', 'bar'], ['bar', 'baz']]
+            [[['foo', 'bar'], ['bar', 'baz']]]
         );
 
         self::assertEquals(['first', 'second'], $arrayResponse);
@@ -178,7 +178,7 @@ class MethodInvokerTest extends TestCase
                 MethodInvokerTestClientInterface::class,
                 'batchMethodAsync'
             ),
-            [['foo', 'bar'], ['bar', 'baz']]
+            [[['foo', 'bar'], ['bar', 'baz']]]
         );
 
         self::assertEquals(
@@ -197,7 +197,7 @@ class MethodInvokerTest extends TestCase
                 MethodInvokerTestClientInterface::class,
                 'batchMethodAndReturnResponseInstance'
             ),
-            [['foo', 'bar'], ['bar', 'baz']]
+            [[['foo', 'bar'], ['bar', 'baz']]]
         );
 
         foreach ($promise->wait() as $response) {
