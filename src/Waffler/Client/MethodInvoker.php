@@ -180,6 +180,7 @@ class MethodInvoker
             // If the original method returns void, and the batched method does to, null will be returned.
             // Otherwise, if the batched method returns an array, then we will return an empty array since no results
             // will be returned from the original method.
+            $batchPromise->wait();
             return $parentMethodReader->getReturnType() === 'array' ? [] : null;
         }
 
