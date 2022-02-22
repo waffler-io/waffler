@@ -15,6 +15,7 @@ use BadMethodCallException;
 use GuzzleHttp\RequestOptions;
 use PHPUnit\Framework\TestCase;
 use ReflectionMethod;
+use Waffler\Waffler\Client\Exceptions\MethodIsNotBatchedException;
 use Waffler\Waffler\Client\Readers\MethodReader;
 use Waffler\Waffler\Tests\Fixtures\Interfaces\MethodReaderTestCaseClient as Client;
 
@@ -118,6 +119,22 @@ class MethodReaderTest extends TestCase
             $this->newMethodReader('withManyOptions')->getOptions()
         );
     }
+
+    public function testItMustReturnTrueIfTheMethodHasBatchAttribute(): void
+    {
+        self::assertTrue($this->newMethodReader('batchedMethod')->isBatched(), 'not batched');
+    }
+
+    /**
+     * @throws \ReflectionException
+     */
+    public function testItMustThrowAnExceptionWhenTheMethodIsNotBatched(): void
+    {
+        $this->expectException(MethodIsNotBatchedException::class);
+
+        $this->newMethodReader('testPath')->getBatchedMethod();
+    }
+
 
     // private
 

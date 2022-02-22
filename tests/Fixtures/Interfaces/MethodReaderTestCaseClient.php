@@ -16,6 +16,7 @@ use Waffler\Waffler\Attributes\Request\Headers;
 use Waffler\Waffler\Attributes\Request\PathParam;
 use Waffler\Waffler\Attributes\Request\Produces;
 use Waffler\Waffler\Attributes\Request\Timeout;
+use Waffler\Waffler\Attributes\Utils\Batch;
 use Waffler\Waffler\Attributes\Utils\Suppress;
 use Waffler\Waffler\Attributes\Utils\Unwrap;
 use Waffler\Waffler\Attributes\Verbs\Get;
@@ -60,4 +61,7 @@ interface MethodReaderTestCaseClient
     #[Suppress]
     #[Headers(['foo' => ['bar']])]
     public function withManyOptions(): void;
+
+    #[Batch('testPath')]
+    public function batchedMethod(array $args): array;
 }

@@ -22,9 +22,11 @@ use Waffler\Waffler\Attributes\Request\Headers;
 use Waffler\Waffler\Attributes\Request\Path;
 use Waffler\Waffler\Attributes\Request\Produces;
 use Waffler\Waffler\Attributes\Request\Timeout;
+use Waffler\Waffler\Attributes\Utils\Batch;
 use Waffler\Waffler\Attributes\Utils\NestedResource;
 use Waffler\Waffler\Attributes\Utils\Suppress;
 use Waffler\Waffler\Attributes\Utils\Unwrap;
+use Waffler\Waffler\Client\Exceptions\MethodIsNotBatchedException;
 use Waffler\Waffler\Client\Traits\InteractsWithAttributes;
 
 /**
@@ -51,6 +53,29 @@ class MethodReader
     public function isSuppressed(): bool
     {
         return $this->reflectionHasAttribute($this->reflectionMethod, Suppress::class);
+    }
+
+    public function isBatched(): bool
+    {
+        return $this->reflectionHasAttribute($this->reflectionMethod, Batch::class);
+    }
+
+    /**
+     * Retrieves the batched method.
+     *
+     * @return ReflectionMethod
+     * @author ErickJMenezes <erickmenezes.dev@gmail.com>
+     * @throws \Waffler\Waffler\Client\Exceptions\MethodIsNotBatchedException
+     * @throws \ReflectionException
+     */
+    public function getBatchedMethod(): ReflectionMethod
+    {
+        if ($this->isBatched()) {
+            return $this->reflectionMethod->getDeclaringClass()
+                ->getMethod($this->getAttributeInstance($this->reflectionMethod, Batch::class)->methodName);
+        }
+
+        throw new MethodIsNotBatchedException($this->reflectionMethod);
     }
 
     public function mustUnwrap(): bool
