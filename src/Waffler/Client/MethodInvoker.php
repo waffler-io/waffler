@@ -14,8 +14,9 @@ declare(strict_types=1);
 namespace Waffler\Waffler\Client;
 
 use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Pool;
+use GuzzleHttp\Promise\Promise;
 use GuzzleHttp\Promise\PromiseInterface;
-use GuzzleHttp\Promise\Utils;
 use JetBrains\PhpStorm\Pure;
 use Psr\Http\Message\ResponseInterface;
 use ReflectionMethod;
@@ -158,22 +159,23 @@ class MethodInvoker
      */
     private function invokeBatchedMethod(MethodReader $parentMethodReader, ReflectionMethod $method, array $argumentsList, array $pathPrefix = []): mixed
     {
-        $promises = [];
-        $readers = [];
-
-        // Performs a request for each argument set and store the request and the method reader.
-        foreach ($argumentsList as $arguments) {
-            $methodReader = $this->newMethodReader($method, arrayWrap($arguments), $pathPrefix);
-            $promises[]  = $this->performRequest($methodReader);
-            $readers[] = $methodReader;
-        }
+        $readers = array_map(fn ($args) => $this->newMethodReader($method, arrayWrap($args), $pathPrefix), $argumentsList);
 
         // Creates a new promise that will perform all requests.
-        $resultPromise = Utils::all($promises);
+        $batchPromise = new Promise(function () use ($argumentsList, $readers, &$batchPromise) {
+            $batch = Pool::batch(
+                $this->client,
+                array_map(function (MethodReader $reader) {
+                    return fn () => $this->performRequest($reader);
+                }, $readers),
+                ['concurrency' => count($argumentsList)]
+            );
+            $batchPromise->resolve($batch);
+        });
 
         if ($parentMethodReader->isAsynchronous() && $readers[0]->isAsynchronous()) {
             // If the original and the batched method are asynchronous, then this promise will be returned.
-            return $resultPromise;
+            return $batchPromise;
         } elseif ($readers[0]->getReturnType() === 'void' && $parentMethodReader->getReturnType() === 'void') {
             // If the original method returns void, and the batched method does to, null will be returned.
             // Otherwise, if the batched method returns an array, then we will return an empty array since no results
@@ -181,9 +183,9 @@ class MethodInvoker
             return $parentMethodReader->getReturnType() === 'array' ? [] : null;
         }
 
-        $mappedResultPromise = $resultPromise->then(
-            fn(array $responses): array => array_map(
-                fn(ResponseInterface $response, int $index): mixed => $this->parseResponse($response, $readers[$index]),
+        $mappedResultPromise = $batchPromise->then(
+            fn (array $responses): array => array_map(
+                fn (ResponseInterface $response, int $index): mixed => $this->parseResponse($response, $readers[$index]),
                 $responses,
                 array_keys($responses)
             )
