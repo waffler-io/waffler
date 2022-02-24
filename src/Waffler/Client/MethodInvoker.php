@@ -163,14 +163,23 @@ class MethodInvoker
 
         // Creates a new promise that will perform all requests.
         $batchPromise = new Promise(function () use ($argumentsList, $readers, &$batchPromise) {
-            $batch = Pool::batch(
+            $results = [];
+            $resultCallback = function (mixed $v, int $k) use (&$results): void {
+                $results[$k] = $v;
+            };
+            $batch = new Pool(
                 $this->client,
-                array_map(function (MethodReader $reader) {
-                    return fn () => $this->performRequest($reader);
-                }, $readers),
-                ['concurrency' => count($argumentsList)]
+                array_map(fn (MethodReader $reader) => fn () => $this->performRequest($reader), $readers),
+                [
+                    'concurrency' => count($argumentsList),
+                    'fulfilled' => $resultCallback,
+                    'rejected' => $resultCallback
+                ]
             );
-            $batchPromise->resolve($batch);
+            $batchPromise->resolve($batch->promise()->then(function () use (&$results): array {
+                ksort($results);
+                return $results;
+            }));
         });
 
         if ($parentMethodReader->isAsynchronous() && $readers[0]->isAsynchronous()) {
