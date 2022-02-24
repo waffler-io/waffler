@@ -12,7 +12,6 @@
 namespace Waffler\Waffler\Attributes\Auth;
 
 use Attribute;
-use Waffler\Waffler\Attributes\Contracts\Auth;
 
 /**
  * Class Bearer.
@@ -21,10 +20,7 @@ use Waffler\Waffler\Attributes\Contracts\Auth;
  * @package Waffler\Waffler\Attributes\Auth
  */
 #[Attribute(Attribute::TARGET_PARAMETER)]
-class Bearer implements Auth
+class Bearer
 {
-    public function check(mixed $value): void
-    {
-        //
-    }
+    //
 }
