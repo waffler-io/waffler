@@ -12,8 +12,6 @@
 namespace Waffler\Waffler\Attributes\Auth;
 
 use Attribute;
-use InvalidArgumentException;
-use Waffler\Waffler\Attributes\Contracts\Auth;
 
 /**
  * Class Basic.
@@ -22,14 +20,7 @@ use Waffler\Waffler\Attributes\Contracts\Auth;
  * @package Waffler\Waffler\Attributes\Auth
  */
 #[Attribute(Attribute::TARGET_PARAMETER)]
-class Basic implements Auth
+class Basic
 {
-    public function check(mixed $value): void
-    {
-        if (!is_array($value) || count($value) !== 2) {
-            throw new InvalidArgumentException(
-                "The value of authorization must be an array with 2 values: username and password."
-            );
-        }
-    }
+    //
 }

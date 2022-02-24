@@ -12,7 +12,6 @@
 namespace Waffler\Waffler\Attributes\Auth;
 
 use Attribute;
-use Waffler\Waffler\Attributes\Contracts\Auth;
 
 /**
  * Class Ntml.
@@ -21,10 +20,7 @@ use Waffler\Waffler\Attributes\Contracts\Auth;
  * @package Waffler\Waffler\Attributes\Auth
  */
 #[Attribute(Attribute::TARGET_PARAMETER)]
-class Ntml implements Auth
+class Ntml
 {
-    public function check(mixed $value): void
-    {
-        //
-    }
+    //
 }
