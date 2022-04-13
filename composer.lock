@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "922b76faec6d2f504b2c134ab085e05d",
+    "content-hash": "3604d61f9ed153d1fd1e28d5600b30d4",
     "packages": [
         {
             "name": "guzzlehttp/guzzle",
@@ -328,6 +328,56 @@
                 }
             ],
             "time": "2021-10-06T17:43:30+00:00"
+        },
+        {
+            "name": "lisachenko/z-engine",
+            "version": "0.9.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/lisachenko/z-engine.git",
+                "reference": "f43398707586ed689f2d619b20a5e9528508756c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/lisachenko/z-engine/zipball/f43398707586ed689f2d619b20a5e9528508756c",
+                "reference": "f43398707586ed689f2d619b20a5e9528508756c",
+                "shasum": ""
+            },
+            "require": {
+                "ext-ffi": "*",
+                "php": "8.0.*"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^8.5.15 || ^9.0.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "ZEngine\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Alexander Lisachenko",
+                    "email": "lisachenko.it@gmail.com"
+                }
+            ],
+            "description": "Library that provides direct access to native PHP structures",
+            "support": {
+                "issues": "https://github.com/lisachenko/z-engine/issues",
+                "source": "https://github.com/lisachenko/z-engine/tree/0.9.1"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/lisachenko",
+                    "type": "github"
+                }
+            ],
+            "time": "2021-06-26T16:38:23+00:00"
         },
         {
             "name": "psr/http-client",

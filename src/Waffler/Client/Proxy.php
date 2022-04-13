@@ -17,7 +17,6 @@ use Waffler\Waffler\Attributes\Request\Path;
 use Waffler\Waffler\Attributes\Utils\NestedResource;
 use Waffler\Waffler\Client\Readers\MethodReader;
 use Waffler\Waffler\Client\Traits\InteractsWithAttributes;
-use Waffler\Waffler\Generator\Contracts\MethodCallHandler;
 
 use function Waffler\Waffler\arrayWrap;
 
@@ -31,7 +30,7 @@ use function Waffler\Waffler\arrayWrap;
  * @implements MethodCallHandler<TInterfaceType>
  * @mixin TInterfaceType
  */
-class Proxy implements MethodCallHandler
+class Proxy
 {
     use InteractsWithAttributes;
 

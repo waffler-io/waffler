@@ -11,6 +11,7 @@
 
 namespace Waffler\Waffler\Tests\Unit\Client;
 
+use InvalidArgumentException;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use PHPUnit\Framework\TestCase;
 use Waffler\Waffler\Client\Factory;
@@ -34,7 +35,7 @@ class FactoryTest extends TestCase
 
     public function testMustRejectNonInterfaceClassString(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionCode(10);
         Factory::make(InvalidType::class);
     }
@@ -42,10 +43,11 @@ class FactoryTest extends TestCase
     /**
      * @psalm-suppress UndefinedClass
      * @return void
+     * @throws \ReflectionException
      */
     public function testMustRejectNonObjectLikeTypeName(): void
     {
-        $this->expectException(\ReflectionException::class);
+        $this->expectException(InvalidArgumentException::class);
         Factory::make('invalid interface name');
     }
 

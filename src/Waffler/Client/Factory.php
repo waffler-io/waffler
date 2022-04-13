@@ -14,9 +14,11 @@ declare(strict_types=1);
 namespace Waffler\Waffler\Client;
 
 use GuzzleHttp\Client;
+use InvalidArgumentException;
 use ReflectionClass;
+use ZEngine\Core;
+use ZEngine\Reflection\ReflectionClass as ZReflectionClass;
 use Waffler\Waffler\Client\Contracts\FactoryInterface;
-use Waffler\Waffler\Generator\AnonymousClassGenerator;
 
 /**
  * Class Client
@@ -25,16 +27,26 @@ use Waffler\Waffler\Generator\AnonymousClassGenerator;
  */
 class Factory implements FactoryInterface
 {
+    private static bool $isInitialized = false;
+
     /**
      * @inheritDoc
      */
     public static function make(string $interfaceName, array $options = []): object
     {
-        return (new AnonymousClassGenerator())
-            ->instantiate(new Proxy(
-                new ReflectionClass($interfaceName),
-                new MethodInvoker(new ResponseParser(), new Client($options)),
-                $options
-            ));
+        if (!self::$isInitialized) {
+            Core::init();
+        }
+        if (!interface_exists($interfaceName)) {
+            throw new InvalidArgumentException("Interface {$interfaceName} does not exist", 10);
+        }
+        $proxy = new class(
+            new ReflectionClass($interfaceName),
+            new MethodInvoker(new ResponseParser(), new Client($options)),
+            $options
+        ) extends Proxy {};
+        $zReflectionClass = new ZReflectionClass($proxy);
+        $zReflectionClass->addInterfaces($interfaceName);
+        return $proxy;
     }
 }
