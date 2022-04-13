@@ -27,19 +27,16 @@ use Waffler\Waffler\Client\Contracts\FactoryInterface;
  */
 class Factory implements FactoryInterface
 {
-    private static bool $isInitialized = false;
-
     /**
      * @inheritDoc
      */
     public static function make(string $interfaceName, array $options = []): object
     {
-        if (!self::$isInitialized) {
-            Core::init();
-            self::$isInitialized = true;
-        }
         if (!interface_exists($interfaceName)) {
             throw new InvalidArgumentException("Interface {$interfaceName} does not exist", 10);
+        }
+        if (empty(Core::$executor)) {
+            Core::init();
         }
         $proxy = new class(
             new ReflectionClass($interfaceName),
