@@ -36,6 +36,7 @@ class Factory implements FactoryInterface
     {
         if (!self::$isInitialized) {
             Core::init();
+            self::$isInitialized = true;
         }
         if (!interface_exists($interfaceName)) {
             throw new InvalidArgumentException("Interface {$interfaceName} does not exist", 10);
