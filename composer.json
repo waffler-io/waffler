@@ -8,7 +8,8 @@
       "Waffler\\Waffler\\": "src/Waffler/"
     },
     "files": [
-      "src/helpers.php"
+      "src/helpers.php",
+      "src/core_bootstrap.php"
     ]
   },
   "authors": [

@@ -16,7 +16,6 @@ namespace Waffler\Waffler\Client;
 use GuzzleHttp\Client;
 use InvalidArgumentException;
 use ReflectionClass;
-use ZEngine\Core;
 use ZEngine\Reflection\ReflectionClass as ZReflectionClass;
 use Waffler\Waffler\Client\Contracts\FactoryInterface;
 
@@ -34,9 +33,6 @@ class Factory implements FactoryInterface
     {
         if (!interface_exists($interfaceName)) {
             throw new InvalidArgumentException("Interface {$interfaceName} does not exist", 10);
-        }
-        if (empty(Core::$executor)) {
-            Core::init();
         }
         $proxy = new class(
             new ReflectionClass($interfaceName),
