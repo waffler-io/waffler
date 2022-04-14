@@ -9,7 +9,7 @@
  * with this source code in the file LICENCE.
  */
 
-require __DIR__.'/../vendor/autoload.php';
+require __DIR__.'/vendor/autoload.php';
 
 use ZEngine\Core;
 

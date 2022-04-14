@@ -16,8 +16,7 @@ use Waffler\Waffler\Attributes\Utils\NestedResource;
 use Waffler\Waffler\Attributes\Verbs\Get;
 use Waffler\Waffler\Client\Factory;
 
-require '../vendor/autoload.php';
-
+require __DIR__ . '/../autoload.php';
 
 interface ResourceApi
 {
@@ -47,10 +46,10 @@ $posts = $api->resource('users')
     ->relation('posts', 1)
     ->all(); // GET /users/1/posts
 
-var_dump($posts);
+print_r($posts);
 
 $comments = $api->resource('posts')
     ->relation('comments', 1)
     ->all(); // GET /posts/1/comments
 
-var_dump($comments);
+print_r($comments);

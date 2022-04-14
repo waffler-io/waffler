@@ -9,7 +9,7 @@
  * with this source code in the file LICENCE.
  */
 
-require __DIR__ . '/../vendor/autoload.php';
+require __DIR__ . '/../autoload.php';
 
 use Waffler\Waffler\Attributes\Request\Json;
 use Waffler\Waffler\Attributes\Request\PathParam;
@@ -43,3 +43,5 @@ $jsonplaceholder = Factory::make(JsonPlaceholderInterface::class, [
 ]);
 
 $users = $jsonplaceholder->getUsers();
+
+print_r($users);
