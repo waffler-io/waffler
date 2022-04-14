@@ -25,7 +25,7 @@ interface FactoryInterface
      * @param array<string, mixed>     $options       An array of guzzle http client options.
      *
      * @return TInterface
-     * @throws \ReflectionException If the $interfaceName can't be reflected.
+     * @throws \ReflectionException If the underlying proxy object cannot be modified to implement the interface.
      * @throws \InvalidArgumentException If the $interfaceName is not a fully qualified name of an interface.
      * @template TInterface of object
      * @author ErickJMenezes <erickmenezes.dev@gmail.com>

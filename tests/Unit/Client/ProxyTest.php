@@ -86,11 +86,6 @@ class ProxyTest extends TestCase
         $this->proxy->undefinedMethod();
     }
 
-    public function testGetReflectedInterfaceMustReturnAnInstanceOfReflectionClass(): void
-    {
-        self::assertInstanceOf(ReflectionClass::class, $this->proxy->getReflectedInterface());
-    }
-
     public function testItMustThrowExceptionWhenTheMethodReturnsNestedResourceButTheReturnTypeIsInvalid(): void
     {
         $this->expectException(\BadMethodCallException::class);

@@ -16,8 +16,9 @@ namespace Waffler\Waffler\Client;
 use GuzzleHttp\Client;
 use InvalidArgumentException;
 use ReflectionClass;
-use ZEngine\Reflection\ReflectionClass as ZReflectionClass;
 use Waffler\Waffler\Client\Contracts\FactoryInterface;
+use Waffler\Waffler\Client\Contracts\ProxyInterface;
+use ZEngine\Reflection\ReflectionClass as ZEngineReflectionClass;
 
 /**
  * Class Client
@@ -34,13 +35,38 @@ class Factory implements FactoryInterface
         if (!interface_exists($interfaceName)) {
             throw new InvalidArgumentException("Interface {$interfaceName} does not exist", 10);
         }
-        $proxy = new class(
+        return self::createProxy(
             new ReflectionClass($interfaceName),
             new MethodInvoker(new ResponseParser(), new Client($options)),
             $options
-        ) extends Proxy {};
-        $zReflectionClass = new ZReflectionClass($proxy);
-        $zReflectionClass->addInterfaces($interfaceName);
+        );
+    }
+
+    /**
+     * @param \ReflectionClass<TInterfaceType>      $interface
+     * @param \Waffler\Waffler\Client\MethodInvoker $methodInvoker
+     * @param array                                 $options
+     *
+     * @return ProxyInterface&TInterfaceType
+     * @throws \ReflectionException
+     * @author         ErickJMenezes <erickmenezes.dev@gmail.com>
+     * @psalm-template TInterfaceType of object
+     */
+    private static function createProxy(
+        ReflectionClass $interface,
+        MethodInvoker $methodInvoker,
+        array $options = []
+    ): ProxyInterface {
+        // We are creating an anonymous class here to preventing modifying the Proxy class with the low level
+        // modifications.
+        $proxy = new class ($interface, $methodInvoker, $options) extends Proxy {};
+
+        // Here we add the given interface to the internal class implementation list inside zend engine. By doing this
+        // we now can safely assign the anonymous Proxy object to a typed property or parameter with the same type as
+        // the given interface.
+        (new ZEngineReflectionClass($proxy))->addInterfaces($interface->getName());
+
+        // Now the magic is done, now we just return the modified object.
         return $proxy;
     }
 }

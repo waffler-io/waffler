@@ -15,6 +15,7 @@ use BadMethodCallException;
 use ReflectionClass;
 use Waffler\Waffler\Attributes\Request\Path;
 use Waffler\Waffler\Attributes\Utils\NestedResource;
+use Waffler\Waffler\Client\Contracts\ProxyInterface;
 use Waffler\Waffler\Client\Readers\MethodReader;
 use Waffler\Waffler\Client\Traits\InteractsWithAttributes;
 
@@ -27,10 +28,10 @@ use function Waffler\Waffler\arrayWrap;
  *
  * @author         ErickJMenezes <erickmenezes.dev@gmail.com>
  * @psalm-template TInterfaceType of object
- * @implements MethodCallHandler<TInterfaceType>
+ * @implements \Waffler\Waffler\Client\Contracts\ProxyInterface<TInterfaceType>
  * @mixin TInterfaceType
  */
-class Proxy
+class Proxy implements ProxyInterface
 {
     use InteractsWithAttributes;
 
@@ -85,16 +86,6 @@ class Proxy
         throw new BadMethodCallException(
             "The method $name is not declared in {$this->interface->getName()}."
         );
-    }
-
-    /**
-     * @inheritDoc
-     * @return \ReflectionClass<TInterfaceType>
-     * @author ErickJMenezes <erickmenezes.dev@gmail.com>
-     */
-    public function getReflectedInterface(): ReflectionClass
-    {
-        return $this->interface;
     }
 
     /**
