@@ -162,6 +162,9 @@ class MethodInvoker
         $readers = array_map(fn ($args) => $this->newMethodReader($method, arrayWrap($args), $pathPrefix), $argumentsList);
 
         // Creates a new promise that will perform all requests.
+        /**
+         * @psalm-suppress UnusedVariable
+         */
         $batchPromise = new Promise(function () use ($argumentsList, $readers, &$batchPromise) {
             $results = [];
             $resultCallback = function (mixed $v, int $k) use (&$results): void {
@@ -201,11 +204,9 @@ class MethodInvoker
             )
         );
 
-        if ($parentMethodReader->isAsynchronous()) {
-            return $mappedResultPromise;
-        }
-
-        return $mappedResultPromise->wait();
+        return $parentMethodReader->isAsynchronous()
+            ? $mappedResultPromise
+            : $mappedResultPromise->wait();
     }
 
     private function parseResponse(ResponseInterface $response, MethodReader $methodReader): mixed
