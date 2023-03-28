@@ -127,13 +127,13 @@ class Proxy implements MethodCallHandler
             $methodReader = new MethodReader($reflectionMethod, $arguments);
 
             // If the parent is another nested resource, we need to merge the parent path with this new path.
-            $options['waffler_client_path_prefix'] = [
-                ...$options['waffler_client_path_prefix'],
-                ...array_filter(
+            $options['waffler_client_path_prefix'] = array_merge(
+                $options['waffler_client_path_prefix'],
+                array_filter(
                     explode('/', $methodReader->parsePath()),
                     fn ($element) => $element !== ''
-                )
-            ];
+                ),
+            );
         }
 
         // Finally, build the nested resource interface.
