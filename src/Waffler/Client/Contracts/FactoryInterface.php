@@ -22,9 +22,9 @@ interface FactoryInterface
      * Factory method to create the client implementation.
      *
      * @param class-string<TInterface> $interfaceName Fully qualified name of the client interface.
-     * @param array<string, mixed>     $options       An array of guzzle http client options.
+     * @param array<string, mixed>     $options       An array of GuzzleHttp client options.
      *
-     * @return TInterface
+     * @return object&TInterface
      * @throws \ReflectionException If the $interfaceName can't be reflected.
      * @throws \InvalidArgumentException If the $interfaceName is not a fully qualified name of an interface.
      * @template TInterface of object

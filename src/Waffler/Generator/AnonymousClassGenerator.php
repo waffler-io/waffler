@@ -53,10 +53,13 @@ class AnonymousClassGenerator implements InterfaceInstantiator
      *
      * @param \ReflectionClass<TInterfaceType> $reflectionInterface
      *
-     * @return \Waffler\Waffler\Generator\FactoryFunction<TInterfaceType>
      * @throws \Exception
+     *
      * @psalm-template TInterfaceType of object
-     * @author   ErickJMenezes <erickmenezes.dev@gmail.com>
+     *
+     * @author ErickJMenezes <erickmenezes.dev@gmail.com>
+     *
+     * @psalm-return FactoryFunction|FactoryFunction<TInterfaceType>
      */
     private function getFactoryFunction(ReflectionClass $reflectionInterface): FactoryFunction
     {

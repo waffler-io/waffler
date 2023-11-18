@@ -37,12 +37,12 @@ interface JsonPlaceholderInterface
     /**
      * Creates multiple users.
      *
-     * @param array<array<string>> $usersData
+     * @param array<array<string>> $data
      *
      * @return array<array<string, string>>
      */
     #[Batch('createUser')]
-    public function createManyUsers(array $usersData): array;
+    public function createManyUsers(array $data): array;
 }
 
 $client = Factory::make(JsonPlaceholderInterface::class, [

@@ -23,7 +23,7 @@ interface InterfaceInstantiator
      *
      * @param \Waffler\Waffler\Generator\Contracts\MethodCallHandler<TInterfaceType> $methodCallHandler
      *
-     * @return TInterfaceType
+     * @return object&TInterfaceType
      * @throws \ReflectionException If the interface name is not instantiable
      * @throws \InvalidArgumentException If the Reflection class or the name of the type is not an interface.
      * @author   ErickJMenezes <erickmenezes.dev@gmail.com>

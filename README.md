@@ -53,7 +53,7 @@ interface FooClient
      * @param array $query      Some optional query string Filters.
      * @return array            The list of posts.
      */
-    public function getPosts(string $authToken, array $query = []): array:
+    public function getPosts(string $authToken, array $query = []): array;
 }
 ```
 
@@ -71,16 +71,16 @@ namespace App\Clients;
 
 use Waffler\Waffler\Attributes\Auth\Bearer;
 use Waffler\Waffler\Attributes\Request\Json;
-use Waffler\Waffler\Attributes\Request\Post;
 use Waffler\Waffler\Attributes\Request\Query;
 use Waffler\Waffler\Attributes\Verbs\Get;
+use Waffler\Waffler\Attributes\Verbs\Post;
 
 interface FooClient
 {
     /**
      * Retrieve authorization token.
      *
-     * @param array $credentials Just pass the login and password.
+     * @param array $credentials Pass the login and password.
      * @return array             The json response.
      */
     #[Post('/auth/login')]
@@ -94,7 +94,7 @@ interface FooClient
      * @return array            The list of posts.
      */
     #[Get('/posts')]
-    public function getPosts(#[Bearer] string $authToken, #[Query] array $query = []): array:
+    public function getPosts(#[Bearer] string $authToken, #[Query] array $query = []): array;
 }
 ```
 

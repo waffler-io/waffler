@@ -113,7 +113,7 @@ class MethodInvoker
             throw new InvalidBatchedMethodSignatureException($method, InvalidBatchedMethodSignatureException::REASON_ARGS);
         } elseif (
             // If the method does not have return type
-            ! ($methodReturnType instanceof ReflectionNamedType)
+            !($methodReturnType instanceof ReflectionNamedType)
             // Or if the bached method has a return type and...
             || $batchedMethodReturnType instanceof ReflectionNamedType
             && (
