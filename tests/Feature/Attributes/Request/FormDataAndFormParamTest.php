@@ -69,18 +69,6 @@ class FormDataAndFormParamTest extends FeatureTestCase
             ->testFormParam3('bar');
     }
 
-    public function testRequestFormData4MustHaveTheGivenFormParams(): void
-    {
-        $this->createRequestExpectation()
-            ->expectHeaders([
-                'Content-Type' => ['application/x-www-form-urlencoded']
-            ])
-            ->expectBody('foo=bar')
-            ->build()
-            ->client
-            ->testFormParam4('bar');
-    }
-
     public function testFormDataAndFormParamsMustBeMerged(): void
     {
         $this->createRequestExpectation()

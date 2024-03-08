@@ -32,7 +32,7 @@ class FeatureTestCase extends TestCase
     {
         parent::setUp();
 
-        $this->client = Factory::make(FeatureTestCaseClient::class, [
+        $this->client = (new Factory())->make(FeatureTestCaseClient::class, [
             'handler' => $this->mockHandler = new MockHandler()
         ]);
     }

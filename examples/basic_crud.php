@@ -43,3 +43,5 @@ $jsonplaceholder = Factory::make(JsonPlaceholderInterface::class, [
 ]);
 
 $users = $jsonplaceholder->getUsers();
+
+var_dump($users);

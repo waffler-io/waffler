@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 /*
  * This file is part of Waffler\Waffler.
@@ -13,28 +13,41 @@ declare(strict_types=1);
 
 namespace Waffler\Waffler\Client;
 
-use GuzzleHttp\Client;
-use ReflectionClass;
 use Waffler\Waffler\Client\Contracts\FactoryInterface;
-use Waffler\Waffler\Generator\AnonymousClassGenerator;
+use Waffler\Waffler\Implementation\Factory\ClassFactory;
+use Waffler\Waffler\Implementation\Factory\FactoryInterface as ImplFactory;
+use Waffler\Waffler\Implementation\Factory\FileCacheFactory;
+use Waffler\Waffler\Implementation\MethodValidator;
+use Waffler\Waffler\Implementation\PathParser;
 
 /**
- * Class Client
+ * Class Factory
  *
  * @author ErickJMenezes <erickmenezes.dev@gmail.com>
  */
-class Factory implements FactoryInterface
+readonly class Factory implements FactoryInterface
 {
+    private const IMPL_CACHE_DIRECTORY = __DIR__.'/../../Impl';
+
+    public function __construct(
+        private ImplFactory $classFactory = new FileCacheFactory(
+            new ClassFactory(
+                new MethodValidator(),
+                new PathParser(),
+            ),
+            self::IMPL_CACHE_DIRECTORY,
+        )
+    ) {}
+
     /**
-     * @inheritDoc
+     * {@inheritDoc}
+     *
+     * @throws \ReflectionException
      */
-    public static function make(string $interfaceName, array $options = []): object
+    public function make(string $interface, array $options = []): object
     {
-        return (new AnonymousClassGenerator())
-            ->instantiate(new Proxy(
-                new ReflectionClass($interfaceName),
-                new MethodInvoker(new ResponseParser(), new Client($options)),
-                $options
-            ));
+        $className = $this->classFactory->generateForInterface($interface);
+
+        return new $className($options, $this);
     }
 }

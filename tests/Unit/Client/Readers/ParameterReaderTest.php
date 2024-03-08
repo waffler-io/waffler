@@ -12,28 +12,11 @@
 namespace Waffler\Waffler\Tests\Unit\Client\Readers;
 
 use InvalidArgumentException;
-use Mockery as m;
-use Mockery\MockInterface;
 use PHPUnit\Framework\TestCase;
 use ReflectionParameter;
-use Waffler\Waffler\Attributes\Auth\Basic;
-use Waffler\Waffler\Attributes\Auth\Bearer;
-use Waffler\Waffler\Attributes\Auth\Digest;
-use Waffler\Waffler\Attributes\Auth\Ntml;
-use Waffler\Waffler\Attributes\Request\Body;
-use Waffler\Waffler\Attributes\Request\FormData;
-use Waffler\Waffler\Attributes\Request\FormParam;
-use Waffler\Waffler\Attributes\Request\HeaderParam;
-use Waffler\Waffler\Attributes\Request\Json;
-use Waffler\Waffler\Attributes\Request\JsonParam;
-use Waffler\Waffler\Attributes\Request\Multipart;
-use Waffler\Waffler\Attributes\Request\PathParam;
-use Waffler\Waffler\Attributes\Request\Query;
-use Waffler\Waffler\Attributes\Request\QueryParam;
-use Waffler\Waffler\Attributes\Utils\RawOptions;
 use Waffler\Waffler\Client\Readers\Exceptions\MultipleValuesFoundException;
-use Waffler\Waffler\Client\Readers\Exceptions\UnableToParsePathException;
 use Waffler\Waffler\Client\Readers\ParameterReader;
+use Waffler\Waffler\Implementation\Exceptions\UnableToParsePathException;
 use Waffler\Waffler\Tests\Fixtures\Interfaces\ParameterReaderTestClientInterface as ClientInterface;
 
 /**

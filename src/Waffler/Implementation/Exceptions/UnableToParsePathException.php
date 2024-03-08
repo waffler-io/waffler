@@ -9,7 +9,7 @@
  * with this source code in the file LICENCE.
  */
 
-namespace Waffler\Waffler\Client\Readers\Exceptions;
+namespace Waffler\Waffler\Implementation\Exceptions;
 
 use RuntimeException;
 

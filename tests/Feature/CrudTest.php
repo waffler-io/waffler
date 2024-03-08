@@ -33,7 +33,7 @@ class CrudTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->testCaseClient = Factory::make(CrudTestCaseClient::class, [
+        $this->testCaseClient = (new Factory())->make(CrudTestCaseClient::class, [
             'handler' => $this->mockHandler = new MockHandler()
         ]);
     }

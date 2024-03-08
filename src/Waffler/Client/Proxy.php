@@ -16,8 +16,8 @@ use ReflectionClass;
 use Waffler\Waffler\Attributes\Request\Path;
 use Waffler\Waffler\Attributes\Utils\NestedResource;
 use Waffler\Waffler\Client\Readers\MethodReader;
-use Waffler\Waffler\Client\Traits\InteractsWithAttributes;
 use Waffler\Waffler\Generator\Contracts\MethodCallHandler;
+use Waffler\Waffler\Implementation\Traits\InteractsWithAttributes;
 
 use function Waffler\Waffler\arrayWrap;
 

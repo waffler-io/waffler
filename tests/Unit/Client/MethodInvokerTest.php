@@ -33,7 +33,7 @@ use Waffler\Waffler\Tests\Fixtures\Interfaces\MethodInvokerTestClientInterface;
  * @uses   \Waffler\Waffler\Attributes\Verbs\Get
  * @uses   \Waffler\Waffler\Client\Readers\MethodReader
  * @uses   \Waffler\Waffler\Client\Readers\ParameterReader
- * @uses   \Waffler\Waffler\Client\Traits\InteractsWithAttributes
+ * @uses   \Waffler\Waffler\Implementation\Traits\InteractsWithAttributes
  * @uses   \Waffler\Waffler\Attributes\Utils\Unwrap
  * @uses   \Waffler\Waffler\Client\ResponseParser
  * @uses   \Waffler\Waffler\arrayGet()
