@@ -56,6 +56,6 @@ class PathParser
 
     private function hasPlaceholders(string $path): bool
     {
-        return preg_match('/\{.*\}/', $path) === 1;
+        return preg_match('/\{.*}/', $path) === 1;
     }
 }

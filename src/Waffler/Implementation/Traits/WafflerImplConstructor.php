@@ -13,7 +13,6 @@ namespace Waffler\Waffler\Implementation\Traits;
 
 use GuzzleHttp\Client;
 use Waffler\Waffler\Client\Contracts\FactoryInterface;
-use Waffler\Waffler\Client\MakerInterface;
 
 trait WafflerImplConstructor
 {
