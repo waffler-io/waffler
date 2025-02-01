@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 /*
  * This file is part of Waffler\Waffler.
@@ -37,7 +37,8 @@ readonly class Factory implements FactoryInterface
             ),
             self::IMPL_CACHE_DIRECTORY,
         )
-    ) {}
+    ) {
+    }
 
     /**
      * {@inheritDoc}

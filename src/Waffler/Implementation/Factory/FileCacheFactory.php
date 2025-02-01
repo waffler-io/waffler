@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of Waffler\Waffler.
+ *
+ * (c) Erick Johnson Almeida de Menezes <erickmenezes.dev@gmail.com>
+ *
+ * This source file is subject to the MIT licence that is bundled
+ * with this source code in the file LICENCE.
+ */
+
 namespace Waffler\Waffler\Implementation\Factory;
 
 use Waffler\Waffler\Implementation\Attributes\ImplHash;
@@ -8,13 +17,13 @@ use Waffler\Waffler\Implementation\Traits\InteractsWithAttributes;
 
 class FileCacheFactory extends AbstractFactoryDecorator
 {
-    use InteractsWithAttributes, BuildsImplementationFileName;
+    use InteractsWithAttributes;
+    use BuildsImplementationFileName;
 
     public function __construct(
         FactoryInterface $factory,
         private readonly string $cacheDirectory,
-    )
-    {
+    ) {
         parent::__construct($factory);
     }
 

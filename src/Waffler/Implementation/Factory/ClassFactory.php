@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of Waffler\Waffler.
+ *
+ * (c) Erick Johnson Almeida de Menezes <erickmenezes.dev@gmail.com>
+ *
+ * This source file is subject to the MIT licence that is bundled
+ * with this source code in the file LICENCE.
+ */
+
 namespace Waffler\Waffler\Implementation\Factory;
 
 use ArrayObject;
@@ -50,12 +59,14 @@ use Waffler\Waffler\Implementation\Traits\WafflerImplConstructor;
 
 readonly class ClassFactory implements FactoryInterface
 {
-    use InteractsWithAttributes, BuildsImplementationFileName;
+    use InteractsWithAttributes;
+    use BuildsImplementationFileName;
 
     public function __construct(
         private MethodValidator $methodValidator,
         private PathParser $pathParser,
-    ) {}
+    ) {
+    }
 
     public function generateForInterface(string $interface): string
     {
@@ -139,7 +150,8 @@ readonly class ClassFactory implements FactoryInterface
         $implMethod->setBody(
             $this->generateMainMethodBody(
                 $hiddenMethod->getName(),
-                $reflectionMethod),
+                $reflectionMethod
+            ),
         );
     }
 
@@ -215,8 +227,8 @@ readonly class ClassFactory implements FactoryInterface
         return implode(
             '/',
             array_filter(
-                array_map(fn($path) => trim($path, '/'), $fullPath),
-                fn($path) => !empty($path),
+                array_map(fn ($path) => trim($path, '/'), $fullPath),
+                fn ($path) => !empty($path),
             ),
         );
     }
@@ -276,13 +288,13 @@ readonly class ClassFactory implements FactoryInterface
                 }
             } elseif ($this->reflectionHasAttribute($reflectionParameter, Json::class)) {
                 $lines[] = "\$_options[RequestOptions::JSON] = array_merge((\$_options[RequestOptions::JSON] ?? []), \${$reflectionParameter->getName()});";
-            } elseif($this->reflectionHasAttribute($reflectionParameter, JsonParam::class)) {
+            } elseif ($this->reflectionHasAttribute($reflectionParameter, JsonParam::class)) {
                 $jsonParam = $this->getAttributeInstance($reflectionParameter, JsonParam::class, true);
                 $jsonParamLine = "\$_options[RequestOptions::JSON]";
                 foreach (explode($jsonParam->getPathSeparator(), $jsonParam->getKey()) as $key) {
-                    $jsonParamLine.= "['$key']";
+                    $jsonParamLine .= "['$key']";
                 }
-                $jsonParamLine.= " = \${$reflectionParameter->getName()};";
+                $jsonParamLine .= " = \${$reflectionParameter->getName()};";
                 $lines[] = $jsonParamLine;
             } elseif ($this->reflectionHasAttribute($reflectionParameter, Query::class)) {
                 $lines[] = "\$_options[RequestOptions::QUERY] = \${$reflectionParameter->getName()};";
@@ -306,7 +318,7 @@ readonly class ClassFactory implements FactoryInterface
                 $lines[] = "\$_options[RequestOptions::AUTH] = [...\${$reflectionParameter->getName()}, 'ntml'];";
             } elseif ($this->reflectionHasAttribute($reflectionParameter, Bearer::class)) {
                 $lines[] = "\$_options[RequestOptions::HEADERS]['Authorization'] = \"Bearer \${$reflectionParameter->getName()}\";";
-            } elseif($this->reflectionHasAttribute($reflectionParameter, RawOptions::class)) {
+            } elseif ($this->reflectionHasAttribute($reflectionParameter, RawOptions::class)) {
                 $lines[] = "\$_options = [...\$_options, ...\${$reflectionParameter->getName()}];";
             } elseif (count($reflectionParameter->getAttributes()) === 0) {
                 throw new ParameterWithoutAttributesException("The parameter '{$reflectionParameter->getName()}' does not have any attributes defined.");

@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of Waffler\Waffler.
+ *
+ * (c) Erick Johnson Almeida de Menezes <erickmenezes.dev@gmail.com>
+ *
+ * This source file is subject to the MIT licence that is bundled
+ * with this source code in the file LICENCE.
+ */
+
 namespace Waffler\Waffler\Implementation;
 
 use ArrayObject;
@@ -80,7 +89,7 @@ class MethodValidator
      */
     private function validateMethodSignature(ReflectionMethod $method): void
     {
-        if (in_array($method->getName(), self::DISALLOWED_METHODS)) {
+        if (in_array($method->getName(), self::DISALLOWED_METHODS, true)) {
             throw new InterfaceMethodValidationException(
                 InterfaceMethodValidationException::METHOD_NOT_ALLOWED,
                 [$method->getName()],
@@ -310,7 +319,7 @@ class MethodValidator
             'mixed',
         ];
 
-        if (!in_array($type->getName(), $allowedReturnTypes)) {
+        if (!in_array($type->getName(), $allowedReturnTypes, true)) {
             throw new InterfaceMethodValidationException(
                 InterfaceMethodValidationException::INVALID_METHOD_RETURN_TYPE,
                 [implode('|', $allowedReturnTypes)],

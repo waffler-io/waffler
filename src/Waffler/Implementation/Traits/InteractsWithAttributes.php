@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 /*
  * This file is part of Waffler\Waffler.
@@ -40,8 +40,7 @@ trait InteractsWithAttributes
         ReflectionMethod|ReflectionParameter|ReflectionClass $reflection,
         string $name,
         bool $instanceOf = false,
-    ): bool
-    {
+    ): bool {
         return count($reflection->getAttributes($name, $instanceOf ? ReflectionAttribute::IS_INSTANCEOF : 0)) !== 0;
     }
 
@@ -58,8 +57,7 @@ trait InteractsWithAttributes
         ReflectionMethod|ReflectionParameter|ReflectionClass $reflection,
         string $name,
         bool $instanceOf = false,
-    ): object
-    {
+    ): object {
         return $this->getAttributeInstances($reflection, $name, $instanceOf)[0];
     }
 
@@ -76,8 +74,7 @@ trait InteractsWithAttributes
         ReflectionMethod|ReflectionParameter|ReflectionClass $reflection,
         string $name,
         bool $instanceOf = false,
-    ): array
-    {
+    ): array {
         return array_map(
             fn (ReflectionAttribute $attribute) => $attribute->newInstance(),
             $reflection->getAttributes($name, $instanceOf ? ReflectionAttribute::IS_INSTANCEOF : 0)

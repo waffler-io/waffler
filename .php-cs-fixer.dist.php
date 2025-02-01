@@ -13,7 +13,8 @@ EOL;
 $finder = PhpCsFixer\Finder::create()
     ->exclude([
         'vendor',
-        '.phpunit.cache'
+        '.phpunit.cache',
+        'src/Impl'
     ])
     ->in(__DIR__);
 
