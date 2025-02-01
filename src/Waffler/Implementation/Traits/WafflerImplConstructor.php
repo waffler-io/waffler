@@ -12,6 +12,10 @@
 namespace Waffler\Waffler\Implementation\Traits;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Pool;
+use GuzzleHttp\Promise\Utils;
+use GuzzleHttp\RequestOptions;
+use Psr\Http\Message\ResponseInterface;
 use Waffler\Waffler\Client\Contracts\FactoryInterface;
 
 trait WafflerImplConstructor
@@ -43,5 +47,32 @@ trait WafflerImplConstructor
             ...$options,
             'base_uri' => ($this->options['base_uri'] ?? '') . ($options['base_uri'] ?? '') . '/'
         ]);
+    }
+
+    /**
+     * Executes a batch of asynchronous operations by calling a specified hidden method with a list of arguments.
+     *
+     * @param string $methodName The name of the method to be called for each set of arguments.
+     * @param array  $argsList   A list of argument arrays, where each array represents the arguments for one method call.
+     *
+     * @return array<ResponseInterface> The combined results of all asynchronous operations after execution.
+     *
+     * @throws \InvalidArgumentException If any element in the $argsList is not an array.
+     */
+    private function performBatchMethod(string $methodName, array $argsList): array
+    {
+        $hiddenMethodName = 'wafflerImplFor'.ucfirst($methodName);
+        $requests = [];
+        foreach ($argsList as $args) {
+            if (!is_array($args)) {
+                var_dump($args);
+                throw new \InvalidArgumentException('All arguments must be arrays.');
+            }
+            $requests[] = $this->{$hiddenMethodName}(
+                [RequestOptions::SYNCHRONOUS => false],
+                ...$args
+            );
+        }
+        return Utils::unwrap($requests);
     }
 }

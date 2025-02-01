@@ -98,7 +98,8 @@ class MethodValidator
 
         if (
             !$this->reflectionHasAttribute($method, Verb::class, true) &&
-            !$this->reflectionHasAttribute($method, NestedResource::class)
+            !$this->reflectionHasAttribute($method, NestedResource::class) &&
+            !$this->reflectionHasAttribute($method, Batch::class)
         ) {
             throw new InterfaceMethodValidationException(
                 InterfaceMethodValidationException::VERB_IS_MISSING,

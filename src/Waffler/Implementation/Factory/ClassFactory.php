@@ -107,12 +107,13 @@ readonly class ClassFactory implements FactoryInterface
     {
         $implMethod = $class->addMethod($reflectionMethod->getName())
             ->setPublic();
-
         $hiddenMethod = $class->addMethod("wafflerImplFor".ucfirst($reflectionMethod->getName()))
             ->setPrivate();
-
-        $hiddenMethod->addParameter('_additionalOptions')
-            ->setType('array');
+        $isBatched = $this->reflectionHasAttribute($reflectionMethod, Batch::class);
+        if (!$isBatched) {
+            $hiddenMethod->addParameter('_additionalOptions')
+                ->setType('array');
+        }
 
         foreach ($reflectionMethod->getParameters() as $reflectionParameter) {
             $parameter = $implMethod->addParameter($reflectionParameter->getName());
@@ -133,7 +134,10 @@ readonly class ClassFactory implements FactoryInterface
                     ->getName());
             }
         }
-        if ($reflectionMethod->hasReturnType()) {
+        if ($isBatched) {
+            $implMethod->setReturnType('array');
+            $namespace->addUse(ResponseInterface::class);
+        } elseif ($reflectionMethod->hasReturnType()) {
             $hasNested = $this->reflectionHasAttribute($reflectionMethod, NestedResource::class);
             $returnType = $reflectionMethod
                 ->getReturnType()
@@ -166,15 +170,24 @@ readonly class ClassFactory implements FactoryInterface
         } elseif ($hasNested) {
             $lines[] = "return \$this->{$hiddenMethodName}([RequestOptions::SYNCHRONOUS => true], ...func_get_args());";
         } else {
-            $lines[] = "\$response = \$this->{$hiddenMethodName}([RequestOptions::SYNCHRONOUS => true], ...func_get_args())->wait();";
-            $lines[] = $this->respond(
+            $processingResult = $this->respond(
                 $reflectionReturnType?->getName(),
                 $this->reflectionHasAttribute($reflectionMethod, Unwrap::class)
                     ? $this->getAttributeInstance($reflectionMethod, Unwrap::class)->property
                     : null
             );
-            if ($reflectionReturnType?->getName() !== 'void') {
-                $lines[] = "return \$result;";
+            if ($this->reflectionHasAttribute($reflectionMethod, Batch::class)) {
+                $lines[] = "\$responses = \$this->{$hiddenMethodName}(...func_get_args());";
+                $lines[] = "return array_map(function (ResponseInterface \$response) {
+                        {$processingResult}
+                        return \$result;
+                    }, \$responses);";
+            } else {
+                $lines[] = "\$response = \$this->{$hiddenMethodName}([RequestOptions::SYNCHRONOUS => true], ...func_get_args())->wait();";
+                $lines[] = $processingResult;
+                if ($reflectionReturnType?->getName() !== 'void') {
+                    $lines[] = "return \$result;";
+                }
             }
         }
         return implode("\n", $lines);
@@ -243,14 +256,14 @@ readonly class ClassFactory implements FactoryInterface
      */
     private function generateMethodBodyForRequest(ReflectionMethod $reflectionMethod): string
     {
+        if ($this->reflectionHasAttribute($reflectionMethod, Batch::class)) {
+            $batchMethodName = $this->getAttributeInstance($reflectionMethod, Batch::class, true);
+            $args = implode(', ', array_map(fn ($param) => "\${$param->getName()}", $reflectionMethod->getParameters()));
+            return "return \$this->performBatchMethod('{$batchMethodName->methodName}', $args);";
+        }
         $lines = [];
 
-        if ($this->reflectionHasAttribute($reflectionMethod, Batch::class)) {
-            throw new Exception("Batching is not supported yet");
-        }
-
         $verb = $this->getAttributeInstance($reflectionMethod, Verb::class, true);
-
         $lines[] = "\$verb = '{$verb->getName()}';";
         $lines[] = "\$path = \"{$this->pathParser->parse($this->getFullMethodPath($reflectionMethod), $reflectionMethod->getParameters())}\";";
         $lines[] = '$_options = $_additionalOptions;';
