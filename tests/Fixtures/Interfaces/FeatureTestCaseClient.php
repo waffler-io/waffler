@@ -191,7 +191,7 @@ interface FeatureTestCaseClient
 
     // Attribute: NestedResource
 
-    // #[Path('foo/{fooId}')]
-    // #[NestedResource]
-    // public function nested(#[PathParam] int $fooId): NestedResourceClient;
+    #[Path('foo/{fooId}')]
+    #[NestedResource]
+    public function nested(#[PathParam] int $fooId): NestedResourceClient;
 }

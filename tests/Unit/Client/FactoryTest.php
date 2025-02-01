@@ -14,6 +14,7 @@ namespace Waffler\Waffler\Tests\Unit\Client;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use PHPUnit\Framework\TestCase;
 use Waffler\Waffler\Client\Factory;
+use Waffler\Waffler\Tests\Fixtures\CleanStart;
 use Waffler\Waffler\Tests\Fixtures\CrudTestCaseClient;
 
 /**
@@ -26,11 +27,12 @@ use Waffler\Waffler\Tests\Fixtures\CrudTestCaseClient;
  */
 class FactoryTest extends TestCase
 {
+    use CleanStart;
     use MockeryPHPUnitIntegration;
 
     public function testMustGenerateValidImplementationForValidInterfaces(): void
     {
-        $client = (new Factory())->make(CrudTestCaseClient::class, []);
+        $client = $this->factory->make(CrudTestCaseClient::class, []);
 
         self::assertInstanceOf(CrudTestCaseClient::class, $client);
     }

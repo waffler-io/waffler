@@ -16,6 +16,7 @@ use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\RequestInterface;
 use Waffler\Waffler\Client\Factory;
+use Waffler\Waffler\Tests\Fixtures\CleanStart;
 use Waffler\Waffler\Tests\Fixtures\CrudTestCaseClient;
 
 /**
@@ -26,6 +27,8 @@ use Waffler\Waffler\Tests\Fixtures\CrudTestCaseClient;
  */
 class CrudTest extends TestCase
 {
+    use CleanStart;
+
     private CrudTestCaseClient $testCaseClient;
 
     private MockHandler $mockHandler;
@@ -33,7 +36,7 @@ class CrudTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->testCaseClient = (new Factory())->make(CrudTestCaseClient::class, [
+        $this->testCaseClient = $this->factory->make(CrudTestCaseClient::class, [
             'handler' => $this->mockHandler = new MockHandler()
         ]);
     }

@@ -24,13 +24,11 @@ class NestedResourceTest extends FeatureTestCase
 {
     public function testItMustReturnAnInstanceOfNestedResourceClient(): void
     {
-        $this->markTestSkipped('yet not implemented');
         self::assertInstanceOf(NestedResourceClient::class, $this->client->nested(1));
     }
 
     public function testItMustInheritsThePathFromTheParentFactoryMethod(): void
     {
-        $this->markTestSkipped('yet not implemented');
         $this->createRequestExpectation()
             ->expectPath('api/v1/foo/1/bar/2')
             ->build()

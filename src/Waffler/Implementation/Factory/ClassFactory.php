@@ -10,6 +10,7 @@ use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\RequestOptions;
 use Nette\PhpGenerator\ClassType;
 use Nette\PhpGenerator\PhpFile;
+use Nette\PhpGenerator\PhpNamespace;
 use Psr\Http\Message\MessageInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
@@ -84,13 +85,13 @@ readonly class ClassFactory implements FactoryInterface
         $class->addTrait(WafflerImplConstructor::class);
 
         foreach ($reflectionInterface->getMethods() as $reflectionMethod) {
-            $this->processMethodImplMethods($class, $reflectionMethod);
+            $this->processMethodImplMethods($namespace, $class, $reflectionMethod);
         }
 
         return (string) $phpFile;
     }
 
-    private function processMethodImplMethods(ClassType $class, ReflectionMethod $reflectionMethod): void
+    private function processMethodImplMethods(PhpNamespace $namespace, ClassType $class, ReflectionMethod $reflectionMethod): void
     {
         $implMethod = $class->addMethod($reflectionMethod->getName())
             ->setPublic();
@@ -121,9 +122,17 @@ readonly class ClassFactory implements FactoryInterface
             }
         }
         if ($reflectionMethod->hasReturnType()) {
-            $implMethod->setReturnType($reflectionMethod->getReturnType()
-                ->getName());
-            $hiddenMethod->setReturnType(PromiseInterface::class);
+            $hasNested = $this->reflectionHasAttribute($reflectionMethod, NestedResource::class);
+            $returnType = $reflectionMethod
+                ->getReturnType()
+                ->getName();
+            $implMethod->setReturnType($returnType);
+            if ($hasNested) {
+                $namespace->addUse($returnType);
+                $hiddenMethod->setReturnType($returnType);
+            } else {
+                $hiddenMethod->setReturnType(PromiseInterface::class);
+            }
         }
 
         $hiddenMethod->setBody($this->generateMethodBody($reflectionMethod));
@@ -138,10 +147,12 @@ readonly class ClassFactory implements FactoryInterface
     {
         $lines = [];
         $reflectionReturnType = $reflectionMethod->getReturnType();
+        $hasNested = $this->reflectionHasAttribute($reflectionMethod, NestedResource::class);
         if ($reflectionReturnType !== null && is_a($reflectionReturnType->getName(), PromiseInterface::class)) {
             $lines[] = "return \$this->{$hiddenMethodName}(...func_get_args());";
+        } elseif ($hasNested) {
+            $lines[] = "return \$this->{$hiddenMethodName}([RequestOptions::SYNCHRONOUS => true], ...func_get_args());";
         } else {
-            // TODO: Implementar nested resource
             $lines[] = "\$response = \$this->{$hiddenMethodName}([RequestOptions::SYNCHRONOUS => true], ...func_get_args())->wait();";
             $lines[] = $this->respond(
                 $reflectionReturnType?->getName(),
@@ -175,20 +186,14 @@ readonly class ClassFactory implements FactoryInterface
     {
         $returnTypeName = $reflectionMethod->getReturnType()
             ->getName();
-
-        $lines = ['$options = [...$this->options];'];
-
-        if ($this->reflectionHasAttribute($reflectionMethod, Path::class)) {
-            $path = $this->getAttributeInstance($reflectionMethod, Path::class);
-            $lines[] = "\$path = \"{$this->pathParser->parse($path->path, $reflectionMethod->getParameters())}\";";
-            $lines[] = "\$options['base_uri'] = (\$options['base_uri'] ?? '').\$path;";
-        }
-
+        $lines = ['$options = [...$this->options, ...$_additionalOptions];'];
+        $fullPath = $this->getFullMethodPath($reflectionMethod);
+        $lines[] = "\$path = \"{$this->pathParser->parse($fullPath, $reflectionMethod->getParameters())}\";";
+        $lines[] = "\$options['base_uri'] = (\$options['base_uri'] ?? '').\$path;";
         $lines[] = "\$resource = '{$returnTypeName}';";
-
         $lines[] = "return \$this->buildNestedResource(\$resource, \$options);";
 
-        return implode('\n', $lines);
+        return implode(PHP_EOL, $lines);
     }
 
     private function getFullMethodPath(ReflectionMethod $reflectionMethod): string
@@ -203,17 +208,17 @@ readonly class ClassFactory implements FactoryInterface
             $fullPath[] = $this->getAttributeInstance($reflectionMethod, Path::class, true)
                 ->getPath();
         }
-        $verb = $this->getAttributeInstance($reflectionMethod, Verb::class, true);
-        $fullPath[] = $verb->getPath();
-
-        $result = implode(
+        if ($this->reflectionHasAttribute($reflectionMethod, Verb::class, true)) {
+            $verb = $this->getAttributeInstance($reflectionMethod, Verb::class, true);
+            $fullPath[] = $verb->getPath();
+        }
+        return implode(
             '/',
             array_filter(
                 array_map(fn($path) => trim($path, '/'), $fullPath),
                 fn($path) => !empty($path),
             ),
         );
-        return $result;
     }
 
     /**
@@ -328,7 +333,6 @@ readonly class ClassFactory implements FactoryInterface
             'object', ArrayObject::class => "\$result = new ArrayObject($unwrapper, ArrayObject::ARRAY_AS_PROPS);",
             StreamInterface::class => '$result = $response->getBody();',
             ResponseInterface::class, Response::class, MessageInterface::class, 'mixed' => '$result = $response;',
-            // TODO: implementar nested resource
             default => throw new TypeError()
         };
     }
