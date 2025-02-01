@@ -12,7 +12,6 @@ use Waffler\Waffler\Attributes\Request\Query;
 use Waffler\Waffler\Attributes\Utils\NestedResource;
 use Waffler\Waffler\Attributes\Verbs\Get;
 use Waffler\Waffler\Tests\Fixtures\CleanStart;
-use Waffler\Waffler\Tests\Fixtures\ClientExpectations;
 
 /**
  * Class GenericNestedResourceTest.
