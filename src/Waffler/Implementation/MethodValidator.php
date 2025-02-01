@@ -105,7 +105,7 @@ class MethodValidator
             );
         }
 
-        if ($method->hasReturnType()) {
+        if ($method->hasReturnType() && $method->getReturnType()->getName() !== $method->getDeclaringClass()->getName()) {
             $this->validateReturnType($method->getReturnType());
         }
     }

@@ -26,7 +26,7 @@ interface ResourceApi
 
     #[NestedResource]
     #[Path('{parentId}/{name}')]
-    public function relation(#[PathParam] string $name, #[PathParam] $parentId = ''): ResourceApi;
+    public function relation(#[PathParam] string $name, #[PathParam] string $parentId = ''): ResourceApi;
 }
 
 interface JsonPlaceholderApi
@@ -39,7 +39,7 @@ interface JsonPlaceholderApi
     public function resource(#[PathParam] string $name): ResourceApi;
 }
 
-$api = Factory::make(JsonPlaceholderApi::class, [
+$api = (new Factory())->make(JsonPlaceholderApi::class, [
     'base_uri' => 'https://jsonplaceholder.typicode.com/'
 ]);
 

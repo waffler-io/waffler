@@ -186,7 +186,7 @@ readonly class ClassFactory implements FactoryInterface
     {
         $returnTypeName = $reflectionMethod->getReturnType()
             ->getName();
-        $lines = ['$options = [...$this->options, ...$_additionalOptions];'];
+        $lines = ['$options = $_additionalOptions;'];
         $fullPath = $this->getFullMethodPath($reflectionMethod);
         $lines[] = "\$path = \"{$this->pathParser->parse($fullPath, $reflectionMethod->getParameters())}\";";
         $lines[] = "\$options['base_uri'] = (\$options['base_uri'] ?? '').\$path;";
@@ -233,7 +233,7 @@ readonly class ClassFactory implements FactoryInterface
         $lines = [];
 
         if ($this->reflectionHasAttribute($reflectionMethod, Batch::class)) {
-            throw new Exception("Batch is not supported yet");
+            throw new Exception("Batching is not supported yet");
         }
 
         $verb = $this->getAttributeInstance($reflectionMethod, Verb::class, true);

@@ -21,7 +21,7 @@ interface ExampleClientInterface
     public function getUsers(#[Bearer] string $token): array;
 }
 
-$exampleClient = Factory::make(ExampleClientInterface::class, [
+$exampleClient = (new Factory())->make(ExampleClientInterface::class, [
     'base_uri' => 'https://example.com/',
     'headers' => ['Authorization' => 'Bearer your-access-token-here'] //You can use here
 ]);
