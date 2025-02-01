@@ -28,12 +28,14 @@ use Waffler\Waffler\Implementation\PathParser;
 readonly class Factory implements FactoryInterface
 {
     private const IMPL_CACHE_DIRECTORY = __DIR__.'/../../Impl';
+    private const NAMESPACE = "Waffler\\Impl";
 
     public function __construct(
         private ImplFactory $classFactory = new FileCacheFactory(
             new ClassFactory(
                 new MethodValidator(),
                 new PathParser(),
+                self::NAMESPACE,
             ),
             self::IMPL_CACHE_DIRECTORY,
         )

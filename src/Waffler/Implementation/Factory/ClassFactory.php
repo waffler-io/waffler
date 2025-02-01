@@ -65,6 +65,7 @@ readonly class ClassFactory implements FactoryInterface
     public function __construct(
         private MethodValidator $methodValidator,
         private PathParser $pathParser,
+        private string $classNamespace,
     ) {
     }
 
@@ -81,7 +82,7 @@ readonly class ClassFactory implements FactoryInterface
         $className = $this->buildFileName($interface);
 
         $phpFile = new PhpFile();
-        $namespace = $phpFile->addNamespace("Waffler\\Impl");
+        $namespace = $phpFile->addNamespace($this->classNamespace);
         $namespace->addUse(RequestOptions::class);
         $namespace->addUse(Client::class);
         $namespace->addUse($reflectionInterface->getName());
