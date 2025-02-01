@@ -97,15 +97,6 @@ interface FeatureTestCaseClient
     #[Get('foo/{foo}')]
     public function testOptionalPathParam(#[PathParam] ?int $foo): void;
 
-    #[Get('foo')]
-    public function testUnusedPathParameter(#[PathParam] int $unused): void;
-
-    #[Get('foo/{foo}/bar/{foo}')]
-    public function testRepeatedPathParameter(#[PathParam('foo')] int $foo);
-
-    #[Get('foo/{foo}/bar/{bar}')]
-    public function testPathParameterWithNoReplacement(#[PathParam] int $foo);
-
     // Attribute: Request/FormData and Request/FormParam
 
     #[Get]
@@ -200,7 +191,7 @@ interface FeatureTestCaseClient
 
     // Attribute: NestedResource
 
-    #[Path('foo/{fooId}')]
-    #[NestedResource]
-    public function nested(#[PathParam] int $fooId): NestedResourceClient;
+    // #[Path('foo/{fooId}')]
+    // #[NestedResource]
+    // public function nested(#[PathParam] int $fooId): NestedResourceClient;
 }

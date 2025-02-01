@@ -22,20 +22,25 @@ use Waffler\Waffler\Attributes\Auth\Digest;
 use Waffler\Waffler\Attributes\Auth\Ntml;
 use Waffler\Waffler\Attributes\Contracts\Verb;
 use Waffler\Waffler\Attributes\Request\Body;
+use Waffler\Waffler\Attributes\Request\FormData;
 use Waffler\Waffler\Attributes\Request\FormParam;
 use Waffler\Waffler\Attributes\Request\Headers;
 use Waffler\Waffler\Attributes\Request\Json;
+use Waffler\Waffler\Attributes\Request\JsonParam;
 use Waffler\Waffler\Attributes\Request\Multipart;
 use Waffler\Waffler\Attributes\Request\Path;
 use Waffler\Waffler\Attributes\Request\Produces;
 use Waffler\Waffler\Attributes\Request\Query;
+use Waffler\Waffler\Attributes\Request\QueryParam;
 use Waffler\Waffler\Attributes\Request\Timeout;
 use Waffler\Waffler\Attributes\Utils\Batch;
 use Waffler\Waffler\Attributes\Utils\NestedResource;
+use Waffler\Waffler\Attributes\Utils\RawOptions;
 use Waffler\Waffler\Attributes\Utils\Suppress;
 use Waffler\Waffler\Attributes\Utils\Unwrap;
 use Waffler\Waffler\Implementation\Attributes\ImplHash;
 use Waffler\Waffler\Implementation\Exceptions\NotAnInterfaceException;
+use Waffler\Waffler\Implementation\Exceptions\ParameterWithoutAttributesException;
 use Waffler\Waffler\Implementation\MethodValidator;
 use Waffler\Waffler\Implementation\PathParser;
 use Waffler\Waffler\Implementation\Traits\BuildsImplementationFileName;
@@ -104,7 +109,7 @@ readonly class ClassFactory implements FactoryInterface
                 $parameter->setDefaultValue($reflectionParameter->getDefaultValue());
                 $hiddenParameter->setDefaultValue($reflectionParameter->getDefaultValue());
             }
-            if ($reflectionParameter->isOptional()) {
+            if ($reflectionParameter->allowsNull()) {
                 $parameter->setNullable();
                 $hiddenParameter->setNullable();
             }
@@ -136,6 +141,7 @@ readonly class ClassFactory implements FactoryInterface
         if ($reflectionReturnType !== null && is_a($reflectionReturnType->getName(), PromiseInterface::class)) {
             $lines[] = "return \$this->{$hiddenMethodName}(...func_get_args());";
         } else {
+            // TODO: Implementar nested resource
             $lines[] = "\$response = \$this->{$hiddenMethodName}([RequestOptions::SYNCHRONOUS => true], ...func_get_args())->wait();";
             $lines[] = $this->respond(
                 $reflectionReturnType?->getName(),
@@ -143,7 +149,9 @@ readonly class ClassFactory implements FactoryInterface
                     ? $this->getAttributeInstance($reflectionMethod, Unwrap::class)->property
                     : null
             );
-            $lines[] = "return \$result;";
+            if ($reflectionReturnType?->getName() !== 'void') {
+                $lines[] = "return \$result;";
+            }
         }
         return implode("\n", $lines);
     }
@@ -183,6 +191,31 @@ readonly class ClassFactory implements FactoryInterface
         return implode('\n', $lines);
     }
 
+    private function getFullMethodPath(ReflectionMethod $reflectionMethod): string
+    {
+        $reflectionClass = $reflectionMethod->getDeclaringClass();
+        $fullPath = [];
+        if ($this->reflectionHasAttribute($reflectionClass, Path::class)) {
+            $fullPath[] = $this->getAttributeInstance($reflectionClass, Path::class, true)
+                ->getPath();
+        }
+        if ($this->reflectionHasAttribute($reflectionMethod, Path::class)) {
+            $fullPath[] = $this->getAttributeInstance($reflectionMethod, Path::class, true)
+                ->getPath();
+        }
+        $verb = $this->getAttributeInstance($reflectionMethod, Verb::class, true);
+        $fullPath[] = $verb->getPath();
+
+        $result = implode(
+            '/',
+            array_filter(
+                array_map(fn($path) => trim($path, '/'), $fullPath),
+                fn($path) => !empty($path),
+            ),
+        );
+        return $result;
+    }
+
     /**
      * @param \ReflectionMethod $reflectionMethod
      *
@@ -201,8 +234,8 @@ readonly class ClassFactory implements FactoryInterface
         $verb = $this->getAttributeInstance($reflectionMethod, Verb::class, true);
 
         $lines[] = "\$verb = '{$verb->getName()}';";
-        $lines[] = "\$path = \"{$this->pathParser->parse($verb->getPath(), $reflectionMethod->getParameters())}\";";
-        $lines[] = '$options = $_additionalOptions;';
+        $lines[] = "\$path = \"{$this->pathParser->parse($this->getFullMethodPath($reflectionMethod), $reflectionMethod->getParameters())}\";";
+        $lines[] = '$_options = $_additionalOptions;';
 
         $methodHeaders = [];
 
@@ -218,42 +251,64 @@ readonly class ClassFactory implements FactoryInterface
         }
 
         if (!empty($methodHeaders)) {
-            $lines[] = '$options[RequestOptions::HEADERS] = '.var_export($methodHeaders, true).';';
+            $lines[] = '$_options[RequestOptions::HEADERS] = '.var_export($methodHeaders, true).';';
         }
         if ($this->reflectionHasAttribute($reflectionMethod, Timeout::class)) {
-            $lines[] = '$options[RequestOptions::TIMEOUT] = '
+            $lines[] = '$_options[RequestOptions::TIMEOUT] = '
                 . $this->getAttributeInstance($reflectionMethod, Timeout::class)->timeout
                 . ";";
         }
         if ($this->reflectionHasAttribute($reflectionMethod, Suppress::class)) {
-            $lines[] = '$options[RequestOptions::HTTP_ERRORS] = false;';
+            $lines[] = '$_options[RequestOptions::HTTP_ERRORS] = false;';
         }
 
         foreach ($reflectionMethod->getParameters() as $reflectionParameter) {
             if ($this->reflectionHasAttribute($reflectionParameter, Body::class)) {
-                $lines[] = "\$options[RequestOptions::BODY] = \${$reflectionParameter->getName()};";
+                $lines[] = "\$_options[RequestOptions::BODY] = \${$reflectionParameter->getName()};";
+                $bodyAttr = $this->getAttributeInstance($reflectionParameter, Body::class, true);
+                foreach ($bodyAttr->getMimeTypes() as $contentType) {
+                    $lines[] = "\$_options[RequestOptions::HEADERS]['Content-Type'][] = \"$contentType\";";
+                }
             } elseif ($this->reflectionHasAttribute($reflectionParameter, Json::class)) {
-                $lines[] = "\$options[RequestOptions::JSON] = \${$reflectionParameter->getName()};";
+                $lines[] = "\$_options[RequestOptions::JSON] = array_merge((\$_options[RequestOptions::JSON] ?? []), \${$reflectionParameter->getName()});";
+            } elseif($this->reflectionHasAttribute($reflectionParameter, JsonParam::class)) {
+                $jsonParam = $this->getAttributeInstance($reflectionParameter, JsonParam::class, true);
+                $jsonParamLine = "\$_options[RequestOptions::JSON]";
+                foreach (explode($jsonParam->getPathSeparator(), $jsonParam->getKey()) as $key) {
+                    $jsonParamLine.= "['$key']";
+                }
+                $jsonParamLine.= " = \${$reflectionParameter->getName()};";
+                $lines[] = $jsonParamLine;
             } elseif ($this->reflectionHasAttribute($reflectionParameter, Query::class)) {
-                $lines[] = "\$options[RequestOptions::QUERY] = \${$reflectionParameter->getName()};";
-            } elseif ($this->reflectionHasAttribute($reflectionParameter, FormParam::class)) {
-                $formParamName = $this->getAttributeInstance($reflectionParameter, FormParam::class)
+                $lines[] = "\$_options[RequestOptions::QUERY] = \${$reflectionParameter->getName()};";
+            } elseif ($this->reflectionHasAttribute($reflectionParameter, QueryParam::class)) {
+                $queryParamName = $this->getAttributeInstance($reflectionParameter, QueryParam::class, true)
                     ->getKey();
-                $lines[] = "\$options[RequestOptions::FORM_PARAMS]['$formParamName'] = \${$reflectionParameter->getName()};";
+                $lines[] = "\$_options[RequestOptions::QUERY]['$queryParamName'] = \${$reflectionParameter->getName()};";
+            } elseif ($this->reflectionHasAttribute($reflectionParameter, FormData::class)) {
+                $lines[] = "\$_options[RequestOptions::FORM_PARAMS] = array_merge((\$_options[RequestOptions::FORM_PARAMS] ?? []), \${$reflectionParameter->getName()});";
+            } elseif ($this->reflectionHasAttribute($reflectionParameter, FormParam::class)) {
+                $formParamName = $this->getAttributeInstance($reflectionParameter, FormParam::class, true)
+                    ->getKey();
+                $lines[] = "\$_options[RequestOptions::FORM_PARAMS]['$formParamName'] = \${$reflectionParameter->getName()};";
             } elseif ($this->reflectionHasAttribute($reflectionParameter, Multipart::class)) {
-                $lines[] = "\$options[RequestOptions::MULTIPART] = \${$reflectionParameter->getName()};";
+                $lines[] = "\$_options[RequestOptions::MULTIPART] = \${$reflectionParameter->getName()};";
             } elseif ($this->reflectionHasAttribute($reflectionParameter, Basic::class)) {
-                $lines[] = "\$options[RequestOptions::AUTH] = \${$reflectionParameter->getName()};";
+                $lines[] = "\$_options[RequestOptions::AUTH] = [...\${$reflectionParameter->getName()}, 'basic'];";
             } elseif ($this->reflectionHasAttribute($reflectionParameter, Digest::class)) {
-                $lines[] = "\$options[RequestOptions::AUTH] = [...\${$reflectionParameter->getName()}, 'digest'];";
+                $lines[] = "\$_options[RequestOptions::AUTH] = [...\${$reflectionParameter->getName()}, 'digest'];";
             } elseif ($this->reflectionHasAttribute($reflectionParameter, Ntml::class)) {
-                $lines[] = "\$options[RequestOptions::AUTH] = [...\${$reflectionParameter->getName()}, 'ntml'];";
+                $lines[] = "\$_options[RequestOptions::AUTH] = [...\${$reflectionParameter->getName()}, 'ntml'];";
             } elseif ($this->reflectionHasAttribute($reflectionParameter, Bearer::class)) {
-                $lines[] = "\$options[RequestOptions::HEADERS]['Authorization'] = \"Bearer \${$reflectionParameter->getName()}\";";
+                $lines[] = "\$_options[RequestOptions::HEADERS]['Authorization'] = \"Bearer \${$reflectionParameter->getName()}\";";
+            } elseif($this->reflectionHasAttribute($reflectionParameter, RawOptions::class)) {
+                $lines[] = "\$_options = [...\$_options, ...\${$reflectionParameter->getName()}];";
+            } elseif (count($reflectionParameter->getAttributes()) === 0) {
+                throw new ParameterWithoutAttributesException("The parameter '{$reflectionParameter->getName()}' does not have any attributes defined.");
             }
         }
 
-        $lines[] = 'return $this->client->requestAsync($verb, $path, $options);';
+        $lines[] = 'return $this->client->requestAsync($verb, $path, $_options);';
 
         return implode("\n", $lines);
     }
@@ -273,6 +328,7 @@ readonly class ClassFactory implements FactoryInterface
             'object', ArrayObject::class => "\$result = new ArrayObject($unwrapper, ArrayObject::ARRAY_AS_PROPS);",
             StreamInterface::class => '$result = $response->getBody();',
             ResponseInterface::class, Response::class, MessageInterface::class, 'mixed' => '$result = $response;',
+            // TODO: implementar nested resource
             default => throw new TypeError()
         };
     }

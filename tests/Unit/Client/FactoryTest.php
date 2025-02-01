@@ -14,11 +14,7 @@ namespace Waffler\Waffler\Tests\Unit\Client;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use PHPUnit\Framework\TestCase;
 use Waffler\Waffler\Client\Factory;
-use Waffler\Waffler\Implementation\Exceptions\NotAnInterfaceException;
-use Waffler\Waffler\Implementation\Factory\FactoryInterface;
 use Waffler\Waffler\Tests\Fixtures\CrudTestCaseClient;
-use Waffler\Waffler\Tests\Fixtures\Interfaces\InterfaceWithValidMethodSignature;
-use Waffler\Waffler\Tests\Fixtures\InvalidType;
 
 /**
  * Class FactoryTest.
@@ -26,9 +22,6 @@ use Waffler\Waffler\Tests\Fixtures\InvalidType;
  * @author ErickJMenezes <erickmenezes.dev@gmail.com>
  * @covers \Waffler\Waffler\Client\Factory
  * @uses \Waffler\Waffler\Client\MethodInvoker
- * @uses \Waffler\Waffler\Generator\AnonymousClassGenerator
- * @uses \Waffler\Waffler\Generator\AnonymousClassMethod
- * @uses \Waffler\Waffler\Generator\FactoryFunction
  * @uses \Waffler\Waffler\Client\Proxy
  */
 class FactoryTest extends TestCase

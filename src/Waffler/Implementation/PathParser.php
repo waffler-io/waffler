@@ -18,6 +18,9 @@ class PathParser
      */
     public function parse(string $path, array $reflectionParameters): string
     {
+        if (!$this->hasPlaceholders($path)) {
+            return $path;
+        }
         $pathParameters = array_values(
             array_filter(
                 $reflectionParameters,
@@ -36,9 +39,14 @@ class PathParser
             }
         }
         $missing = [];
-        if (preg_match('/{.*?}/', $path, $missing)) {
+        if (preg_match('/{.*?}/', $path, $missing) === 1) {
             throw new UnableToParsePathException("The path parameter \"$missing[0]\" has no replacement.", 3);
         }
         return trim($path, '/');
+    }
+
+    private function hasPlaceholders(string $path): bool
+    {
+        return preg_match('/\{.*\}/', $path) === 1;
     }
 }
