@@ -15,6 +15,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Pool;
 use GuzzleHttp\Promise\Utils;
 use GuzzleHttp\RequestOptions;
+use InvalidArgumentException;
 use Psr\Http\Message\ResponseInterface;
 use Waffler\Waffler\Client\Contracts\FactoryInterface;
 
@@ -57,7 +58,7 @@ trait WafflerImplConstructor
      *
      * @return array<ResponseInterface> The combined results of all asynchronous operations after execution.
      *
-     * @throws \InvalidArgumentException If any element in the $argsList is not an array.
+     * @throws InvalidArgumentException If any element in the $argsList is not an array.
      */
     private function performBatchMethod(string $methodName, array $argsList): array
     {
@@ -65,8 +66,7 @@ trait WafflerImplConstructor
         $requests = [];
         foreach ($argsList as $args) {
             if (!is_array($args)) {
-                var_dump($args);
-                throw new \InvalidArgumentException('All arguments must be arrays.');
+                throw new InvalidArgumentException('All arguments must be arrays.');
             }
             $requests[] = $this->{$hiddenMethodName}(
                 [RequestOptions::SYNCHRONOUS => false],
