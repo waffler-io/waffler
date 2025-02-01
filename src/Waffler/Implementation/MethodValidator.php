@@ -35,6 +35,11 @@ class MethodValidator
 {
     use InteractsWithAttributes;
 
+    /**
+     * @var array<string>
+     */
+    private array $validatedDeclaringClasses = [];
+
     private const DISALLOWED_METHODS = [
         '__construct',
         '__destruct',
@@ -62,8 +67,10 @@ class MethodValidator
     public function validateAll(array $methods): void
     {
         foreach ($methods as $method) {
+            $this->validatedDeclaringClasses[] = $method->getDeclaringClass()->getName();
             $this->validateMethodSignature($method);
         }
+        $this->validatedDeclaringClasses = [];
     }
 
     /**
@@ -105,9 +112,15 @@ class MethodValidator
             );
         }
 
-        if ($method->hasReturnType() && $method->getReturnType()->getName() !== $method->getDeclaringClass()->getName()) {
+        if ($method->hasReturnType() && !$this->alreadyValidated($method->getDeclaringClass()->getName())) {
             $this->validateReturnType($method->getReturnType());
         }
+    }
+
+    private function alreadyValidated(string $declaringClass): bool
+    {
+        return in_array($declaringClass, $this->validatedDeclaringClasses, true);
+
     }
 
     /**
