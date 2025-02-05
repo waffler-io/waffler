@@ -21,8 +21,8 @@ interface FactoryInterface
     /**
      * Factory method to create the client implementation.
      *
-     * @param class-string<TInterface> $interfaceName Fully qualified name of the client interface.
-     * @param array<string, mixed>     $options       An array of GuzzleHttp client options.
+     * @param class-string<TInterface> $interface Fully qualified name of the client interface.
+     * @param array<string, mixed>     $options   An array of GuzzleHttp client options.
      *
      * @return object&TInterface
      * @throws \ReflectionException If the $interfaceName can't be reflected.
@@ -30,5 +30,5 @@ interface FactoryInterface
      * @template TInterface of object
      * @author ErickJMenezes <erickmenezes.dev@gmail.com>
      */
-    public static function make(string $interfaceName, array $options = []): object;
+    public function make(string $interface, array $options = []): object;
 }

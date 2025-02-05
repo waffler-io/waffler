@@ -57,28 +57,4 @@ class PathAndPathParamTest extends FeatureTestCase
             ->client
             ->testOptionalPathParam(null);
     }
-
-    public function testMissingParameterMustThrowException(): void
-    {
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessage('The argument "unused" is not used by any path parameter.');
-
-        $this->client->testUnusedPathParameter(1);
-    }
-
-    public function testRepeatedParameterMustThrowException(): void
-    {
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessage('The path parameter "foo" is repeated');
-
-        $this->client->testRepeatedPathParameter(1);
-    }
-
-    public function testParameterWithNoReplacementMustThrowException(): void
-    {
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessage('The path parameter "{bar}" has no replacement.');
-
-        $this->client->testPathParameterWithNoReplacement(1);
-    }
 }

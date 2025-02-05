@@ -73,7 +73,7 @@ interface CommentsClient
 $options = ['base_uri' => 'https://jsonplaceholder.typicode.com/'];
 
 // Instantiate UsersClient.
-$usersClient = Factory::make(UsersClient::class, $options);
+$usersClient = (new Factory())->make(UsersClient::class, $options);
 
 // Call normal methods.
 $user = $usersClient->getById(1); // GET /users/1
@@ -88,7 +88,7 @@ print_r([
 ]);
 
 // Instantiate PostsClient as an independent client.
-$postsClient = Factory::make(PostsClient::class, $options);
+$postsClient = (new Factory())->make(PostsClient::class, $options);
 
 // Retrieve data.
 $allPosts = $postsClient->get(); // GET /posts

@@ -97,15 +97,6 @@ interface FeatureTestCaseClient
     #[Get('foo/{foo}')]
     public function testOptionalPathParam(#[PathParam] ?int $foo): void;
 
-    #[Get('foo')]
-    public function testUnusedPathParameter(#[PathParam] int $unused): void;
-
-    #[Get('foo/{foo}/bar/{foo}')]
-    public function testRepeatedPathParameter(#[PathParam('foo')] int $foo);
-
-    #[Get('foo/{foo}/bar/{bar}')]
-    public function testPathParameterWithNoReplacement(#[PathParam] int $foo);
-
     // Attribute: Request/FormData and Request/FormParam
 
     #[Get]
@@ -119,9 +110,6 @@ interface FeatureTestCaseClient
 
     #[Get]
     public function testFormParam3(#[FormParam('foo')] mixed $foo = null): void;
-
-    #[Get]
-    public function testFormParam4(#[FormParam('foo')] $foo = null): void;
 
     #[Get]
     public function testFormParamAndFormData(#[FormData] array $formData, #[FormParam('baz')] string $baz): void;

@@ -11,7 +11,7 @@ declare(strict_types=1);
  * with this source code in the file LICENCE.
  */
 
-namespace Waffler\Waffler\Client\Traits;
+namespace Waffler\Waffler\Implementation\Traits;
 
 use ReflectionAttribute;
 use ReflectionClass;
@@ -29,48 +29,55 @@ trait InteractsWithAttributes
 {
     /**
      * @param \ReflectionMethod|\ReflectionParameter|\ReflectionClass<TParentType> $reflection
-     * @param class-string                                                         $name
+     * @param class-string<TAttributeType>                                         $name
+     * @param bool                                                                 $instanceOf
      *
      * @return bool
-     * @psalm-template TParentType of object
+     * @template TParentType of object
+     * @template TAttributeType of object
      */
     private function reflectionHasAttribute(
         ReflectionMethod|ReflectionParameter|ReflectionClass $reflection,
-        string $name
+        string $name,
+        bool $instanceOf = false,
     ): bool {
-        return !empty($reflection->getAttributes($name));
+        return count($reflection->getAttributes($name, $instanceOf ? ReflectionAttribute::IS_INSTANCEOF : 0)) !== 0;
     }
 
     /**
      * @param \ReflectionMethod|\ReflectionParameter|\ReflectionClass<TParentType> $reflection
      * @param class-string<TAttributeType>                                         $name
+     * @param bool                                                                 $instanceOf
      *
-     * @return TAttributeType
+     * @return object&TAttributeType
      * @psalm-template TAttributeType of object
      * @psalm-template TParentType of object
      */
     private function getAttributeInstance(
         ReflectionMethod|ReflectionParameter|ReflectionClass $reflection,
-        string $name
+        string $name,
+        bool $instanceOf = false,
     ): object {
-        return $this->getAttributeInstances($reflection, $name)[0];
+        return $this->getAttributeInstances($reflection, $name, $instanceOf)[0];
     }
 
     /**
      * @param \ReflectionMethod|\ReflectionParameter|\ReflectionClass<TParentType> $reflection
      * @param class-string<TAttributeType>                                         $name
+     * @param bool                                                                 $instanceOf
      *
-     * @return array<int, TAttributeType>
-     * @psalm-template TAttributeType of object
-     * @psalm-template TParentType of object
+     * @return array<int, object&TAttributeType>
+     * @template TAttributeType of object
+     * @template TParentType of object
      */
     private function getAttributeInstances(
         ReflectionMethod|ReflectionParameter|ReflectionClass $reflection,
-        string $name
+        string $name,
+        bool $instanceOf = false,
     ): array {
         return array_map(
             fn (ReflectionAttribute $attribute) => $attribute->newInstance(),
-            $reflection->getAttributes($name)
+            $reflection->getAttributes($name, $instanceOf ? ReflectionAttribute::IS_INSTANCEOF : 0)
         );
     }
 }

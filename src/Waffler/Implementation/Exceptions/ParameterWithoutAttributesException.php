@@ -9,8 +9,10 @@
  * with this source code in the file LICENCE.
  */
 
-namespace Waffler\Waffler\Generator\Exceptions;
+namespace Waffler\Waffler\Implementation\Exceptions;
 
-class MethodCompilingException extends \RuntimeException
+use RuntimeException;
+
+class ParameterWithoutAttributesException extends RuntimeException
 {
 }

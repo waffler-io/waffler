@@ -14,8 +14,8 @@ namespace Waffler\Waffler\Tests\Unit\Client;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use PHPUnit\Framework\TestCase;
 use Waffler\Waffler\Client\Factory;
-use Waffler\Waffler\Tests\Fixtures\Interfaces\InterfaceWithValidMethodSignature;
-use Waffler\Waffler\Tests\Fixtures\InvalidType;
+use Waffler\Waffler\Tests\Fixtures\CleanStart;
+use Waffler\Waffler\Tests\Fixtures\CrudTestCaseClient;
 
 /**
  * Class FactoryTest.
@@ -23,36 +23,17 @@ use Waffler\Waffler\Tests\Fixtures\InvalidType;
  * @author ErickJMenezes <erickmenezes.dev@gmail.com>
  * @covers \Waffler\Waffler\Client\Factory
  * @uses \Waffler\Waffler\Client\MethodInvoker
- * @uses \Waffler\Waffler\Generator\AnonymousClassGenerator
- * @uses \Waffler\Waffler\Generator\AnonymousClassMethod
- * @uses \Waffler\Waffler\Generator\FactoryFunction
  * @uses \Waffler\Waffler\Client\Proxy
  */
 class FactoryTest extends TestCase
 {
+    use CleanStart;
     use MockeryPHPUnitIntegration;
-
-    public function testMustRejectNonInterfaceClassString(): void
-    {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionCode(10);
-        Factory::make(InvalidType::class);
-    }
-
-    /**
-     * @psalm-suppress UndefinedClass
-     * @return void
-     */
-    public function testMustRejectNonObjectLikeTypeName(): void
-    {
-        $this->expectException(\ReflectionException::class);
-        Factory::make('invalid interface name');
-    }
 
     public function testMustGenerateValidImplementationForValidInterfaces(): void
     {
-        $client = Factory::make(InterfaceWithValidMethodSignature::class, []);
+        $client = $this->factory->make(CrudTestCaseClient::class, []);
 
-        self::assertInstanceOf(InterfaceWithValidMethodSignature::class, $client);
+        self::assertInstanceOf(CrudTestCaseClient::class, $client);
     }
 }

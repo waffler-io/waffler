@@ -24,6 +24,8 @@ use Waffler\Waffler\Tests\Fixtures\Interfaces\FeatureTestCaseClient;
  */
 class FeatureTestCase extends TestCase
 {
+    use CleanStart;
+
     protected FeatureTestCaseClient $client;
 
     protected MockHandler $mockHandler;
@@ -32,7 +34,7 @@ class FeatureTestCase extends TestCase
     {
         parent::setUp();
 
-        $this->client = Factory::make(FeatureTestCaseClient::class, [
+        $this->client = $this->factory->make(FeatureTestCaseClient::class, [
             'handler' => $this->mockHandler = new MockHandler()
         ]);
     }
