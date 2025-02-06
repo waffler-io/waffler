@@ -62,4 +62,13 @@ class QueryAndQueryParamTest extends FeatureTestCase
             ->client
             ->testQueryAndQueryParam2(['foo' => 'bar'], 'baz');
     }
+
+    public function testQueryParamMustSendArrays(): void
+    {
+        $this->createRequestExpectation()
+            ->expectQueryString(['search' => ['foo', 'bar']])
+            ->build()
+            ->client
+            ->testQueryArray(['foo', 'bar']);
+    }
 }

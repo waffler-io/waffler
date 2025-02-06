@@ -202,9 +202,14 @@ class MethodValidator
                 ['array'],
                 $type,
             ),
-            Bearer::class, PathParam::class, QueryParam::class => $this->expectTypes(
+            Bearer::class, PathParam::class => $this->expectTypes(
                 $attribute,
                 ['string', 'int', 'null', 'float', 'double'],
+                $type,
+            ),
+            QueryParam::class => $this->expectTypes(
+                $attribute,
+                ['string', 'int', 'null', 'float', 'double', 'array'],
                 $type,
             ),
             HeaderParam::class => $this->expectTypes(
@@ -238,7 +243,7 @@ class MethodValidator
         $expectedTypes = implode('|', $types);
         throw new InterfaceMethodValidationException(
             InterfaceMethodValidationException::PARAMETER_TYPE_NOT_COMPATIBLE_WITH_ATTRIBUTE,
-            [$expectedTypes, $attribute, $type],
+            [$attribute, $expectedTypes, $type],
         );
     }
 

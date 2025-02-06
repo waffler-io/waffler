@@ -78,6 +78,9 @@ interface FeatureTestCaseClient
     public function testQueryAndQueryParam(#[Query] array $query, #[QueryParam('baz')] string $gim): void;
 
     #[Get]
+    public function testQueryArray(#[QueryParam('search')] array $search): void;
+
+    #[Get]
     public function testQueryAndQueryParam2(#[Query] array $query, #[QueryParam('foo')] string $foo): void;
 
     // Attribute: Request/Path and Request/PathParam
