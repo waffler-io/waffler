@@ -11,13 +11,16 @@
 
 namespace Waffler\Waffler\Implementation\Factory;
 
+use ReflectionException;
+use Waffler\Waffler\Implementation\Contracts\WafflerImplConstructorInterface;
+
 interface FactoryInterface
 {
     /**
      * @param class-string<T> $interface
      *
-     * @return string
-     * @throws \ReflectionException
+     * @return class-string<T&WafflerImplConstructorInterface>
+     * @throws ReflectionException
      * @author ErickJMenezes <erickmenezes.dev@gmail.com>
      * @template T of object
      */

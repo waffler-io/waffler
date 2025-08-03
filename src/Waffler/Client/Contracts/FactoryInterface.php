@@ -11,6 +11,9 @@
 
 namespace Waffler\Waffler\Client\Contracts;
 
+use InvalidArgumentException;
+use ReflectionException;
+
 /**
  * Interface FactoryInterface.
  *
@@ -21,13 +24,13 @@ interface FactoryInterface
     /**
      * Factory method to create the client implementation.
      *
-     * @param class-string<TInterface> $interface Fully qualified name of the client interface.
+     * @param class-string<T> $interface Fully qualified name of the client interface.
      * @param array<string, mixed>     $options   An array of GuzzleHttp client options.
      *
-     * @return object&TInterface
-     * @throws \ReflectionException If the $interfaceName can't be reflected.
-     * @throws \InvalidArgumentException If the $interfaceName is not a fully qualified name of an interface.
-     * @template TInterface of object
+     * @return object&T
+     * @throws ReflectionException If the $interfaceName can't be reflected.
+     * @throws InvalidArgumentException If the $interfaceName is not a fully qualified name of an interface.
+     * @template T of object
      * @author ErickJMenezes <erickmenezes.dev@gmail.com>
      */
     public function make(string $interface, array $options = []): object;

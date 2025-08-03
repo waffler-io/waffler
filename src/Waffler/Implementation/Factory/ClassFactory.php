@@ -49,6 +49,7 @@ use Waffler\Waffler\Attributes\Utils\NestedResource;
 use Waffler\Waffler\Attributes\Utils\RawOptions;
 use Waffler\Waffler\Attributes\Utils\Suppress;
 use Waffler\Waffler\Attributes\Utils\Unwrap;
+use Waffler\Waffler\Implementation\Contracts\WafflerImplConstructorInterface;
 use Waffler\Waffler\Implementation\Exceptions\NotAnInterfaceException;
 use Waffler\Waffler\Implementation\Exceptions\ParameterWithoutAttributesException;
 use Waffler\Waffler\Implementation\MethodValidator;
@@ -92,6 +93,7 @@ readonly class ClassFactory implements FactoryInterface
 
         $class = $namespace->addClass($className);
         $class->addImplement($interface);
+        $class->addImplement(WafflerImplConstructorInterface::class);
         $class->addTrait(WafflerImplConstructor::class);
 
         foreach ($reflectionInterface->getMethods() as $reflectionMethod) {

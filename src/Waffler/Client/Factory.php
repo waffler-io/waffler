@@ -37,11 +37,6 @@ class Factory implements FactoryInterface
         $this->classFactory = $classFactory ?? $this->defaultClassFactoryImpl();
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @throws \ReflectionException
-     */
     public function make(string $interface, array $options = []): object
     {
         $className = $this->classFactory->generateForInterface($interface);

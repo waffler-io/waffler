@@ -17,11 +17,13 @@ use GuzzleHttp\RequestOptions;
 use InvalidArgumentException;
 use Psr\Http\Message\ResponseInterface;
 use Waffler\Waffler\Client\Contracts\FactoryInterface;
+use Waffler\Waffler\Implementation\Contracts\WafflerImplConstructorInterface;
 
 /**
  * Trait WafflerImplConstructor.
  *
  * @author ErickJMenezes <erickmenezes.dev@gmail.com>
+ * @phpstan-require-implements WafflerImplConstructorInterface
  * @phpstan-ignore trait.unused
  */
 trait WafflerImplConstructor

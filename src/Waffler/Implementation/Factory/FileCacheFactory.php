@@ -27,14 +27,6 @@ class FileCacheFactory extends AbstractFactoryDecorator
         parent::__construct($factory);
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @param class-string<TInterface> $interface
-     *
-     * @return class-string<TInterface>
-     * @template TInterface of object
-     */
     public function generateForInterface(string $interface): string
     {
         if (! interface_exists($interface)) {
