@@ -39,4 +39,4 @@ jobs:
         run: composer run phpunit
 
       - name: Run static analysis
-        run: composer run psalm
+        run: composer run phpstan

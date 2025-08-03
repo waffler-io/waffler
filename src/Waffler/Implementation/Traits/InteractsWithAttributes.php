@@ -50,8 +50,8 @@ trait InteractsWithAttributes
      * @param bool                                                                 $instanceOf
      *
      * @return object&TAttributeType
-     * @psalm-template TAttributeType of object
-     * @psalm-template TParentType of object
+     * @template TAttributeType of object
+     * @template TParentType of object
      */
     private function getAttributeInstance(
         ReflectionMethod|ReflectionParameter|ReflectionClass $reflection,

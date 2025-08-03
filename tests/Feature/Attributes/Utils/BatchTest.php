@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of Waffler\Waffler.
+ *
+ * (c) Erick Johnson Almeida de Menezes <erickmenezes.dev@gmail.com>
+ *
+ * This source file is subject to the MIT licence that is bundled
+ * with this source code in the file LICENCE.
+ */
+
 namespace Waffler\Waffler\Tests\Feature\Attributes\Utils;
 
 use GuzzleHttp\Handler\MockHandler;
@@ -26,13 +35,13 @@ class BatchTest extends TestCase
         $client = $this->factory->make(BatchInterface::class, [
             'handler' => $handler = new MockHandler(),
         ]);
-        $handler->append(function () use (&$touched) {
+        $handler->append(function () {
             return new Response(200, [], '1');
         });
-        $handler->append(function () use (&$touched) {
+        $handler->append(function () {
             return new Response(200, [], '2');
         });
-        $handler->append(function () use (&$touched) {
+        $handler->append(function () {
             return new Response(200, [], '3');
         });
         $responses = $client->createManyUsers([
@@ -40,7 +49,8 @@ class BatchTest extends TestCase
             ['bar'],
             ['baz'],
         ]);
-        $this->assertEquals(['1', '2', '3'], $responses);;
+        $this->assertEquals(['1', '2', '3'], $responses);
+        ;
     }
 
     public function testAllParametersMustBeArray(): void
