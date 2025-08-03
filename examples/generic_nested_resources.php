@@ -44,13 +44,13 @@ $api = (new Factory())->make(JsonPlaceholderApi::class, [
 ]);
 
 $posts = $api->resource('users')
-    ->relation('posts', 1)
+    ->relation('posts', '1')
     ->all(); // GET /users/1/posts
 
 var_dump($posts);
 
 $comments = $api->resource('posts')
-    ->relation('comments', 1)
+    ->relation('comments', '1')
     ->all(); // GET /posts/1/comments
 
 var_dump($comments);

@@ -22,7 +22,7 @@ interface ExampleClientInterface
 }
 
 $exampleClient = (new Factory())->make(ExampleClientInterface::class, [
-    'base_uri' => 'https://example.com/',
+    'base_uri' => 'https://jsonplaceholder.typicode.com/',
     'headers' => ['Authorization' => 'Bearer your-access-token-here'] //You can use here
 ]);
 

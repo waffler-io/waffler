@@ -45,7 +45,6 @@ interface JsonPlaceholderInterface
     public function createManyUsers(array $data): array;
 }
 
-// not supported yet.
 $client = (new Factory())->make(JsonPlaceholderInterface::class, [
     'base_uri' => 'https://jsonplaceholder.typicode.com/',
 ]);

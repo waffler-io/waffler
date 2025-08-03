@@ -88,6 +88,7 @@ readonly class ClassFactory implements FactoryInterface
         $namespace->addUse(Client::class);
         $namespace->addUse($reflectionInterface->getName());
         $namespace->addUse(WafflerImplConstructor::class);
+        $namespace->addUse(WafflerImplConstructorInterface::class);
         $namespace->addUseFunction('Waffler\\Waffler\\arrayGet');
         $namespace->addUse(PromiseInterface::class);
 
