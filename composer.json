@@ -37,7 +37,7 @@
     }
   },
   "scripts": {
-    "phpstan": "@php ./vendor/bin/phpstan analyse src tests --level=1",
+    "phpstan": "@php ./vendor/bin/phpstan analyse src tests --level=3",
     "phpunit": "@php ./vendor/bin/phpunit",
     "php-cs-fixer": "@php ./vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.dist.php --allow-risky=yes",
     "php-cs-fixer:docker": "docker run -it --rm -v $(pwd):/code ghcr.io/php-cs-fixer/php-cs-fixer:${FIXER_VERSION:-3-php8.3} fix --config=.php-cs-fixer.dist.php --allow-risky=yes",

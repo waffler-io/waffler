@@ -24,6 +24,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 use ReflectionClass;
 use ReflectionMethod;
+use ReflectionNamedType;
 use TypeError;
 use Waffler\Waffler\Attributes\Auth\Basic;
 use Waffler\Waffler\Attributes\Auth\Bearer;
@@ -123,17 +124,16 @@ readonly class ClassFactory implements FactoryInterface
                 $parameter->setNullable();
                 $hiddenParameter->setNullable();
             }
-            if ($reflectionParameter->hasType()) {
-                $parameter->setType($reflectionParameter->getType()
-                    ->getName());
-                $hiddenParameter->setType($reflectionParameter->getType()
-                    ->getName());
+            $reflectionIntersectionType = $reflectionParameter->getType();
+            if ($reflectionIntersectionType instanceof ReflectionNamedType) {
+                $parameter->setType($reflectionIntersectionType->getName());
+                $hiddenParameter->setType($reflectionIntersectionType->getName());
             }
         }
         if ($isBatched) {
             $implMethod->setReturnType('array');
             $namespace->addUse(ResponseInterface::class);
-        } elseif ($reflectionMethod->hasReturnType()) {
+        } elseif ($reflectionMethod->getReturnType() instanceof ReflectionNamedType) {
             $hasNested = $this->reflectionHasAttribute($reflectionMethod, NestedResource::class);
             $returnType = $reflectionMethod
                 ->getReturnType()
@@ -160,6 +160,7 @@ readonly class ClassFactory implements FactoryInterface
     {
         $lines = [];
         $reflectionReturnType = $reflectionMethod->getReturnType();
+        assert($reflectionReturnType instanceof ReflectionNamedType || $reflectionReturnType === null);
         $hasNested = $this->reflectionHasAttribute($reflectionMethod, NestedResource::class);
         if ($reflectionReturnType !== null && is_a($reflectionReturnType->getName(), PromiseInterface::class)) {
             $lines[] = "return \$this->{$hiddenMethodName}(...func_get_args());";
@@ -206,8 +207,9 @@ readonly class ClassFactory implements FactoryInterface
      */
     private function generateNestedResourceMethodBody(ReflectionMethod $reflectionMethod): string
     {
-        $returnTypeName = $reflectionMethod->getReturnType()
-            ->getName();
+        $reflectionReturnType = $reflectionMethod->getReturnType();
+        assert($reflectionReturnType instanceof ReflectionNamedType);
+        $returnTypeName = $reflectionReturnType->getName();
         $lines = ['$options = $_additionalOptions;'];
         $fullPath = $this->getFullMethodPath($reflectionMethod);
         $lines[] = "\$path = \"{$this->pathParser->parse($fullPath, $reflectionMethod->getParameters())}\";";

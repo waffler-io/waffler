@@ -32,7 +32,7 @@ class FileCacheFactory extends AbstractFactoryDecorator
      *
      * @param class-string<TInterface> $interface
      *
-     * @return class-string<TInterface&\Waffler\Waffler\Implementation\Traits\WafflerImplConstructor>
+     * @return class-string<TInterface>
      * @template TInterface of object
      */
     public function generateForInterface(string $interface): string

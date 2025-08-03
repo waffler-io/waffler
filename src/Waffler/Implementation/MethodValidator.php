@@ -143,7 +143,7 @@ class MethodValidator
     private function validateParameters(ReflectionMethod $method): void
     {
         foreach ($method->getParameters() as $parameter) {
-            if (!$parameter->hasType()) {
+            if (!$parameter->getType() instanceof ReflectionNamedType) {
                 throw new InterfaceMethodValidationException(
                     InterfaceMethodValidationException::PARAMETERS_WITHOUT_A_TYPE_ARE_NOT_ALLOWED,
                     [$method->getDeclaringClass()->getShortName() . '::' . $method->getName()]
@@ -300,8 +300,8 @@ class MethodValidator
     private function validateReturnType(ReflectionType $type): void
     {
         $this->checkReflectionType($type);
+        assert($type instanceof ReflectionNamedType);
 
-        /** @type ReflectionNamedType $type */
         if (interface_exists($type->getName())) {
             $this->validateAll((new \ReflectionClass($type->getName()))->getMethods());
             return;
