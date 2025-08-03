@@ -11,13 +11,24 @@
 
 namespace Waffler\Waffler\Implementation\Traits;
 
+use ReflectionClass;
+
 trait BuildsImplementationFileName
 {
+    /**
+     * @throws \ReflectionException
+     */
     private function buildFileName(string $interface): string
     {
-        return str_replace('\\', '_', $interface).'Impl';
+        $reflectionInterface = new ReflectionClass($interface);
+        return str_replace('\\', '_', $interface)
+            .md5_file($reflectionInterface->getFileName())
+            .'Impl';
     }
 
+    /**
+     * @throws \ReflectionException
+     */
     private function buildQualifiedFileName(string $interface): string
     {
         return "\\Waffler\\Impl\\".$this->buildFileName($interface);

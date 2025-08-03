@@ -12,7 +12,6 @@
 namespace Waffler\Waffler\Implementation\Factory;
 
 use ArrayObject;
-use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Promise\PromiseInterface;
 use GuzzleHttp\Psr7\Response;
@@ -48,7 +47,6 @@ use Waffler\Waffler\Attributes\Utils\NestedResource;
 use Waffler\Waffler\Attributes\Utils\RawOptions;
 use Waffler\Waffler\Attributes\Utils\Suppress;
 use Waffler\Waffler\Attributes\Utils\Unwrap;
-use Waffler\Waffler\Implementation\Attributes\ImplHash;
 use Waffler\Waffler\Implementation\Exceptions\NotAnInterfaceException;
 use Waffler\Waffler\Implementation\Exceptions\ParameterWithoutAttributesException;
 use Waffler\Waffler\Implementation\MethodValidator;
@@ -86,13 +84,11 @@ readonly class ClassFactory implements FactoryInterface
         $namespace->addUse(RequestOptions::class);
         $namespace->addUse(Client::class);
         $namespace->addUse($reflectionInterface->getName());
-        $namespace->addUse(ImplHash::class);
         $namespace->addUse(WafflerImplConstructor::class);
         $namespace->addUseFunction('Waffler\\Waffler\\arrayGet');
         $namespace->addUse(PromiseInterface::class);
 
         $class = $namespace->addClass($className);
-        $class->addAttribute(ImplHash::class, [md5_file($reflectionInterface->getFileName())]);
         $class->addImplement($interface);
         $class->addTrait(WafflerImplConstructor::class);
 

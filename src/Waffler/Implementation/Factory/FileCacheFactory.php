@@ -11,7 +11,7 @@
 
 namespace Waffler\Waffler\Implementation\Factory;
 
-use Waffler\Waffler\Implementation\Attributes\ImplHash;
+use Waffler\Waffler\Implementation\Exceptions\NotAnInterfaceException;
 use Waffler\Waffler\Implementation\Traits\BuildsImplementationFileName;
 use Waffler\Waffler\Implementation\Traits\InteractsWithAttributes;
 
@@ -37,55 +37,21 @@ class FileCacheFactory extends AbstractFactoryDecorator
      */
     public function generateForInterface(string $interface): string
     {
+        if (! interface_exists($interface)) {
+            throw new NotAnInterfaceException($interface);
+        }
         $qualified = $this->buildQualifiedFileName($interface);
-        if ($this->validateExistingImplementation($qualified, $interface)) {
-            return $qualified;
-        }
-
         $fileName = $this->cacheDirectory.DIRECTORY_SEPARATOR.$this->buildFileName($interface).'.php';
-
         if (file_exists($fileName)) {
+            include_once $fileName;
             return $qualified;
         }
-
         $code = parent::generateForInterface($interface);
-
         $classFileResource = fopen($fileName, 'w');
         fwrite($classFileResource, $code);
         fclose($classFileResource);
-
-        include $fileName;
+        include_once $fileName;
 
         return $qualified;
-    }
-
-    /**
-     * @param class-string<TImpl>      $qualified
-     * @param class-string<TInterface> $interface
-     *
-     * @return bool
-     * @throws \ReflectionException
-     * @author ErickJMenezes <erickmenezes.dev@gmail.com>
-     * @template TImpl of object
-     * @template TInterface of object
-     */
-    private function validateExistingImplementation(string $qualified, string $interface): bool
-    {
-        if (!class_exists($qualified)) {
-            return false;
-        }
-
-        $qualifiedReflection = new \ReflectionClass($qualified);
-        $interfaceReflection = new \ReflectionClass($interface);
-        $implHash = $this->getAttributeInstance($qualifiedReflection, ImplHash::class);
-
-        $valid = $implHash->hash === md5_file($interfaceReflection->getFileName());
-
-        if (!$valid) {
-            unlink($qualifiedReflection->getFileName());
-            return false;
-        }
-
-        return true;
     }
 }
