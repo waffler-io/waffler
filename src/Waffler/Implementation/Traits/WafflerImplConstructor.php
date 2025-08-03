@@ -12,13 +12,18 @@
 namespace Waffler\Waffler\Implementation\Traits;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Pool;
 use GuzzleHttp\Promise\Utils;
 use GuzzleHttp\RequestOptions;
 use InvalidArgumentException;
 use Psr\Http\Message\ResponseInterface;
 use Waffler\Waffler\Client\Contracts\FactoryInterface;
 
+/**
+ * Trait WafflerImplConstructor.
+ *
+ * @author ErickJMenezes <erickmenezes.dev@gmail.com>
+ * @phpstan-ignore trait.unused
+ */
 trait WafflerImplConstructor
 {
     private Client $client;
