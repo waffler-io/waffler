@@ -12,11 +12,15 @@
 namespace Waffler\Waffler\Implementation;
 
 use ArrayObject;
+use Exception;
 use GuzzleHttp\Promise\PromiseInterface;
 use GuzzleHttp\Psr7\Response;
+use InvalidArgumentException;
 use Psr\Http\Message\MessageInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
+use ReflectionClass;
+use ReflectionException;
 use ReflectionMethod;
 use ReflectionNamedType;
 use ReflectionType;
@@ -49,7 +53,7 @@ class MethodValidator
      */
     private array $validatedDeclaringClasses = [];
 
-    private const DISALLOWED_METHODS = [
+    private const array DISALLOWED_METHODS = [
         '__construct',
         '__destruct',
         '__get',
@@ -69,7 +73,7 @@ class MethodValidator
      * @param array<ReflectionMethod> $methods
      *
      * @return void
-     * @throws \Exception
+     * @throws Exception
      * @throws InterfaceMethodValidationException
      * @author ErickJMenezes <erickmenezes.dev@gmail.com>
      */
@@ -85,7 +89,7 @@ class MethodValidator
     /**
      * Ensures the method follows certain criteria.
      *
-     * @throws InterfaceMethodValidationException|\Exception
+     * @throws InterfaceMethodValidationException|Exception
      */
     private function validateMethodSignature(ReflectionMethod $method): void
     {
@@ -134,16 +138,16 @@ class MethodValidator
     }
 
     /**
-     * @param \ReflectionMethod $method
+     * @param ReflectionMethod $method
      *
      * @return void
-     * @throws \Exception
+     * @throws Exception
      * @author ErickJMenezes <erickmenezes.dev@gmail.com>
      */
     private function validateParameters(ReflectionMethod $method): void
     {
         foreach ($method->getParameters() as $parameter) {
-            if (!$parameter->getType() instanceof ReflectionNamedType) {
+            if (!$parameter->hasType()) {
                 throw new InterfaceMethodValidationException(
                     InterfaceMethodValidationException::PARAMETERS_WITHOUT_A_TYPE_ARE_NOT_ALLOWED,
                     [$method->getDeclaringClass()->getShortName() . '::' . $method->getName()]
@@ -171,7 +175,8 @@ class MethodValidator
     }
 
     /**
-     * @throws \Exception
+     * @throws InterfaceMethodValidationException
+     * @phpstan-assert ReflectionNamedType $reflectionType
      */
     private function checkReflectionType(?ReflectionType $reflectionType): void
     {
@@ -190,7 +195,7 @@ class MethodValidator
      *
      * @return void
      * @template T
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     private function checkParameterAttributeType(string $attribute, string $type): void
     {
@@ -265,10 +270,10 @@ class MethodValidator
         } elseif (
             // If the method does not have a return type
             !($methodReturnType instanceof ReflectionNamedType)
-            // Or if the bached method has a return type and...
+            // Or if the batched method has a return type and...
             || $batchedMethodReturnType instanceof ReflectionNamedType
             && (
-                // The method returns void but the batched method does not.
+                // The method returns void, but the batched method does not.
                 (
                     $methodReturnType->getName() === 'void'
                     && $batchedMethodReturnType->getName() !== 'void'
@@ -294,16 +299,15 @@ class MethodValidator
     }
 
     /**
-     * @throws \ReflectionException
-     * @throws \Exception
+     * @throws ReflectionException
+     * @throws Exception
      */
     private function validateReturnType(ReflectionType $type): void
     {
         $this->checkReflectionType($type);
-        assert($type instanceof ReflectionNamedType);
 
         if (interface_exists($type->getName())) {
-            $this->validateAll((new \ReflectionClass($type->getName()))->getMethods());
+            $this->validateAll(new ReflectionClass($type->getName())->getMethods());
             return;
         }
 
