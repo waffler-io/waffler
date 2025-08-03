@@ -63,7 +63,7 @@ class RequestExpectation
     }
 
     /**
-     * @param array<string, string|int>|string $query
+     * @param array<string, string|int|array<int|string>>|string $query
      *
      * @return self
      * @author ErickJMenezes <erickmenezes.dev@gmail.com>

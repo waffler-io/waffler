@@ -44,7 +44,7 @@ class GenericNestedResourceTest extends TestCase
             'handler' => $handler,
         ]);
         $client->resource('users')
-            ->relation('posts', 1)
+            ->relation('posts', '1')
             ->all();
     }
 }
