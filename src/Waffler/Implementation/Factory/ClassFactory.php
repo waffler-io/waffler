@@ -12,6 +12,7 @@
 namespace Waffler\Waffler\Implementation\Factory;
 
 use ArrayObject;
+use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Promise\PromiseInterface;
 use GuzzleHttp\Psr7\Response;
@@ -162,10 +163,11 @@ readonly class ClassFactory implements FactoryInterface
         $reflectionReturnType = $reflectionMethod->getReturnType();
         assert($reflectionReturnType instanceof ReflectionNamedType || $reflectionReturnType === null);
         $hasNested = $this->reflectionHasAttribute($reflectionMethod, NestedResource::class);
+        //@phpstan-ignore-next-line
         if ($reflectionReturnType !== null && is_a($reflectionReturnType->getName(), PromiseInterface::class)) {
-            $lines[] = "return \$this->{$hiddenMethodName}(...func_get_args());";
+            $lines[] = "return \$this->$hiddenMethodName(...func_get_args());";
         } elseif ($hasNested) {
-            $lines[] = "return \$this->{$hiddenMethodName}([RequestOptions::SYNCHRONOUS => true], ...func_get_args());";
+            $lines[] = "return \$this->$hiddenMethodName([RequestOptions::SYNCHRONOUS => true], ...func_get_args());";
         } else {
             $processingResult = $this->respond(
                 $reflectionReturnType?->getName(),
@@ -174,13 +176,13 @@ readonly class ClassFactory implements FactoryInterface
                     : null
             );
             if ($this->reflectionHasAttribute($reflectionMethod, Batch::class)) {
-                $lines[] = "\$responses = \$this->{$hiddenMethodName}(...func_get_args());";
+                $lines[] = "\$responses = \$this->$hiddenMethodName(...func_get_args());";
                 $lines[] = "return array_map(function (ResponseInterface \$response) {
                         {$processingResult}
                         return \$result;
                     }, \$responses);";
             } else {
-                $lines[] = "\$response = \$this->{$hiddenMethodName}([RequestOptions::SYNCHRONOUS => true], ...func_get_args())->wait();";
+                $lines[] = "\$response = \$this->$hiddenMethodName([RequestOptions::SYNCHRONOUS => true], ...func_get_args())->wait();";
                 $lines[] = $processingResult;
                 if ($reflectionReturnType?->getName() !== 'void') {
                     $lines[] = "return \$result;";
@@ -200,7 +202,7 @@ readonly class ClassFactory implements FactoryInterface
     }
 
     /**
-     * @param \ReflectionMethod $reflectionMethod
+     * @param ReflectionMethod $reflectionMethod
      *
      * @return string
      * @author ErickJMenezes <erickmenezes.dev@gmail.com>
@@ -214,7 +216,7 @@ readonly class ClassFactory implements FactoryInterface
         $fullPath = $this->getFullMethodPath($reflectionMethod);
         $lines[] = "\$path = \"{$this->pathParser->parse($fullPath, $reflectionMethod->getParameters())}\";";
         $lines[] = "\$options['base_uri'] = (\$options['base_uri'] ?? '').\$path;";
-        $lines[] = "\$resource = '{$returnTypeName}';";
+        $lines[] = "\$resource = '$returnTypeName';";
         $lines[] = "return \$this->buildNestedResource(\$resource, \$options);";
 
         return implode(PHP_EOL, $lines);
@@ -246,10 +248,10 @@ readonly class ClassFactory implements FactoryInterface
     }
 
     /**
-     * @param \ReflectionMethod $reflectionMethod
+     * @param ReflectionMethod $reflectionMethod
      *
      * @return string
-     * @throws \Exception
+     * @throws Exception
      * @author ErickJMenezes <erickmenezes.dev@gmail.com>
      */
     private function generateMethodBodyForRequest(ReflectionMethod $reflectionMethod): string
@@ -257,7 +259,7 @@ readonly class ClassFactory implements FactoryInterface
         if ($this->reflectionHasAttribute($reflectionMethod, Batch::class)) {
             $batchMethodName = $this->getAttributeInstance($reflectionMethod, Batch::class, true);
             $args = implode(', ', array_map(fn ($param) => "\${$param->getName()}", $reflectionMethod->getParameters()));
-            return "return \$this->performBatchMethod('{$batchMethodName->methodName}', $args);";
+            return "return \$this->performBatchMethod('$batchMethodName->methodName', $args);";
         }
         $lines = [];
 

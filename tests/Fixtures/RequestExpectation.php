@@ -93,10 +93,6 @@ class RequestExpectation
                     "Failed asserting the request has a header named \"$headerName\"."
                 );
 
-                if (!$hasHeader) {
-                    continue;
-                }
-
                 $expectedHeaders = arrayWrap($header);
 
                 foreach ($expectedHeaders as $expectedIndex => $expectedHeader) {

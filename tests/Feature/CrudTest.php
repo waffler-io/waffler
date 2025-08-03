@@ -15,7 +15,6 @@ use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\RequestInterface;
-use Waffler\Waffler\Client\Factory;
 use Waffler\Waffler\Tests\Fixtures\CleanStart;
 use Waffler\Waffler\Tests\Fixtures\CrudTestCaseClient;
 
@@ -70,7 +69,6 @@ class CrudTest extends TestCase
 
         $response = $this->testCaseClient->getById(1);
 
-        self::assertIsArray($response);
         self::assertEquals('bar', $response['foo']);
     }
 
@@ -88,7 +86,6 @@ class CrudTest extends TestCase
 
         $response = $this->testCaseClient->create(['foo' => 'bar']);
 
-        self::assertIsArray($response);
         self::assertArrayHasKey('foo', $response);
         self::assertArrayHasKey('id', $response);
         self::assertEquals('bar', $response['foo']);
@@ -109,7 +106,6 @@ class CrudTest extends TestCase
 
         $response = $this->testCaseClient->update(1, ['foo' => 'baz']);
 
-        self::assertIsArray($response);
         self::assertArrayHasKey('foo', $response);
         self::assertEquals('baz', $response['foo']);
     }
@@ -128,7 +124,6 @@ class CrudTest extends TestCase
 
         $response = $this->testCaseClient->replace(1, ['foo' => 'baz']);
 
-        self::assertIsArray($response);
         self::assertArrayHasKey('foo', $response);
         self::assertEquals('baz', $response['foo']);
     }
@@ -144,7 +139,6 @@ class CrudTest extends TestCase
         });
 
         $response = $this->testCaseClient->delete(1);
-        self::assertIsArray($response);
         self::assertArrayHasKey('message', $response);
         self::assertEquals('deleted', $response['message']);
     }
