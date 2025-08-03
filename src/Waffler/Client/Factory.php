@@ -25,21 +25,16 @@ use Waffler\Waffler\Implementation\PathParser;
  *
  * @author ErickJMenezes <erickmenezes.dev@gmail.com>
  */
-readonly class Factory implements FactoryInterface
+class Factory implements FactoryInterface
 {
     private const IMPL_CACHE_DIRECTORY = __DIR__.'/../../Impl';
     private const NAMESPACE = "Waffler\\Impl";
 
-    public function __construct(
-        private ImplFactory $classFactory = new FileCacheFactory(
-            new ClassFactory(
-                new MethodValidator(),
-                new PathParser(),
-                self::NAMESPACE,
-            ),
-            self::IMPL_CACHE_DIRECTORY,
-        )
-    ) {
+    private ImplFactory $classFactory;
+
+    public function __construct(?ImplFactory $classFactory = null)
+    {
+        $this->classFactory = $classFactory ?? $this->defaultClassFactoryImpl();
     }
 
     /**
@@ -52,5 +47,17 @@ readonly class Factory implements FactoryInterface
         $className = $this->classFactory->generateForInterface($interface);
 
         return new $className($options, $this);
+    }
+
+    private function defaultClassFactoryImpl(): ImplFactory
+    {
+        return new FileCacheFactory(
+            new ClassFactory(
+                new MethodValidator(),
+                new PathParser(),
+                self::NAMESPACE,
+            ),
+            self::IMPL_CACHE_DIRECTORY,
+        );
     }
 }
