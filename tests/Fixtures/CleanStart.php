@@ -26,7 +26,7 @@ trait CleanStart
     public function setUpFactoryAndFolder(): void
     {
         $this->cleanCacheFolder();
-        $this->factory = new Factory();
+        $this->factory = Factory::default();
     }
 
     private function cleanCacheFolder(): void

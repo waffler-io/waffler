@@ -21,9 +21,10 @@ interface ExampleClientInterface
     public function getUsers(#[Bearer] string $token): array;
 }
 
-$exampleClient = (new Factory())->make(ExampleClientInterface::class, [
-    'base_uri' => 'https://jsonplaceholder.typicode.com/',
-    'headers' => ['Authorization' => 'Bearer your-access-token-here'] //You can use here
-]);
+$exampleClient = Factory::default()
+    ->make(ExampleClientInterface::class, [
+        'base_uri' => 'https://jsonplaceholder.typicode.com/',
+        'headers' => ['Authorization' => 'Bearer your-access-token-here'] //You can use here
+    ]);
 
 $users = $exampleClient->getUsers('your-access-token-here'); // Or pass via argument

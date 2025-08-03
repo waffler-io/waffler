@@ -38,9 +38,10 @@ interface JsonPlaceholderInterface
     public function deleteUser(#[PathParam('id')] int $id): void;
 }
 
-$jsonplaceholder = (new Factory())->make(JsonPlaceholderInterface::class, [
-    'base_uri' => 'https://jsonplaceholder.typicode.com/'
-]);
+$jsonplaceholder = Factory::default()
+    ->make(JsonPlaceholderInterface::class, [
+        'base_uri' => 'https://jsonplaceholder.typicode.com/'
+    ]);
 
 $users = $jsonplaceholder->getUsers();
 

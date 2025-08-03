@@ -113,7 +113,8 @@ use App\Clients\FooClient;
 use Waffler\Waffler\Client\Factory;
 
 // Instantiate the client passing the interface as first argument.
-$fooClient = Factory::make(FooClient::class, ['base_uri' => '<api-base-uri>']);
+$fooClient = Factory::default()
+    ->make(FooClient::class, ['base_uri' => '<api-base-uri>']);
 
 // Retrieve the credentials
 $credentials = $this->fooClient->login([

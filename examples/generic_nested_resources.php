@@ -39,9 +39,10 @@ interface JsonPlaceholderApi
     public function resource(#[PathParam] string $name): ResourceApi;
 }
 
-$api = (new Factory())->make(JsonPlaceholderApi::class, [
-    'base_uri' => 'https://jsonplaceholder.typicode.com/'
-]);
+$api = Factory::default()
+    ->make(JsonPlaceholderApi::class, [
+        'base_uri' => 'https://jsonplaceholder.typicode.com/'
+    ]);
 
 $posts = $api->resource('users')
     ->relation('posts', '1')

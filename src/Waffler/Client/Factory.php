@@ -30,11 +30,8 @@ class Factory implements FactoryInterface
     private const IMPL_CACHE_DIRECTORY = __DIR__.'/../../Impl';
     private const NAMESPACE = "Waffler\\Impl";
 
-    private ImplFactory $classFactory;
-
-    public function __construct(?ImplFactory $classFactory = null)
+    public function __construct(protected readonly ImplFactory $classFactory)
     {
-        $this->classFactory = $classFactory ?? $this->defaultClassFactoryImpl();
     }
 
     public function make(string $interface, array $options = []): object
@@ -44,15 +41,17 @@ class Factory implements FactoryInterface
         return new $className($options, $this);
     }
 
-    private function defaultClassFactoryImpl(): ImplFactory
+    public static function default(): FactoryInterface
     {
-        return new FileCacheFactory(
-            new ClassFactory(
-                new MethodValidator(),
-                new PathParser(),
-                self::NAMESPACE,
-            ),
-            self::IMPL_CACHE_DIRECTORY,
+        return new self(
+            new FileCacheFactory(
+                new ClassFactory(
+                    new MethodValidator(),
+                    new PathParser(),
+                    self::NAMESPACE,
+                ),
+                self::IMPL_CACHE_DIRECTORY,
+            )
         );
     }
 }
