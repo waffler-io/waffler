@@ -27,8 +27,8 @@ use Waffler\Waffler\Implementation\PathParser;
  */
 class Factory implements FactoryInterface
 {
-    private const IMPL_CACHE_DIRECTORY = __DIR__.'/../../Impl';
-    private const NAMESPACE = "Waffler\\Impl";
+    private const string IMPL_CACHE_DIRECTORY = __DIR__.'/../../Impl';
+    private const string NAMESPACE = "Waffler\\Impl";
 
     public function __construct(protected readonly ImplFactory $classFactory)
     {
@@ -51,6 +51,7 @@ class Factory implements FactoryInterface
                     self::NAMESPACE,
                 ),
                 self::IMPL_CACHE_DIRECTORY,
+                self::NAMESPACE,
             )
         );
     }

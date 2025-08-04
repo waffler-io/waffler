@@ -31,6 +31,8 @@ trait BuildsImplementationFileName
      */
     private function buildQualifiedFileName(string $interface): string
     {
-        return "\\Waffler\\Impl\\".$this->buildFileName($interface);
+        return "{$this->getBaseNamespace()}\\{$this->buildFileName($interface)}";
     }
+
+    abstract private function getBaseNamespace(): string;
 }

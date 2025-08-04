@@ -365,4 +365,9 @@ readonly class ClassFactory implements FactoryInterface
             default => throw new TypeError()
         };
     }
+
+    private function getBaseNamespace(): string
+    {
+        return $this->classNamespace;
+    }
 }

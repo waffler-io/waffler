@@ -23,6 +23,7 @@ class FileCacheFactory extends AbstractFactoryDecorator
     public function __construct(
         FactoryInterface $factory,
         private readonly string $cacheDirectory,
+        private readonly string $baseNamespace,
     ) {
         parent::__construct($factory);
     }
@@ -45,5 +46,10 @@ class FileCacheFactory extends AbstractFactoryDecorator
         include_once $fileName;
 
         return $qualified;
+    }
+
+    private function getBaseNamespace(): string
+    {
+        return $this->baseNamespace;
     }
 }
