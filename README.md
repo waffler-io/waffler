@@ -100,9 +100,9 @@ interface FooClient
 
 #### Step 3: Generate the implementation for your interface and use it.
 
-Import the class `Waffler\Waffler\Client\Factory` and call the static method `make` passing the
+Import the class `Waffler\Waffler\Client\Factory` and call the method `make` passing the
 _fully qualified name_ of the interface we just created as first argument and an associative array of GuzzleHttp client
-options as second argument.
+options as second argument, as the example below:
 
 ```php
 <?php
@@ -112,9 +112,13 @@ namespace App;
 use App\Clients\FooClient;
 use Waffler\Waffler\Client\Factory;
 
-// Instantiate the client passing the interface as first argument.
-$fooClient = Factory::default()
-    ->make(FooClient::class, ['base_uri' => '<api-base-uri>']);
+// Get a new factory instance.
+$factory = Factory::default();
+
+// Instantiate the FooClient interface.
+$fooClient = $factory->make(FooClient::class, [
+    'base_uri' => '<api-base-uri>',
+]);
 
 // Retrieve the credentials
 $credentials = $this->fooClient->login([
