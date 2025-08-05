@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Waffler\Waffler\Client;
 
 use Waffler\Waffler\Client\Contracts\FactoryInterface;
+use Waffler\Waffler\Client\Contracts\PregeneratesClientsInterface;
 use Waffler\Waffler\Implementation\Factory\ClassFactory;
 use Waffler\Waffler\Implementation\Factory\FactoryInterface as ImplFactory;
 use Waffler\Waffler\Implementation\Factory\FileCacheFactory;
@@ -25,7 +26,7 @@ use Waffler\Waffler\Implementation\PathParser;
  *
  * @author ErickJMenezes <erickmenezes.dev@gmail.com>
  */
-class Factory implements FactoryInterface
+class Factory implements FactoryInterface, PregeneratesClientsInterface
 {
     private const string IMPL_CACHE_DIRECTORY = __DIR__.'/../../../generated';
     private const string NAMESPACE = "Waffler\\Generated";
@@ -49,7 +50,12 @@ class Factory implements FactoryInterface
         return new $className($options, $this);
     }
 
-    public static function default(): FactoryInterface
+    public function warmup(string $interface): void
+    {
+        $this->classFactory->generateForInterface($interface);
+    }
+
+    public static function default(): self
     {
         return new self(
             new FileCacheFactory(

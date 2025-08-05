@@ -13,6 +13,7 @@ namespace Waffler\Waffler\Tests\Unit\Client;
 
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use PHPUnit\Framework\TestCase;
+use ReflectionException;
 use Waffler\Waffler\Client\Factory;
 use Waffler\Waffler\Tests\Fixtures\CleanStart;
 use Waffler\Waffler\Tests\Fixtures\CrudTestCaseClient;
@@ -30,10 +31,20 @@ class FactoryTest extends TestCase
     use CleanStart;
     use MockeryPHPUnitIntegration;
 
-    public function testMustGenerateValidImplementationForValidInterfaces(): void
+    public function testMustInstantiateValidImplementationForValidInterfaces(): void
     {
         $client = $this->factory->make(CrudTestCaseClient::class, []);
-
         self::assertInstanceOf(CrudTestCaseClient::class, $client);
+    }
+
+    /**
+     * @throws ReflectionException
+     */
+    public function testMustGenerateAndSaveIntoDiskCache()
+    {
+        $glob = fn () => glob(self::IMPL_DIR.'/*CrudTestCaseClient*.php');
+        self::assertCount(0, $glob());
+        $this->factory->warmup(CrudTestCaseClient::class);
+        self::assertCount(1, $glob());
     }
 }

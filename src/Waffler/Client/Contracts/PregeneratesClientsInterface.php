@@ -17,23 +17,22 @@ use InvalidArgumentException;
 use ReflectionException;
 
 /**
- * Interface FactoryInterface.
+ * Interface PregeneratesClientsInterface.
  *
  * @author ErickJMenezes <erickmenezes.dev@gmail.com>
  */
-interface FactoryInterface
+interface PregeneratesClientsInterface
 {
     /**
-     * Factory method to create the client implementation.
+     * Generates and caches the implementation of the given interfaces to future uses.
      *
      * @param class-string<T> $interface Fully qualified name of the client interface.
-     * @param array<string, mixed>     $options   An array of GuzzleHttp client options.
      *
-     * @return object&T
+     * @return void
      * @throws ReflectionException If the $interfaceName can't be reflected.
      * @throws InvalidArgumentException If the $interfaceName is not a fully qualified name of an interface.
      * @template T of object
      * @author ErickJMenezes <erickmenezes.dev@gmail.com>
      */
-    public function make(string $interface, array $options = []): object;
+    public function warmup(string $interface): void;
 }

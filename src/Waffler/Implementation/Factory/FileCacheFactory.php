@@ -11,6 +11,7 @@
 
 namespace Waffler\Waffler\Implementation\Factory;
 
+use ReflectionException;
 use Waffler\Waffler\Implementation\Exceptions\NotAnInterfaceException;
 use Waffler\Waffler\Implementation\Traits\BuildsImplementationFileName;
 use Waffler\Waffler\Implementation\Traits\InteractsWithAttributes;
@@ -58,7 +59,7 @@ class FileCacheFactory extends AbstractFactoryDecorator
      * @param string $interface
      *
      * @return string
-     * @throws \ReflectionException
+     * @throws ReflectionException
      * @author ErickJMenezes <erickmenezes.dev@gmail.com>
      */
     private function buildFilepath(string $interface): string

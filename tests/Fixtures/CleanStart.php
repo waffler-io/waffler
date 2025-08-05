@@ -11,14 +11,13 @@
 
 namespace Waffler\Waffler\Tests\Fixtures;
 
-use Waffler\Waffler\Client\Contracts\FactoryInterface;
 use Waffler\Waffler\Client\Factory;
 
 trait CleanStart
 {
     private const string IMPL_DIR = __DIR__.'/../../generated';
 
-    private FactoryInterface $factory;
+    private Factory $factory;
 
     /**
      * @before
