@@ -18,3 +18,5 @@ psalm.xml export-ignore
 .phpactor.json export-ignore
 composer.lock export-ignore
 mago.toml export-ignore
+phpstan.neon export-ignore
+.php-cs-fixer.dist.php export-ignore

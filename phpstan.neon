@@ -4,4 +4,4 @@ parameters:
     - src
     - tests
   excludePaths:
-    - src/Impl/*
+    - generated/*
