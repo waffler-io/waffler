@@ -14,7 +14,7 @@ $finder = PhpCsFixer\Finder::create()
     ->exclude([
         'vendor',
         '.phpunit.cache',
-        'src/Impl'
+        'generated',
     ])
     ->in(__DIR__);
 

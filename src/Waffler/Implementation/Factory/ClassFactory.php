@@ -96,6 +96,7 @@ readonly class ClassFactory implements FactoryInterface
         $class->addImplement($interface);
         $class->addImplement(WafflerImplConstructorInterface::class);
         $class->addTrait(WafflerImplConstructor::class);
+        $class->addComment("@internal This class was automatically generated. Do not edit it manually.");
 
         foreach ($reflectionInterface->getMethods() as $reflectionMethod) {
             $this->processMethodImplMethods($namespace, $class, $reflectionMethod);

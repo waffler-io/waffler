@@ -27,9 +27,17 @@ use Waffler\Waffler\Implementation\PathParser;
  */
 class Factory implements FactoryInterface
 {
-    private const string IMPL_CACHE_DIRECTORY = __DIR__.'/../../Impl';
-    private const string NAMESPACE = "Waffler\\Impl";
+    private const string IMPL_CACHE_DIRECTORY = __DIR__.'/../../../generated';
+    private const string NAMESPACE = "Waffler\\Generated";
 
+    /**
+     * WARNING: This constructor should not be called directly. It is intended for internal usage only.
+     * The signature must change at any time without prior warnings.
+     *
+     * Use {@see Factory::default()} method instead or implement the {@see FactoryInterface} in your own class.
+     *
+     * @param ImplFactory $classFactory
+     */
     public function __construct(protected readonly ImplFactory $classFactory)
     {
     }

@@ -34,16 +34,12 @@ class FileCacheFactory extends AbstractFactoryDecorator
             throw new NotAnInterfaceException($interface);
         }
         $qualified = $this->buildQualifiedFileName($interface);
-        $fileName = $this->cacheDirectory.DIRECTORY_SEPARATOR.$this->buildFileName($interface).'.php';
-        if (file_exists($fileName)) {
-            include_once $fileName;
+        $filepath = $this->buildFilepath($interface);
+        if (file_exists($filepath)) {
             return $qualified;
         }
         $code = parent::generateForInterface($interface);
-        $classFileResource = fopen($fileName, 'w');
-        fwrite($classFileResource, $code);
-        fclose($classFileResource);
-        include_once $fileName;
+        $this->saveClassCodeIntoCache($filepath, $code);
 
         return $qualified;
     }
@@ -51,5 +47,22 @@ class FileCacheFactory extends AbstractFactoryDecorator
     private function getBaseNamespace(): string
     {
         return $this->baseNamespace;
+    }
+
+    private function saveClassCodeIntoCache(string $filepath, string $code): void
+    {
+        file_put_contents($filepath, $code);
+    }
+
+    /**
+     * @param string $interface
+     *
+     * @return string
+     * @throws \ReflectionException
+     * @author ErickJMenezes <erickmenezes.dev@gmail.com>
+     */
+    private function buildFilepath(string $interface): string
+    {
+        return $this->cacheDirectory.DIRECTORY_SEPARATOR.$this->buildFileName($interface).'.php';
     }
 }

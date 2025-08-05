@@ -6,7 +6,7 @@
   "autoload": {
     "psr-4": {
       "Waffler\\Waffler\\": "src/Waffler/",
-      "Waffler\\Impl\\": "src/Impl/"
+      "Waffler\\Generated\\": "generated/"
     },
     "files": [
       "src/helpers.php"

@@ -16,7 +16,7 @@ use Waffler\Waffler\Client\Factory;
 
 trait CleanStart
 {
-    private const IMPL_DIR = __DIR__.'/../../src/Impl';
+    private const string IMPL_DIR = __DIR__.'/../../generated';
 
     private FactoryInterface $factory;
 
@@ -31,7 +31,7 @@ trait CleanStart
 
     private function cleanCacheFolder(): void
     {
-        $files = glob(self::IMPL_DIR.'/*');
+        $files = glob(self::IMPL_DIR.'/*.php');
         foreach ($files as $file) {
             if (is_file($file)) {
                 unlink($file);
