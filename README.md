@@ -120,13 +120,13 @@ $fooClient = $factory->make(FooClient::class, [
     'base_uri' => '<api-base-uri>',
 ]);
 
-// Retrieve the credentials
+// That's it! Now you client instance is ready.
+// Let's call our API:
+
 $credentials = $this->fooClient->login([
     'email' => 'email@test.com',
     'password' => '<secret>'
 ]);
-
-// Retrieve the posts.
 $posts = $this->fooClient->getPosts($credentials['token'], ['created_at' => '2020-01-01'])
 ```
 
