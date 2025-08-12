@@ -14,14 +14,14 @@ namespace Waffler\Waffler;
 use JetBrains\PhpStorm\Pure;
 
 /**
- * Dot notation for get data inside array
+ * Dot notation for get data inside the array
  *
- * @param array<string, T>     $_
+ * @param array<R>         $_
  * @param string|array<string> $path
- * @param non-empty-string     $pathSeparator
+ * @param non-empty-string $pathSeparator
  *
- * @return T
- * @template T
+ * @return R
+ * @template R of mixed|array<R>
  */
 #[Pure]
 function arrayGet(array $_, string|array $path, string $pathSeparator = '.'): mixed
@@ -35,15 +35,15 @@ function arrayGet(array $_, string|array $path, string $pathSeparator = '.'): mi
 }
 
 /**
- * Dot notation for set value inside array.
+ * Dot notation for set value inside the array.
  *
- * @param array<string, mixed> $_
- * @param string|array<string> $path
- * @param mixed                $value
- * @param non-empty-string     $pathSeparator
+ * @param array                                    $_
+ * @param non-empty-string|array<non-empty-string> $path
+ * @param mixed                                    $value
+ * @param non-empty-string                         $pathSeparator
  *
  * @return void
- * @author         ErickJMenezes <erickmenezes.dev@gmail.com>
+ * @author ErickJMenezes <erickmenezes.dev@gmail.com>
  */
 function arraySet(array &$_, string|array $path, mixed $value, string $pathSeparator = '.'): void
 {
@@ -63,11 +63,11 @@ function arraySet(array &$_, string|array $path, mixed $value, string $pathSepar
 /**
  * Wraps a given value into an array.
  *
- * @param T|array<T> $value
+ * @param T $value
  *
- * @return array<T>
- * @author         ErickJMenezes <erickmenezes.dev@gmail.com>
- * @template       T
+ * @return (T is array ? T : array<T>)
+ * @author ErickJMenezes <erickmenezes.dev@gmail.com>
+ * @template T
  */
 #[Pure]
 function arrayWrap(mixed $value): array
@@ -78,3 +78,8 @@ function arrayWrap(mixed $value): array
 
     return [$value];
 }
+
+$b = arrayWrap(1);
+
+$a = ['foo' => ['bar' => 3]];
+$r = arrayGet($a, 'foo.bar');
