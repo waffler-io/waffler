@@ -78,8 +78,3 @@ function arrayWrap(mixed $value): array
 
     return [$value];
 }
-
-$b = arrayWrap(1);
-
-$a = ['foo' => ['bar' => 3]];
-$r = arrayGet($a, 'foo.bar');
