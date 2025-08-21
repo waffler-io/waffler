@@ -1,41 +1,32 @@
 {
-  "name": "waffler/waffler",
-  "description": "Make REST clients easy.",
+  "name": "waffler/generator",
+  "description": "Provides the necessary http attributes to be used in the waffler framework.",
+  "minimum-stability": "dev",
   "type": "library",
   "license": "MIT",
-  "minimum-stability": "dev",
-  "prefer-stable": true,
-  "repositories": [
-    {"type": "path", "url": "libs/bridge/*"},
-    {"type": "path", "url": "libs/components/*"},
-    {"type": "path", "url": "libs/contracts/*"}
-  ],
   "authors": [
     {
       "name": "Erick de Menezes",
       "email": "erickmenezes.dev@gmail.com"
     }
   ],
+  "autoload": {
+    "psr-4": {
+      "Waffler\\Component\\Generator\\": "src",
+      "Waffler\\Component\\Generator\\Generated\\": "generated"
+    }
+  },
   "autoload-dev": {
     "psr-4": {
-      "Waffler\\Component\\Attributes\\Tests\\": "libs/components/attributes/tests",
-      "Waffler\\Component\\Generator\\Tests\\": "libs/components/generator/tests",
-      "Waffler\\Component\\Helpers\\Tests\\": "libs/components/helpers/tests",
-      "Waffler\\Component\\Client\\Tests\\": "libs/components/client/tests",
-      "Waffler\\Contracts\\Attributes\\Tests\\": "libs/contracts/attributes-contracts/tests",
-      "Waffler\\Contracts\\Client\\Tests\\": "libs/contracts/client-contracts/tests",
-      "Waffler\\Bridge\\Laravel\\Tests\\": "libs/bridge/laravel-bridge/tests"
+      "Waffler\\Component\\Generator\\Tests\\": "tests"
     }
   },
   "require": {
     "php": "^8.4",
     "waffler/attributes": "^3.2.0",
-    "waffler/client": "^3.2.0",
-    "waffler/generator": "^3.2.0",
     "waffler/helpers": "^3.2.0",
-    "waffler/attributes-contracts": "^3.2.0",
-    "waffler/client-contracts": "^3.2.0",
-    "waffler/laravel-bridge": "^3.2.0"
+    "guzzlehttp/guzzle": "^7.4.0",
+    "nette/php-generator": "^4.1"
   },
   "require-dev": {
     "phpunit/phpunit": "^12.0",
@@ -54,12 +45,6 @@
     "style": "@php-cs-fixer"
   },
   "config": {
-    "sort-packages": true,
-    "optimize-autoloader": true,
-    "platform-check": true,
-    "preferred-install": {
-      "*": "dist"
-    },
     "allow-plugins": {
       "phpunit/phpunit": true,
       "friendsofphp/php-cs-fixer": true
