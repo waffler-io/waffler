@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
 /*
- * This file is part of Waffler\Waffler.
+ * This file is part of The Waffler Project.
  *
- * (c) Erick Johnson Almeida de Menezes <erickmenezes.dev@gmail.com>
+ * (c) Erick de Menezes <erickmenezes.dev@gmail.com>
  *
  * This source file is subject to the MIT licence that is bundled
  * with this source code in the file LICENCE.
@@ -36,9 +36,7 @@ class Factory implements FactoryInterface, PregeneratesClientsInterface
      *
      * @param ImplFactory $classFactory
      */
-    public function __construct(protected readonly ImplFactory $classFactory)
-    {
-    }
+    public function __construct(protected readonly ImplFactory $classFactory) {}
 
     public function make(string $interface, array $options = []): object
     {
@@ -60,7 +58,7 @@ class Factory implements FactoryInterface, PregeneratesClientsInterface
                     new MethodValidator(),
                     new PathParser(),
                 ),
-            )
+            ),
         );
     }
 }

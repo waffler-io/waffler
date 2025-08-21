@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
 /*
- * This file is part of Waffler\Waffler.
+ * This file is part of The Waffler Project.
  *
- * (c) Erick Johnson Almeida de Menezes <erickmenezes.dev@gmail.com>
+ * (c) Erick de Menezes <erickmenezes.dev@gmail.com>
  *
  * This source file is subject to the MIT licence that is bundled
  * with this source code in the file LICENCE.
@@ -76,8 +76,8 @@ trait InteractsWithAttributes
         bool $instanceOf = false,
     ): array {
         return array_map(
-            fn (ReflectionAttribute $attribute) => $attribute->newInstance(),
-            $reflection->getAttributes($name, $instanceOf ? ReflectionAttribute::IS_INSTANCEOF : 0)
+            fn(ReflectionAttribute $attribute) => $attribute->newInstance(),
+            $reflection->getAttributes($name, $instanceOf ? ReflectionAttribute::IS_INSTANCEOF : 0),
         );
     }
 }

@@ -1,9 +1,9 @@
 <?php
 
 /*
- * This file is part of Waffler\Waffler.
+ * This file is part of The Waffler Project.
  *
- * (c) Erick Johnson Almeida de Menezes <erickmenezes.dev@gmail.com>
+ * (c) Erick de Menezes <erickmenezes.dev@gmail.com>
  *
  * This source file is subject to the MIT licence that is bundled
  * with this source code in the file LICENCE.
@@ -33,14 +33,14 @@ class PathParser
         $pathParameters = array_values(
             array_filter(
                 $reflectionParameters,
-                fn (ReflectionParameter $parameter) => count($parameter->getAttributes(PathParam::class, ReflectionAttribute::IS_INSTANCEOF)) > 0
-            )
+                fn(ReflectionParameter $parameter) => count($parameter->getAttributes(PathParam::class, ReflectionAttribute::IS_INSTANCEOF)) > 0,
+            ),
         );
         foreach ($pathParameters as $pathParameter) {
             $attributeInstance = $pathParameter->getAttributes(PathParam::class, ReflectionAttribute::IS_INSTANCEOF)[0]->newInstance();
             $placeholder = $attributeInstance->name ?? $pathParameter->getName();
             $count = 0;
-            $path = str_replace('{'.$placeholder.'}', "\${$pathParameter->getName()}", $path, $count);
+            $path = str_replace('{' . $placeholder . '}', "\${$pathParameter->getName()}", $path, $count);
             if ($count === 0) {
                 throw new UnableToParsePathException("The argument \"$placeholder\" is not used by any path parameter.", 1);
             } elseif ($count > 1) {

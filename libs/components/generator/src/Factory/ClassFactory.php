@@ -1,9 +1,9 @@
 <?php
 
 /*
- * This file is part of Waffler\Waffler.
+ * This file is part of The Waffler Project.
  *
- * (c) Erick Johnson Almeida de Menezes <erickmenezes.dev@gmail.com>
+ * (c) Erick de Menezes <erickmenezes.dev@gmail.com>
  *
  * This source file is subject to the MIT licence that is bundled
  * with this source code in the file LICENCE.
@@ -67,8 +67,7 @@ readonly class ClassFactory implements FactoryInterface
         private MethodValidator $methodValidator,
         private PathParser $pathParser,
         private string $classNamespace = FactoryDefaults::NAMESPACE,
-    ) {
-    }
+    ) {}
 
     public function generateForInterface(string $interface): string
     {
@@ -109,7 +108,7 @@ readonly class ClassFactory implements FactoryInterface
     {
         $implMethod = $class->addMethod($reflectionMethod->getName())
             ->setPublic();
-        $hiddenMethod = $class->addMethod("wafflerImplFor".ucfirst($reflectionMethod->getName()))
+        $hiddenMethod = $class->addMethod("wafflerImplFor" . ucfirst($reflectionMethod->getName()))
             ->setPrivate();
         $isBatched = $this->reflectionHasAttribute($reflectionMethod, Batch::class);
         if (!$isBatched) {
@@ -156,7 +155,7 @@ readonly class ClassFactory implements FactoryInterface
         $implMethod->setBody(
             $this->generateMainMethodBody(
                 $hiddenMethod->getName(),
-                $reflectionMethod
+                $reflectionMethod,
             ),
         );
     }
@@ -177,7 +176,7 @@ readonly class ClassFactory implements FactoryInterface
                 $reflectionReturnType?->getName(),
                 $this->reflectionHasAttribute($reflectionMethod, Unwrap::class)
                     ? $this->getAttributeInstance($reflectionMethod, Unwrap::class)->property
-                    : null
+                    : null,
             );
             if ($this->reflectionHasAttribute($reflectionMethod, Batch::class)) {
                 $lines[] = "\$responses = \$this->$hiddenMethodName(...func_get_args());";
@@ -245,8 +244,8 @@ readonly class ClassFactory implements FactoryInterface
         return implode(
             '/',
             array_filter(
-                array_map(fn ($path) => trim($path, '/'), $fullPath),
-                fn ($path) => !empty($path),
+                array_map(fn($path) => trim($path, '/'), $fullPath),
+                fn($path) => !empty($path),
             ),
         );
     }
@@ -262,7 +261,7 @@ readonly class ClassFactory implements FactoryInterface
     {
         if ($this->reflectionHasAttribute($reflectionMethod, Batch::class)) {
             $batchMethodName = $this->getAttributeInstance($reflectionMethod, Batch::class, true);
-            $args = implode(', ', array_map(fn ($param) => "\${$param->getName()}", $reflectionMethod->getParameters()));
+            $args = implode(', ', array_map(fn($param) => "\${$param->getName()}", $reflectionMethod->getParameters()));
             return "return \$this->performBatchMethod('$batchMethodName->methodName', $args);";
         }
         $lines = [];
@@ -286,7 +285,7 @@ readonly class ClassFactory implements FactoryInterface
         }
 
         if (!empty($methodHeaders)) {
-            $lines[] = '$_options[RequestOptions::HEADERS] = '.var_export($methodHeaders, true).';';
+            $lines[] = '$_options[RequestOptions::HEADERS] = ' . var_export($methodHeaders, true) . ';';
         }
         if ($this->reflectionHasAttribute($reflectionMethod, Timeout::class)) {
             $lines[] = '$_options[RequestOptions::TIMEOUT] = '
@@ -350,9 +349,9 @@ readonly class ClassFactory implements FactoryInterface
 
     private function respond(?string $returnType, ?string $wrapperProperty): string
     {
-        $unwrapper = $wrapperProperty ?
-            "arrayGet(json_decode(\$response->getBody()->getContents(), true), '$wrapperProperty');" :
-            'json_decode($response->getBody()->getContents(), true)';
+        $unwrapper = $wrapperProperty
+            ? "arrayGet(json_decode(\$response->getBody()->getContents(), true), '$wrapperProperty');"
+            : 'json_decode($response->getBody()->getContents(), true)';
         return match ($returnType ?? 'mixed') {
             'array' => "\$result = $unwrapper;",
             'null' => '$result = null;',
@@ -363,7 +362,7 @@ readonly class ClassFactory implements FactoryInterface
             'object', ArrayObject::class => "\$result = new ArrayObject($unwrapper, ArrayObject::ARRAY_AS_PROPS);",
             StreamInterface::class => '$result = $response->getBody();',
             ResponseInterface::class, Response::class, MessageInterface::class, 'mixed' => '$result = $response;',
-            default => throw new TypeError()
+            default => throw new TypeError(),
         };
     }
 

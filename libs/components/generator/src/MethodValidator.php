@@ -1,9 +1,9 @@
 <?php
 
 /*
- * This file is part of Waffler\Waffler.
+ * This file is part of The Waffler Project.
  *
- * (c) Erick Johnson Almeida de Menezes <erickmenezes.dev@gmail.com>
+ * (c) Erick de Menezes <erickmenezes.dev@gmail.com>
  *
  * This source file is subject to the MIT licence that is bundled
  * with this source code in the file LICENCE.
@@ -101,13 +101,13 @@ class MethodValidator
         }
 
         if (
-            !$this->reflectionHasAttribute($method, Verb::class, true) &&
-            !$this->reflectionHasAttribute($method, NestedResource::class) &&
-            !$this->reflectionHasAttribute($method, Batch::class)
+            !$this->reflectionHasAttribute($method, Verb::class, true)
+            && !$this->reflectionHasAttribute($method, NestedResource::class)
+            && !$this->reflectionHasAttribute($method, Batch::class)
         ) {
             throw new InterfaceMethodValidationException(
                 InterfaceMethodValidationException::VERB_IS_MISSING,
-                [$method->getDeclaringClass()->getShortName().'::'.$method->getName()]
+                [$method->getDeclaringClass()->getShortName() . '::' . $method->getName()],
             );
         }
 
@@ -150,7 +150,7 @@ class MethodValidator
             if (!$parameter->hasType()) {
                 throw new InterfaceMethodValidationException(
                     InterfaceMethodValidationException::PARAMETERS_WITHOUT_A_TYPE_ARE_NOT_ALLOWED,
-                    [$method->getDeclaringClass()->getShortName() . '::' . $method->getName()]
+                    [$method->getDeclaringClass()->getShortName() . '::' . $method->getName()],
                 );
             }
 
@@ -227,7 +227,7 @@ class MethodValidator
                 ['string', 'int', 'null', 'array', 'float', 'double'],
                 $type,
             ),
-            default => null
+            default => null,
         };
     }
 

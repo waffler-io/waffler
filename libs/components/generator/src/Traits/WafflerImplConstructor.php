@@ -1,9 +1,9 @@
 <?php
 
 /*
- * This file is part of Waffler\Waffler.
+ * This file is part of The Waffler Project.
  *
- * (c) Erick Johnson Almeida de Menezes <erickmenezes.dev@gmail.com>
+ * (c) Erick de Menezes <erickmenezes.dev@gmail.com>
  *
  * This source file is subject to the MIT licence that is bundled
  * with this source code in the file LICENCE.
@@ -53,7 +53,7 @@ trait WafflerImplConstructor
         return $this->factory->make($resource, [
             ...$this->options,
             ...$options,
-            'base_uri' => ($this->options['base_uri'] ?? '') . ($options['base_uri'] ?? '') . '/'
+            'base_uri' => ($this->options['base_uri'] ?? '') . ($options['base_uri'] ?? '') . '/',
         ]);
     }
 
@@ -69,7 +69,7 @@ trait WafflerImplConstructor
      */
     private function performBatchMethod(string $methodName, array $argsList): array
     {
-        $hiddenMethodName = 'wafflerImplFor'.ucfirst($methodName);
+        $hiddenMethodName = 'wafflerImplFor' . ucfirst($methodName);
         $requests = [];
         foreach ($argsList as $args) {
             if (!is_array($args)) {
