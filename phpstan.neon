@@ -1,7 +1,13 @@
 parameters:
   level: 5
   paths:
-    - src
-    - tests
-  excludePaths:
-    - generated/*
+    # Bridges
+    - libs/bridge/laravel-bridge/src
+    # Components
+    - libs/components/attributes/src
+    - libs/components/client/src
+    - libs/components/generator/src
+    - libs/components/helpers/src
+    # Contracts
+    - libs/contracts/attributes-contracts/src
+    - libs/contracts/client-contracts/src

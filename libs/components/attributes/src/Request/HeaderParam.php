@@ -12,7 +12,7 @@
 namespace Waffler\Component\Attributes\Request;
 
 use Attribute;
-use Waffler\Component\Attributes\Contracts\KeyedAttribute;
+use Waffler\Contracts\Attributes\KeyedAttribute;
 
 /**
  * Class HeaderParam.
