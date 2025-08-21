@@ -14,6 +14,7 @@ namespace Waffler\Component\Client\Tests\Attributes\Utils;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\Psr7\Response;
 use InvalidArgumentException;
+use PHPUnit\Framework\Attributes\Group;
 use Waffler\Component\Client\Tests\Fixtures\CleanStart;
 use Waffler\Component\Client\Tests\TestCase;
 use Waffler\Component\Attributes\Request\JsonParam;
@@ -26,6 +27,7 @@ use Waffler\Component\Attributes\Verbs\Post;
  * @author ErickJMenezes <erickmenezes.dev@gmail.com>
  * @coversNothing
  */
+#[Group('waffler/client')]
 class BatchTest extends TestCase
 {
     use CleanStart;

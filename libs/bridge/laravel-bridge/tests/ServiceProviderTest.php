@@ -13,6 +13,7 @@ namespace Waffler\Bridge\Laravel\Tests;
 
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Override;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
 use Waffler\Bridge\Laravel\Commands\WafflerClearCommand;
 use Waffler\Bridge\Laravel\Commands\WafflerCacheCommand;
@@ -24,6 +25,7 @@ use Waffler\Bridge\Laravel\Tests\Fixtures\Interfaces\FooClientInterface;
  *
  * @author ErickJMenezes <erickmenezes.dev@gmail.com>
  */
+#[Group('waffler/laravel-bridge')]
 class ServiceProviderTest extends TestCase
 {
     #[Override]

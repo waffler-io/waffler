@@ -14,11 +14,13 @@ declare(strict_types=1);
 namespace Waffler\Bridge\Laravel\Tests\Commands;
 
 use Override;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
 use Waffler\Bridge\Laravel\Tests\Fixtures\Interfaces\FooClientInterface;
 use Waffler\Bridge\Laravel\Tests\TestCase;
 use Waffler\Component\Generator\Factory\FactoryDefaults;
 
+#[Group('waffler/laravel-bridge')]
 class WafflerOptimizeCacheTest extends TestCase
 {
     #[Override]

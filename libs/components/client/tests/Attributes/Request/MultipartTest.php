@@ -11,6 +11,7 @@
 
 namespace Waffler\Component\Client\Tests\Attributes\Request;
 
+use PHPUnit\Framework\Attributes\Group;
 use Waffler\Component\Client\Tests\Fixtures\FeatureTestCase;
 
 /**
@@ -19,6 +20,7 @@ use Waffler\Component\Client\Tests\Fixtures\FeatureTestCase;
  * @author ErickJMenezes <erickmenezes.dev@gmail.com>
  * @coversNothing
  */
+#[Group('waffler/client')]
 class MultipartTest extends FeatureTestCase
 {
     public function testRequestMustBeSentWithMultipartFormData(): void

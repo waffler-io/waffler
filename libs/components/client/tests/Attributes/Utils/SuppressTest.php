@@ -12,6 +12,7 @@
 namespace Waffler\Component\Client\Tests\Attributes\Utils;
 
 use GuzzleHttp\Psr7\Response;
+use PHPUnit\Framework\Attributes\Group;
 use Waffler\Component\Client\Tests\Fixtures\FeatureTestCase;
 
 /**
@@ -20,6 +21,7 @@ use Waffler\Component\Client\Tests\Fixtures\FeatureTestCase;
  * @author ErickJMenezes <erickmenezes.dev@gmail.com>
  * @coversNothing
  */
+#[Group('waffler/client')]
 class SuppressTest extends FeatureTestCase
 {
     public function testErrorsMustBeSuppressed(): void

@@ -13,6 +13,7 @@ namespace Waffler\Component\Client\Tests\Attributes\Utils;
 
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\Psr7\Response;
+use PHPUnit\Framework\Attributes\Group;
 use Waffler\Component\Client\Tests\Fixtures\CleanStart;
 use Waffler\Component\Client\Tests\TestCase;
 use Psr\Http\Message\RequestInterface;
@@ -28,6 +29,7 @@ use Waffler\Component\Attributes\Verbs\Get;
  * @author ErickJMenezes <erickmenezes.dev@gmail.com>
  * @coversNothing
  */
+#[Group('waffler/client')]
 class GenericNestedResourceTest extends TestCase
 {
     use CleanStart;

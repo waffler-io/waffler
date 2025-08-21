@@ -11,6 +11,7 @@
 
 namespace Waffler\Component\Client\Tests\Attributes\Verbs;
 
+use PHPUnit\Framework\Attributes\Group;
 use Waffler\Component\Client\Tests\Fixtures\FeatureTestCase;
 
 /**
@@ -19,6 +20,7 @@ use Waffler\Component\Client\Tests\Fixtures\FeatureTestCase;
  * @author ErickJMenezes <erickmenezes.dev@gmail.com>
  * @coversNothing
  */
+#[Group('waffler/client')]
 class VerbsTest extends FeatureTestCase
 {
     public function testRequestMethods(): void

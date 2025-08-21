@@ -12,6 +12,7 @@
 namespace Waffler\Component\Client\Tests\Attributes\Request;
 
 use Exception;
+use PHPUnit\Framework\Attributes\Group;
 use Waffler\Component\Client\Tests\Fixtures\CleanStart;
 use Waffler\Component\Client\Tests\TestCase;
 use Waffler\Component\Attributes\Request\PathParam;
@@ -24,6 +25,7 @@ use Waffler\Component\Generator\Exceptions\UnableToParsePathException;
  * @author ErickJMenezes <erickmenezes.dev@gmail.com>
  * @coversNothing
  */
+#[Group('waffler/client')]
 class ExceptionTest extends TestCase
 {
     use CleanStart;

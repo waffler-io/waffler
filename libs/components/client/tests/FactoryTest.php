@@ -12,11 +12,13 @@
 namespace Waffler\Component\Client\Tests;
 
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
+use PHPUnit\Framework\Attributes\Group;
 use ReflectionException;
 use Waffler\Component\Client\Tests\Fixtures\CleanStart;
 use Waffler\Component\Client\Tests\Fixtures\CrudTestCaseClient;
 use Waffler\Component\Generator\Factory\FactoryDefaults;
 
+#[Group('waffler/client')]
 class FactoryTest extends TestCase
 {
     use CleanStart;

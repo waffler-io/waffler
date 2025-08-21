@@ -11,6 +11,7 @@
 
 namespace Waffler\Component\Client\Tests\Attributes\Utils;
 
+use PHPUnit\Framework\Attributes\Group;
 use Waffler\Component\Client\Tests\Fixtures\FeatureTestCase;
 use Waffler\Component\Client\Tests\Fixtures\NestedResourceClient;
 
@@ -20,6 +21,7 @@ use Waffler\Component\Client\Tests\Fixtures\NestedResourceClient;
  * @author ErickJMenezes <erickmenezes.dev@gmail.com>
  * @coversNothing
  */
+#[Group('waffler/client')]
 class NestedResourceTest extends FeatureTestCase
 {
     public function testItMustReturnAnInstanceOfNestedResourceClient(): void

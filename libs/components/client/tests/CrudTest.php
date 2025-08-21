@@ -13,6 +13,7 @@ namespace Waffler\Component\Client\Tests;
 
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\Psr7\Response;
+use PHPUnit\Framework\Attributes\Group;
 use Psr\Http\Message\RequestInterface;
 use Waffler\Component\Client\Tests\Fixtures\CleanStart;
 use Waffler\Component\Client\Tests\Fixtures\CrudTestCaseClient;
@@ -23,6 +24,7 @@ use Waffler\Component\Client\Tests\Fixtures\CrudTestCaseClient;
  * @author ErickJMenezes <erickmenezes.dev@gmail.com>
  * @coversNothing
  */
+#[Group('waffler/client')]
 class CrudTest extends TestCase
 {
     use CleanStart;

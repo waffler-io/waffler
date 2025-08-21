@@ -14,10 +14,12 @@ declare(strict_types=1);
 namespace Waffler\Bridge\Laravel\Tests\Commands;
 
 use PHPUnit\Framework\Attributes\Before;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
 use Waffler\Bridge\Laravel\Tests\TestCase;
 use Waffler\Component\Generator\Factory\FactoryDefaults;
 
+#[Group('waffler/laravel-bridge')]
 class WafflerClearCommandTest extends TestCase
 {
     private string $tmpDir {
