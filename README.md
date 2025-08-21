@@ -1,6 +1,5 @@
 ![Build](https://github.com/waffler-io/waffler/actions/workflows/php-ci.yml/badge.svg)
 [![License](https://img.shields.io/github/license/waffler-io/waffler)](LICENSE)
-[![Total Downloads](https://img.shields.io/packagist/dt/waffler/waffler.svg)](https://packagist.org/packages/waffler/waffler)
 
 # #[Waffler]
 
