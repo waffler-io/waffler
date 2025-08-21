@@ -6,7 +6,7 @@
 
 <hr>
 
-# Getting started
+## Getting started
 - This package requires PHP 8 or above.
 
 ### Installing standalone
@@ -15,13 +15,13 @@
 $ composer require waffler/client
 ```
 
-### Installing in a Laravel project
+### [WIP] Installing in a Laravel project
 
 ```shell
 $ composer require waffler/laravel-bridge
 ```
 
-# Quick example
+## Quick example
 
 Let's imagine that we want to consume an API: `https://foo-bar.baz/api`
 

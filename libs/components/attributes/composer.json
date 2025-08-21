@@ -1,6 +1,6 @@
 {
   "name": "waffler/attributes",
-  "description": "Provides the necessary http attributes to be used in the waffler framework.",
+  "description": "Attributes Component",
   "minimum-stability": "dev",
   "type": "library",
   "license": "MIT",
@@ -22,7 +22,7 @@
   },
   "require": {
     "php": "^8.4",
-    "waffler/attributes-contracts": "^3.2.0"
+    "waffler/attributes-contracts": "^4.0.0"
   },
   "require-dev": {
     "phpunit/phpunit": "^12.0",
@@ -48,8 +48,8 @@
   },
   "extra": {
     "branch-alias": {
-      "dev-master": "3.2.x-dev",
-      "dev-main": "3.2.x-dev"
+      "dev-master": "4.0.x-dev",
+      "dev-main": "4.0.x-dev"
     }
   }
 }

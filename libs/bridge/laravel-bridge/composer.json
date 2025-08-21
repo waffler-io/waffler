@@ -1,6 +1,6 @@
 {
   "name": "waffler/laravel-bridge",
-  "description": "Provides the necessary http attributes to be used in the waffler framework.",
+  "description": "Laravel Bridge Component",
   "minimum-stability": "dev",
   "type": "library",
   "license": "MIT",
@@ -46,8 +46,8 @@
   },
   "extra": {
     "branch-alias": {
-      "dev-master": "3.2.x-dev",
-      "dev-main": "3.2.x-dev"
+      "dev-master": "4.0.x-dev",
+      "dev-main": "4.0.x-dev"
     }
   }
 }

@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of Waffler\Waffler.
+ * This file is part of The Waffler Project.
  *
  * (c) Erick Johnson Almeida de Menezes <erickmenezes.dev@gmail.com>
  *

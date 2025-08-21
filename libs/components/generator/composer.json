@@ -1,6 +1,6 @@
 {
   "name": "waffler/generator",
-  "description": "Provides the necessary http attributes to be used in the waffler framework.",
+  "description": "Generator Component",
   "minimum-stability": "dev",
   "type": "library",
   "license": "MIT",
@@ -23,8 +23,8 @@
   },
   "require": {
     "php": "^8.4",
-    "waffler/attributes": "^3.2.0",
-    "waffler/helpers": "^3.2.0",
+    "waffler/attributes": "^4.0.0",
+    "waffler/helpers": "^4.0.0",
     "guzzlehttp/guzzle": "^7.4.0",
     "nette/php-generator": "^4.1"
   },
@@ -52,8 +52,8 @@
   },
   "extra": {
     "branch-alias": {
-      "dev-master": "3.2.x-dev",
-      "dev-main": "3.2.x-dev"
+      "dev-master": "4.0.x-dev",
+      "dev-main": "4.0.x-dev"
     }
   }
 }

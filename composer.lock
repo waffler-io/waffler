@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c77371e592e58cfd94621c072c2f53ff",
+    "content-hash": "abee8af6be107bc76f1db7f13c1f03ef",
     "packages": [
         {
             "name": "guzzlehttp/guzzle",
@@ -769,11 +769,11 @@
             "dist": {
                 "type": "path",
                 "url": "libs/components/attributes",
-                "reference": "9606dd22556f7a1e803e6c0dbdaabfd8d4c572ab"
+                "reference": "3241259bdd8d25d6079428b3217e22e6ab203246"
             },
             "require": {
                 "php": "^8.4",
-                "waffler/attributes-contracts": "^3.2.0"
+                "waffler/attributes-contracts": "^4.0.0"
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^3.4",
@@ -785,8 +785,8 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.2.x-dev",
-                    "dev-main": "3.2.x-dev"
+                    "dev-master": "4.0.x-dev",
+                    "dev-main": "4.0.x-dev"
                 }
             },
             "autoload": {
@@ -831,7 +831,7 @@
                     "email": "erickmenezes.dev@gmail.com"
                 }
             ],
-            "description": "Provides the necessary http attributes to be used in the waffler framework.",
+            "description": "Attributes Component",
             "transport-options": {
                 "relative": true
             }
@@ -842,7 +842,7 @@
             "dist": {
                 "type": "path",
                 "url": "libs/contracts/attributes-contracts",
-                "reference": "c971120e8930ba5939ff60abb59a0ce08137ff0c"
+                "reference": "b0676b521038449237e21446ec618e400907c677"
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^3.4",
@@ -854,8 +854,8 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.2.x-dev",
-                    "dev-main": "3.2.x-dev"
+                    "dev-master": "4.0.x-dev",
+                    "dev-main": "4.0.x-dev"
                 }
             },
             "autoload": {
@@ -900,7 +900,7 @@
                     "email": "erickmenezes.dev@gmail.com"
                 }
             ],
-            "description": "Provides the necessary http attributes to be used in the waffler framework.",
+            "description": "Attributes Contracts",
             "transport-options": {
                 "relative": true
             }
@@ -911,11 +911,11 @@
             "dist": {
                 "type": "path",
                 "url": "libs/components/client",
-                "reference": "c1178c9a0f605c00470e234cdc10c42ec1dfc0ee"
+                "reference": "dbe0cf60ab8c6b8246f94b7380e69ca12be05249"
             },
             "require": {
                 "php": "^8.4",
-                "waffler/generator": "^3.2.0"
+                "waffler/generator": "^4.0.0"
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^3.4",
@@ -927,8 +927,8 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.2.x-dev",
-                    "dev-main": "3.2.x-dev"
+                    "dev-master": "4.0.x-dev",
+                    "dev-main": "4.0.x-dev"
                 }
             },
             "autoload": {
@@ -973,7 +973,7 @@
                     "email": "erickmenezes.dev@gmail.com"
                 }
             ],
-            "description": "Provides the necessary http attributes to be used in the waffler framework.",
+            "description": "Client Component",
             "transport-options": {
                 "relative": true
             }
@@ -984,7 +984,7 @@
             "dist": {
                 "type": "path",
                 "url": "libs/contracts/client-contracts",
-                "reference": "9be1a016071352e06bfab8c9d16d5c83cc8119c5"
+                "reference": "f6384e54e3ae096133f12cabd28c32fb1c37af95"
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^3.4",
@@ -996,8 +996,8 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.2.x-dev",
-                    "dev-main": "3.2.x-dev"
+                    "dev-master": "4.0.x-dev",
+                    "dev-main": "4.0.x-dev"
                 }
             },
             "autoload": {
@@ -1042,7 +1042,7 @@
                     "email": "erickmenezes.dev@gmail.com"
                 }
             ],
-            "description": "Provides the necessary http attributes to be used in the waffler framework.",
+            "description": "Client Contracts",
             "transport-options": {
                 "relative": true
             }
@@ -1053,14 +1053,14 @@
             "dist": {
                 "type": "path",
                 "url": "libs/components/generator",
-                "reference": "a63da274f79001a7d263e8398350ba5b747b5975"
+                "reference": "d500e236f3467d47dfcd900e9b4edbf67ef73104"
             },
             "require": {
                 "guzzlehttp/guzzle": "^7.4.0",
                 "nette/php-generator": "^4.1",
                 "php": "^8.4",
-                "waffler/attributes": "^3.2.0",
-                "waffler/helpers": "^3.2.0"
+                "waffler/attributes": "^4.0.0",
+                "waffler/helpers": "^4.0.0"
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^3.4",
@@ -1072,8 +1072,8 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.2.x-dev",
-                    "dev-main": "3.2.x-dev"
+                    "dev-master": "4.0.x-dev",
+                    "dev-main": "4.0.x-dev"
                 }
             },
             "autoload": {
@@ -1119,7 +1119,7 @@
                     "email": "erickmenezes.dev@gmail.com"
                 }
             ],
-            "description": "Provides the necessary http attributes to be used in the waffler framework.",
+            "description": "Generator Component",
             "transport-options": {
                 "relative": true
             }
@@ -1130,7 +1130,7 @@
             "dist": {
                 "type": "path",
                 "url": "libs/components/helpers",
-                "reference": "a1e591ed6ce781cf14efeb8b35310a810a0e77c7"
+                "reference": "8e42586fd3fdb57ad8e02d62092338f5f31642fd"
             },
             "require": {
                 "php": "^8.4"
@@ -1145,8 +1145,8 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.2.x-dev",
-                    "dev-main": "3.2.x-dev"
+                    "dev-master": "4.0.x-dev",
+                    "dev-main": "4.0.x-dev"
                 }
             },
             "autoload": {
@@ -1194,7 +1194,7 @@
                     "email": "erickmenezes.dev@gmail.com"
                 }
             ],
-            "description": "Provides the necessary http attributes to be used in the waffler framework.",
+            "description": "Helpers Component",
             "transport-options": {
                 "relative": true
             }
@@ -1205,7 +1205,7 @@
             "dist": {
                 "type": "path",
                 "url": "libs/bridge/laravel-bridge",
-                "reference": "406cb003692744a6226ff0d9b8001758038cd80d"
+                "reference": "a5e22ab20f3c7fac2e8be36b7691fdfb651d9878"
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^3.4",
@@ -1217,8 +1217,8 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.2.x-dev",
-                    "dev-main": "3.2.x-dev"
+                    "dev-master": "4.0.x-dev",
+                    "dev-main": "4.0.x-dev"
                 }
             },
             "autoload": {
@@ -1263,7 +1263,7 @@
                     "email": "erickmenezes.dev@gmail.com"
                 }
             ],
-            "description": "Provides the necessary http attributes to be used in the waffler framework.",
+            "description": "Laravel Bridge Component",
             "transport-options": {
                 "relative": true
             }
