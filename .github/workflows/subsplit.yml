@@ -1,0 +1,69 @@
+name: Subsplit Libraries
+
+on:
+  push:
+    tags:
+      - '*'
+    branches:
+      - '*'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  subsplit:
+    name: Split Packages (${{ matrix.package.local_path }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        package:
+          # Bridges
+          - local_path: 'bridge/laravel-bridge'
+            split_repository: 'laravel-bridge'
+          # Components
+          - local_path: 'components/attributes'
+            split_repository: 'attributes'
+          - local_path: 'components/client'
+            split_repository: 'client'
+          - local_path: 'components/generator'
+            split_repository: 'generator'
+          - local_path: 'components/helpers'
+            split_repository: 'helpers'
+          # Contracts
+          - local_path: 'contracts/attributes-contracts'
+            split_repository: 'attributes-contracts'
+          - local_path: 'contracts/client-contracts'
+            split_repository: 'client-contracts'
+    steps:
+      - uses: actions/checkout@v4
+
+      # no tag
+      - if: "!startsWith(github.ref, 'refs/tags/')"
+        name: Monorepo Split of ${{ matrix.package.split_repository }}
+        uses: danharrin/monorepo-split-github-action@v2.3.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+        with:
+          branch: "main"
+          package_directory: 'libs/${{ matrix.package.local_path }}'
+          repository_organization: 'waffler-io'
+          repository_name: '${{ matrix.package.split_repository }}'
+          user_name: "ErickJMenezes"
+          user_email: "erickmenezes.dev@gmail.com"
+
+      # with tag
+      - if: "startsWith(github.ref, 'refs/tags/')"
+        name: Monorepo Tagged Split of ${{ matrix.package }}
+        uses: danharrin/monorepo-split-github-action@v2.3.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+        with:
+          tag: ${GITHUB_REF#refs/tags/}
+          branch: "main"
+          package_directory: 'libs/${{ matrix.package.local_path }}'
+          repository_organization: 'waffler-io'
+          repository_name: '${{ matrix.package.split_repository }}'
+          user_name: "ErickJMenezes"
+          user_email: "erickmenezes.dev@gmail.com"

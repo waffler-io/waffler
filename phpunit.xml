@@ -1,34 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
          bootstrap="./vendor/autoload.php"
-         cacheResultFile=".phpunit.cache/test-results"
          executionOrder="depends,defects"
-         forceCoversAnnotation="true"
-         beStrictAboutCoversAnnotation="true"
          beStrictAboutOutputDuringTests="true"
-         beStrictAboutTodoAnnotatedTests="true"
          failOnRisky="true"
          failOnWarning="true"
-         verbose="true"
          testdox="true"
          colors="true"
-         stopOnFailure="true"
-         stopOnIncomplete="true"
+         stopOnFailure="false"
+         stopOnIncomplete="false"
 >
     <testsuites>
-        <testsuite name="unit">
-            <directory suffix="Test.php">tests/Unit</directory>
+        <testsuite name="bridges">
+            <directory>libs/bridge/laravel-bridge/tests</directory>
         </testsuite>
-        <testsuite name="feature">
-            <directory suffix="Test.php">tests/Feature</directory>
+        <testsuite name="components">
+            <directory>libs/components/attributes/tests</directory>
+            <directory>libs/components/client/tests</directory>
+            <directory>libs/components/generator/tests</directory>
+            <directory>libs/components/helpers/tests</directory>
+        </testsuite>
+        <testsuite name="contracts">
+            <directory>libs/contracts/attributes-contracts/tests</directory>
+            <directory>libs/contracts/client-contracts/tests</directory>
         </testsuite>
     </testsuites>
 
-    <coverage cacheDirectory=".phpunit.cache/code-coverage"
-              processUncoveredFiles="true"
-    >
+    <source>
         <include>
-            <directory suffix=".php">src</directory>
+            <!-- bridges -->
+            <directory>libs/bridge/laravel-bridge/tests</directory>
+            <!-- components -->
+            <directory>libs/components/attributes/tests</directory>
+            <directory>libs/components/client/tests</directory>
+            <directory>libs/components/generator/tests</directory>
+            <directory>libs/components/helpers/tests</directory>
+            <!-- contracts -->
+            <directory>libs/contracts/attributes-contracts/tests</directory>
+            <directory>libs/contracts/client-contracts/tests</directory>
         </include>
-    </coverage>
+    </source>
+
+    <coverage />
 </phpunit>

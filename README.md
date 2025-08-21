@@ -1,28 +1,28 @@
 ![Build](https://github.com/waffler-io/waffler/actions/workflows/php-ci.yml/badge.svg)
 [![License](https://img.shields.io/github/license/waffler-io/waffler)](LICENSE)
-[![Total Downloads](https://img.shields.io/packagist/dt/waffler/waffler.svg)](https://packagist.org/packages/waffler/waffler)
 
-# Waffler
+# #[Waffler]
 
 <hr>
 
-### How to install?
-
-```shell
-$ composer require waffler/waffler
-```
-
+## Getting started
 - This package requires PHP 8 or above.
 
-### How to test?
+### Installing standalone
 
 ```shell
-$ composer phpunit
+$ composer require waffler/client
 ```
 
-## Quick start
+### [WIP] Installing in a Laravel project
 
-For our example, lets imagine that we want to consume an ordinary API: `https://foo-bar.baz/api`
+```shell
+$ composer require waffler/laravel-bridge
+```
+
+## Quick example
+
+Let's imagine that we want to consume an API: `https://foo-bar.baz/api`
 
 Our objectives are:
 
@@ -62,18 +62,18 @@ interface FooClient
 The magic is almost done. Now we need to annotate the methods and parameters to "teach" Waffler how to make the
 requests. There are dozens of Attributes, but for this example we just need 5 of them.
 
-Import the Attributes from the `Waffler\Waffler\Attributes` namespace.
+Import the Attributes from the `Waffler\Component\Attributes` namespace.
 
 ```php
 <?php // FooClient.php
 
 namespace App\Clients;
 
-use Waffler\Waffler\Attributes\Auth\Bearer;
-use Waffler\Waffler\Attributes\Request\Json;
-use Waffler\Waffler\Attributes\Request\Query;
-use Waffler\Waffler\Attributes\Verbs\Get;
-use Waffler\Waffler\Attributes\Verbs\Post;
+use Waffler\Component\Attributes\Auth\Bearer;
+use Waffler\Component\Attributes\Request\Json;
+use Waffler\Component\Attributes\Request\Query;
+use Waffler\Component\Attributes\Verbs\Get;
+use Waffler\Component\Attributes\Verbs\Post;
 
 interface FooClient
 {
@@ -100,7 +100,7 @@ interface FooClient
 
 #### Step 3: Generate the implementation for your interface and use it.
 
-Import the class `Waffler\Waffler\Client\Factory` and call the method `make` passing the
+Import the class `Waffler\Component\Client\Factory` and call the method `make` passing the
 _fully qualified name_ of the interface we just created as first argument and an associative array of GuzzleHttp client
 options as second argument, as the example below:
 
@@ -110,7 +110,7 @@ options as second argument, as the example below:
 namespace App;
 
 use App\Clients\FooClient;
-use Waffler\Waffler\Client\Factory;
+use Waffler\Component\Client\Factory;
 
 // Get a new factory instance.
 $factory = Factory::default();

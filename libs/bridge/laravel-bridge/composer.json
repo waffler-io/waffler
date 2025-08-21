@@ -1,0 +1,66 @@
+{
+  "name": "waffler/laravel-bridge",
+  "description": "Laravel Bridge Component",
+  "minimum-stability": "dev",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Erick de Menezes",
+      "email": "erickmenezes.dev@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Waffler\\Bridge\\Laravel\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Waffler\\Bridge\\Laravel\\Tests\\": "tests"
+    }
+  },
+  "require": {
+    "php": "^8.4",
+    "laravel/framework": "^12",
+    "waffler/client": "^4.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^12.0",
+    "mockery/mockery": "^1.4",
+    "jetbrains/phpstorm-attributes": "dev-master",
+    "orchestra/testbench": "^10.0"
+  },
+  "scripts": {
+    "phpunit": "@php ./vendor/bin/phpunit",
+    "test": "@phpunit",
+    "post-autoload-dump": [
+      "@clear",
+      "@prepare"
+    ],
+    "clear": "@php vendor/bin/testbench package:purge-skeleton --ansi",
+    "prepare": "@php vendor/bin/testbench package:discover --ansi",
+    "build": "@php vendor/bin/testbench workbench:build --ansi",
+    "serve": [
+      "Composer\\Config::disableProcessTimeout",
+      "@build",
+      "@php vendor/bin/testbench serve --ansi"
+    ]
+  },
+  "config": {
+    "allow-plugins": {
+      "phpunit/phpunit": true
+    }
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "4.0.x-dev",
+      "dev-main": "4.0.x-dev"
+    },
+    "laravel": {
+      "providers": [
+        "Waffler\\Laravel\\WafflerServiceProvider"
+      ]
+    }
+  }
+}
