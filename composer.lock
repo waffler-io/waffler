@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d38cab4a5043de5a5644d30a0f5f560f",
+    "content-hash": "c77371e592e58cfd94621c072c2f53ff",
     "packages": [
         {
             "name": "guzzlehttp/guzzle",
@@ -769,7 +769,7 @@
             "dist": {
                 "type": "path",
                 "url": "libs/components/attributes",
-                "reference": "ba53bae1f72065a25678e5c800a93566300f6dd4"
+                "reference": "9606dd22556f7a1e803e6c0dbdaabfd8d4c572ab"
             },
             "require": {
                 "php": "^8.4",
@@ -785,8 +785,8 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.2.0.x-dev",
-                    "dev-main": "3.2.0.x-dev"
+                    "dev-master": "3.2.x-dev",
+                    "dev-main": "3.2.x-dev"
                 }
             },
             "autoload": {
@@ -842,7 +842,7 @@
             "dist": {
                 "type": "path",
                 "url": "libs/contracts/attributes-contracts",
-                "reference": "20182ad9bd35ec5379dbef3c9c02f520748a3a0a"
+                "reference": "c971120e8930ba5939ff60abb59a0ce08137ff0c"
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^3.4",
@@ -854,8 +854,8 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.2.0.x-dev",
-                    "dev-main": "3.2.0.x-dev"
+                    "dev-master": "3.2.x-dev",
+                    "dev-main": "3.2.x-dev"
                 }
             },
             "autoload": {
@@ -911,7 +911,7 @@
             "dist": {
                 "type": "path",
                 "url": "libs/components/client",
-                "reference": "7ffcbd979bdfc0f738bf1e90e805db6d1e8e9f0d"
+                "reference": "c1178c9a0f605c00470e234cdc10c42ec1dfc0ee"
             },
             "require": {
                 "php": "^8.4",
@@ -927,8 +927,8 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.2.0.x-dev",
-                    "dev-main": "3.2.0.x-dev"
+                    "dev-master": "3.2.x-dev",
+                    "dev-main": "3.2.x-dev"
                 }
             },
             "autoload": {
@@ -984,7 +984,7 @@
             "dist": {
                 "type": "path",
                 "url": "libs/contracts/client-contracts",
-                "reference": "95137f3463cd9c18b21c7b8e5d36a323f5978cf8"
+                "reference": "9be1a016071352e06bfab8c9d16d5c83cc8119c5"
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^3.4",
@@ -996,8 +996,8 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.2.0.x-dev",
-                    "dev-main": "3.2.0.x-dev"
+                    "dev-master": "3.2.x-dev",
+                    "dev-main": "3.2.x-dev"
                 }
             },
             "autoload": {
@@ -1053,7 +1053,7 @@
             "dist": {
                 "type": "path",
                 "url": "libs/components/generator",
-                "reference": "f1cb5b69a50391798679987313e05fd7be2322a7"
+                "reference": "a63da274f79001a7d263e8398350ba5b747b5975"
             },
             "require": {
                 "guzzlehttp/guzzle": "^7.4.0",
@@ -1072,8 +1072,8 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.2.0.x-dev",
-                    "dev-main": "3.2.0.x-dev"
+                    "dev-master": "3.2.x-dev",
+                    "dev-main": "3.2.x-dev"
                 }
             },
             "autoload": {
@@ -1130,7 +1130,7 @@
             "dist": {
                 "type": "path",
                 "url": "libs/components/helpers",
-                "reference": "74b2b5b5402f936f68fbdb3bfd5d8946fa5c6db0"
+                "reference": "a1e591ed6ce781cf14efeb8b35310a810a0e77c7"
             },
             "require": {
                 "php": "^8.4"
@@ -1145,8 +1145,8 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.2.0.x-dev",
-                    "dev-main": "3.2.0.x-dev"
+                    "dev-master": "3.2.x-dev",
+                    "dev-main": "3.2.x-dev"
                 }
             },
             "autoload": {
@@ -1205,7 +1205,7 @@
             "dist": {
                 "type": "path",
                 "url": "libs/bridge/laravel-bridge",
-                "reference": "35d98b77a16ca904b844232f9e328d7ad001366e"
+                "reference": "406cb003692744a6226ff0d9b8001758038cd80d"
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^3.4",
@@ -1217,8 +1217,8 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.2.0.x-dev",
-                    "dev-main": "3.2.0.x-dev"
+                    "dev-master": "3.2.x-dev",
+                    "dev-main": "3.2.x-dev"
                 }
             },
             "autoload": {
