@@ -1,9 +1,7 @@
 ![Build](https://github.com/waffler-io/waffler/actions/workflows/php-ci.yml/badge.svg)
 [![License](https://img.shields.io/github/license/waffler-io/waffler)](LICENSE)
 
-# #[Waffler]
-
-<hr>
+# The #[Waffler] Project
 
 ## Getting started
 - This package requires PHP 8 or above.
@@ -14,11 +12,9 @@
 $ composer require waffler/client
 ```
 
-### [WIP] Installing in a Laravel project
+### Installing in a Laravel project
 
-```shell
-$ composer require waffler/laravel-bridge
-```
+See our [laravel-bridge](./libs/bridge/laravel-bridge) component.
 
 ## Quick example
 
