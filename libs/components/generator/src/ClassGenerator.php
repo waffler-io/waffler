@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of The Waffler Project.
  *
@@ -9,7 +11,7 @@
  * with this source code in the file LICENCE.
  */
 
-namespace Waffler\Component\Generator\Factory;
+namespace Waffler\Component\Generator;
 
 use ArrayObject;
 use Exception;
@@ -30,7 +32,6 @@ use Waffler\Component\Attributes\Auth\Basic;
 use Waffler\Component\Attributes\Auth\Bearer;
 use Waffler\Component\Attributes\Auth\Digest;
 use Waffler\Component\Attributes\Auth\Ntml;
-use Waffler\Component\Generator\Contracts\ClientClassFactoryInterface;
 use Waffler\Contracts\Attributes\Verb;
 use Waffler\Component\Attributes\Request\Body;
 use Waffler\Component\Attributes\Request\FormData;
@@ -52,34 +53,35 @@ use Waffler\Component\Attributes\Utils\Unwrap;
 use Waffler\Component\Generator\Contracts\WafflerImplConstructorInterface;
 use Waffler\Component\Generator\Exceptions\NotAnInterfaceException;
 use Waffler\Component\Generator\Exceptions\ParameterWithoutAttributesException;
-use Waffler\Component\Generator\MethodValidator;
-use Waffler\Component\Generator\PathParser;
-use Waffler\Component\Generator\Traits\BuildsImplementationFileName;
 use Waffler\Component\Generator\Traits\InteractsWithAttributes;
 use Waffler\Component\Generator\Traits\WafflerImplConstructor;
+use Waffler\Contracts\Generator\ClassGeneratorInterface;
 
-readonly class ClientClassFactory implements ClientClassFactoryInterface
+final readonly class ClassGenerator implements ClassGeneratorInterface
 {
     use InteractsWithAttributes;
-    use BuildsImplementationFileName;
+
+    private ClassNameGenerator $classNameGenerator;
 
     public function __construct(
         private MethodValidator $methodValidator,
         private PathParser $pathParser,
-        private string $classNamespace = FactoryDefaults::NAMESPACE,
-    ) {}
+        private string $classNamespace = GeneratorDefaults::NAMESPACE,
+    ) {
+        $this->classNameGenerator = new ClassNameGenerator($this->classNamespace);
+    }
 
-    public function generateForInterface(string $interface): string
+    public function generateClass(string $interfaceFqn): string
     {
-        if (!interface_exists($interface)) {
-            throw new NotAnInterfaceException($interface);
+        if (!interface_exists($interfaceFqn)) {
+            throw new NotAnInterfaceException($interfaceFqn);
         }
 
-        $reflectionInterface = new ReflectionClass($interface);
+        $reflectionInterface = new ReflectionClass($interfaceFqn);
 
         $this->methodValidator->validateAll($reflectionInterface->getMethods());
 
-        $className = $this->buildFileName($interface);
+        $className = $this->classNameGenerator->generateClassName($interfaceFqn);
 
         $phpFile = new PhpFile();
         $namespace = $phpFile->addNamespace($this->classNamespace);
@@ -91,7 +93,7 @@ readonly class ClientClassFactory implements ClientClassFactoryInterface
         $namespace->addUse(PromiseInterface::class);
 
         $class = $namespace->addClass($className);
-        $class->addImplement($interface);
+        $class->addImplement($interfaceFqn);
         $class->addImplement(WafflerImplConstructorInterface::class);
         $class->addTrait(WafflerImplConstructor::class);
         $class->addComment("@internal This class was automatically generated. Do not edit it manually.");
@@ -363,10 +365,5 @@ readonly class ClientClassFactory implements ClientClassFactoryInterface
             ResponseInterface::class, Response::class, MessageInterface::class, 'mixed' => '$result = $response;',
             default => throw new TypeError(),
         };
-    }
-
-    private function getBaseNamespace(): string
-    {
-        return $this->classNamespace;
     }
 }

@@ -12,6 +12,7 @@
 namespace Waffler\Component\Generator\Exceptions;
 
 use RuntimeException;
+use Waffler\Contracts\Generator\Exceptions\GeneratorExceptionInterface;
 
 /**
  * class UnableToParsePathException.
@@ -20,7 +21,7 @@ use RuntimeException;
  *
  * @author ErickJMenezes <erickmenezes.dev@gmail.com>
  */
-class UnableToParsePathException extends RuntimeException
+class UnableToParsePathException extends RuntimeException implements GeneratorExceptionInterface
 {
     //
 }

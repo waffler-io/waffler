@@ -15,6 +15,8 @@ namespace Waffler\Contracts\Client;
 
 use InvalidArgumentException;
 use ReflectionException;
+use Waffler\Contracts\Generator\Exceptions\ClassNotFoundExceptionInterface;
+use Waffler\Contracts\Generator\Exceptions\GeneratorExceptionInterface;
 
 /**
  * Interface FactoryInterface.
@@ -31,7 +33,8 @@ interface FactoryInterface
      *
      * @return object&T
      * @throws ReflectionException If the $interfaceName can't be reflected.
-     * @throws InvalidArgumentException If the $interfaceName is not a fully qualified name of an interface.
+     * @throws ClassNotFoundExceptionInterface
+     * @throws GeneratorExceptionInterface
      * @template T of object
      * @author ErickJMenezes <erickmenezes.dev@gmail.com>
      */

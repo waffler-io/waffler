@@ -17,13 +17,13 @@ use PHPUnit\Framework\Attributes\Before;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
 use Waffler\Bridge\Laravel\Tests\TestCase;
-use Waffler\Component\Generator\Factory\FactoryDefaults;
+use Waffler\Component\Generator\GeneratorDefaults;
 
 #[Group('waffler/laravel-bridge')]
 class WafflerClearCommandTest extends TestCase
 {
     private string $tmpDir {
-        get => $this->tmpDir ??= FactoryDefaults::IMPL_CACHE_DIRECTORY;
+        get => $this->tmpDir ??= GeneratorDefaults::IMPL_CACHE_DIRECTORY;
     }
 
     private string $tmpFile {

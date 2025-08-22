@@ -1,6 +1,6 @@
 {
-  "name": "waffler/client",
-  "description": "Client Component",
+  "name": "waffler/generator-contracts",
+  "description": "Generator Contracts",
   "minimum-stability": "dev",
   "type": "library",
   "license": "MIT",
@@ -12,18 +12,16 @@
   ],
   "autoload": {
     "psr-4": {
-      "Waffler\\Component\\Client\\": "src"
+      "Waffler\\Contracts\\Generator\\": "src"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Waffler\\Component\\Client\\Tests\\": "tests"
+      "Waffler\\Contracts\\Generator\\Tests\\": "tests"
     }
   },
   "require": {
-    "php": "^8.4",
-    "waffler/generator": "^4.0.0",
-    "waffler/http-client": "^4.0.0"
+    "php": "^8.4"
   },
   "require-dev": {
     "phpunit/phpunit": "^12.0",

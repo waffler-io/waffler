@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c601fb394ee0462551c2e39c462c2bb2",
+    "content-hash": "0a1d3717277e1cf5d87905a4d3d9bbae",
     "packages": [
         {
             "name": "brick/math",
@@ -770,16 +770,16 @@
         },
         {
             "name": "guzzlehttp/promises",
-            "version": "2.2.0",
+            "version": "2.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/promises.git",
-                "reference": "7c69f28996b0a6920945dd20b3857e499d9ca96c"
+                "reference": "481557b130ef3790cf82b713667b43030dc9c957"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/promises/zipball/7c69f28996b0a6920945dd20b3857e499d9ca96c",
-                "reference": "7c69f28996b0a6920945dd20b3857e499d9ca96c",
+                "url": "https://api.github.com/repos/guzzle/promises/zipball/481557b130ef3790cf82b713667b43030dc9c957",
+                "reference": "481557b130ef3790cf82b713667b43030dc9c957",
                 "shasum": ""
             },
             "require": {
@@ -787,7 +787,7 @@
             },
             "require-dev": {
                 "bamarni/composer-bin-plugin": "^1.8.2",
-                "phpunit/phpunit": "^8.5.39 || ^9.6.20"
+                "phpunit/phpunit": "^8.5.44 || ^9.6.25"
             },
             "type": "library",
             "extra": {
@@ -833,7 +833,7 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/promises/issues",
-                "source": "https://github.com/guzzle/promises/tree/2.2.0"
+                "source": "https://github.com/guzzle/promises/tree/2.3.0"
             },
             "funding": [
                 {
@@ -849,7 +849,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-03-27T13:27:01+00:00"
+            "time": "2025-08-22T14:34:08+00:00"
         },
         {
             "name": "guzzlehttp/psr7",
@@ -969,16 +969,16 @@
         },
         {
             "name": "guzzlehttp/uri-template",
-            "version": "v1.0.4",
+            "version": "v1.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/uri-template.git",
-                "reference": "30e286560c137526eccd4ce21b2de477ab0676d2"
+                "reference": "4f4bbd4e7172148801e76e3decc1e559bdee34e1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/uri-template/zipball/30e286560c137526eccd4ce21b2de477ab0676d2",
-                "reference": "30e286560c137526eccd4ce21b2de477ab0676d2",
+                "url": "https://api.github.com/repos/guzzle/uri-template/zipball/4f4bbd4e7172148801e76e3decc1e559bdee34e1",
+                "reference": "4f4bbd4e7172148801e76e3decc1e559bdee34e1",
                 "shasum": ""
             },
             "require": {
@@ -987,7 +987,7 @@
             },
             "require-dev": {
                 "bamarni/composer-bin-plugin": "^1.8.2",
-                "phpunit/phpunit": "^8.5.36 || ^9.6.15",
+                "phpunit/phpunit": "^8.5.44 || ^9.6.25",
                 "uri-template/tests": "1.0.0"
             },
             "type": "library",
@@ -1035,7 +1035,7 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/uri-template/issues",
-                "source": "https://github.com/guzzle/uri-template/tree/v1.0.4"
+                "source": "https://github.com/guzzle/uri-template/tree/v1.0.5"
             },
             "funding": [
                 {
@@ -1051,7 +1051,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-02-03T10:55:03+00:00"
+            "time": "2025-08-22T14:27:06+00:00"
         },
         {
             "name": "laravel/framework",
@@ -5944,11 +5944,12 @@
             "dist": {
                 "type": "path",
                 "url": "libs/components/client",
-                "reference": "aa5541bc53625efd7105a1f995b1385cc3facbab"
+                "reference": "8e426c16bbb68c00f03368a72af1000d9a6d07b3"
             },
             "require": {
                 "php": "^8.4",
-                "waffler/generator": "^4.0.0"
+                "waffler/generator": "^4.0.0",
+                "waffler/http-client": "^4.0.0"
             },
             "require-dev": {
                 "jetbrains/phpstorm-attributes": "dev-master",
@@ -6055,12 +6056,13 @@
             "dist": {
                 "type": "path",
                 "url": "libs/components/generator",
-                "reference": "92c39afe775982929159d719ce9c5ea2e2ad8488"
+                "reference": "28a74e2d21927b1f7cb577a593234362c0b2a70c"
             },
             "require": {
                 "nette/php-generator": "^4.1",
                 "php": "^8.4",
                 "waffler/attributes": "^4.0.0",
+                "waffler/generator-contracts": "^4.0.0",
                 "waffler/helpers": "^4.0.0",
                 "waffler/http-client-contracts": "^4.0.0"
             },
@@ -6105,6 +6107,61 @@
                 }
             ],
             "description": "Generator Component",
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
+            "name": "waffler/generator-contracts",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "libs/contracts/generator-contracts",
+                "reference": "fa09bc25421517482fb75f7e943971753d793402"
+            },
+            "require": {
+                "php": "^8.4"
+            },
+            "require-dev": {
+                "jetbrains/phpstorm-attributes": "dev-master",
+                "mockery/mockery": "^1.4",
+                "phpunit/phpunit": "^12.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.x.x-dev",
+                    "dev-main": "4.x.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Waffler\\Contracts\\Generator\\": "src"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Waffler\\Contracts\\Generator\\Tests\\": "tests"
+                }
+            },
+            "scripts": {
+                "phpunit": [
+                    "@php ./vendor/bin/phpunit"
+                ],
+                "test": [
+                    "@phpunit"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Erick de Menezes",
+                    "email": "erickmenezes.dev@gmail.com"
+                }
+            ],
+            "description": "Generator Contracts",
             "transport-options": {
                 "relative": true
             }

@@ -24,6 +24,7 @@ $finder = PhpCsFixer\Finder::create()
         __DIR__.'/libs/contracts/attributes-contracts/src',
         __DIR__.'/libs/contracts/client-contracts/src',
         __DIR__.'/libs/contracts/http-client-contracts/src',
+        __DIR__.'/libs/contracts/generator-contracts/src',
     ]);
 
 $config = new PhpCsFixer\Config();

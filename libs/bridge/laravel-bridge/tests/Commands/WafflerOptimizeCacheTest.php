@@ -18,7 +18,7 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
 use Waffler\Bridge\Laravel\Tests\Fixtures\Interfaces\FooClientInterface;
 use Waffler\Bridge\Laravel\Tests\TestCase;
-use Waffler\Component\Generator\Factory\FactoryDefaults;
+use Waffler\Component\Generator\GeneratorDefaults;
 
 #[Group('waffler/laravel-bridge')]
 class WafflerOptimizeCacheTest extends TestCase
@@ -36,7 +36,7 @@ class WafflerOptimizeCacheTest extends TestCase
     public function it_must_pre_generate_all_interfaces_inside_vendor_folder(): void
     {
         $this->artisan('waffler:clear')->assertSuccessful();
-        $vendorPath = FactoryDefaults::IMPL_CACHE_DIRECTORY;
+        $vendorPath = GeneratorDefaults::IMPL_CACHE_DIRECTORY;
         $result = glob("{$vendorPath}/*FooClientInterface*.php");
         $this->assertCount(0, $result);
         $this->artisan('waffler:cache')->assertSuccessful();

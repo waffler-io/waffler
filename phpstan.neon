@@ -13,3 +13,4 @@ parameters:
     - libs/contracts/attributes-contracts/src
     - libs/contracts/client-contracts/src
     - libs/contracts/http-client-contracts/src
+    - libs/contracts/generator-contracts/src

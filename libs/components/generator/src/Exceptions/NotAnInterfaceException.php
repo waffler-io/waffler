@@ -13,8 +13,9 @@ namespace Waffler\Component\Generator\Exceptions;
 
 use RuntimeException;
 use Throwable;
+use Waffler\Contracts\Generator\Exceptions\GeneratorExceptionInterface;
 
-class NotAnInterfaceException extends RuntimeException
+class NotAnInterfaceException extends RuntimeException implements GeneratorExceptionInterface
 {
     private const MESSAGE = '[%s] is not an interface. Cannot generate implementation.';
 

@@ -11,11 +11,11 @@ declare(strict_types=1);
  * with this source code in the file LICENCE.
  */
 
-namespace Waffler\Component\Generator\Factory;
+namespace Waffler\Component\Generator;
 
-final readonly class FactoryDefaults
+final readonly class GeneratorDefaults
 {
-    public const string IMPL_CACHE_DIRECTORY = __DIR__ . '/../../generated';
+    public const string IMPL_CACHE_DIRECTORY = __DIR__ . '/../generated';
 
     public const string NAMESPACE = "Waffler\\Component\\Generator\\Generated";
 }

@@ -12,5 +12,6 @@
 namespace Waffler\Component\Generator\Exceptions;
 
 use RuntimeException;
+use Waffler\Contracts\Generator\Exceptions\GeneratorExceptionInterface;
 
-class ParameterWithoutAttributesException extends RuntimeException {}
+class ParameterWithoutAttributesException extends RuntimeException implements GeneratorExceptionInterface {}

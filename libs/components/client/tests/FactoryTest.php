@@ -16,7 +16,7 @@ use PHPUnit\Framework\Attributes\Group;
 use ReflectionException;
 use Waffler\Component\Client\Tests\Fixtures\CleanStart;
 use Waffler\Component\Client\Tests\Fixtures\CrudTestCaseClient;
-use Waffler\Component\Generator\Factory\FactoryDefaults;
+use Waffler\Component\Generator\GeneratorDefaults;
 
 #[Group('waffler/client')]
 class FactoryTest extends TestCase
@@ -35,7 +35,7 @@ class FactoryTest extends TestCase
      */
     public function testMustGenerateAndSaveIntoDiskCache()
     {
-        $glob = fn() => glob(FactoryDefaults::IMPL_CACHE_DIRECTORY.'/*CrudTestCaseClient*.php');
+        $glob = fn() => glob(GeneratorDefaults::IMPL_CACHE_DIRECTORY.'/*CrudTestCaseClient*.php');
         self::assertCount(0, $glob());
         $this->factory->warmup(CrudTestCaseClient::class);
         self::assertCount(1, $glob());

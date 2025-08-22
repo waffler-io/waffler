@@ -11,7 +11,9 @@
 
 namespace Waffler\Component\Generator\Exceptions;
 
-class InterfaceMethodValidationException extends \RuntimeException
+use Waffler\Contracts\Generator\Exceptions\GeneratorExceptionInterface;
+
+class InterfaceMethodValidationException extends \RuntimeException implements GeneratorExceptionInterface
 {
     public const METHOD_NOT_ALLOWED = 0;
     public const STATIC_METHODS_ARE_NOT_ALLOWED = 1;

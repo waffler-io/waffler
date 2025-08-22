@@ -13,7 +13,7 @@ namespace Waffler\Component\Client\Tests\Fixtures;
 
 use PHPUnit\Framework\Attributes\Before;
 use Waffler\Component\Client\Factory;
-use Waffler\Component\Generator\Factory\FactoryDefaults;
+use Waffler\Component\Generator\GeneratorDefaults;
 
 trait CleanStart
 {
@@ -28,7 +28,7 @@ trait CleanStart
 
     private function cleanCacheFolder(): void
     {
-        $files = glob(FactoryDefaults::IMPL_CACHE_DIRECTORY.'/*.php');
+        $files = glob(GeneratorDefaults::IMPL_CACHE_DIRECTORY.'/*.php');
         foreach ($files as $file) {
             if (is_file($file)) {
                 unlink($file);

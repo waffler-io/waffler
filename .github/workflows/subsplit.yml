@@ -31,11 +31,17 @@ jobs:
             split_repository: 'generator'
           - local_path: 'components/helpers'
             split_repository: 'helpers'
+          - local_path: 'components/http-client'
+            split_repository: 'http-client'
           # Contracts
           - local_path: 'contracts/attributes-contracts'
             split_repository: 'attributes-contracts'
           - local_path: 'contracts/client-contracts'
             split_repository: 'client-contracts'
+          - local_path: 'contracts/generator-contracts'
+            split_repository: 'generator-contracts'
+          - local_path: 'contracts/http-client-contracts'
+            split_repository: 'http-client-contracts'
     steps:
       - uses: actions/checkout@v4
 

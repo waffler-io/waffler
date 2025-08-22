@@ -26,6 +26,7 @@
     "waffler/attributes": "^4.0.0",
     "waffler/helpers": "^4.0.0",
     "waffler/http-client-contracts": "^4.0.0",
+    "waffler/generator-contracts": "^4.0.0",
     "nette/php-generator": "^4.1"
   },
   "require-dev": {
