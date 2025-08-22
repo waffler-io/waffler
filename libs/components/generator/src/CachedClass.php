@@ -22,7 +22,7 @@ use Waffler\Contracts\Generator\DataTransferObjects\CachedClassInterface;
  * @author ErickJMenezes <erickmenezes.dev@gmail.com>
  * @template-implements CachedClassInterface<I, C>
  * @template I
- * @template C of (I&WafflerImplConstructorInterface)
+ * @template C of I
  */
 final readonly class CachedClass implements CachedClassInterface
 {

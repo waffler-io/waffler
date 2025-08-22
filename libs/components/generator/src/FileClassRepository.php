@@ -50,7 +50,10 @@ final class FileClassRepository implements ClassRepositoryInterface
     {
         $filename = $this->buildFilename($interfaceFqn);
         file_put_contents($filename, $source);
-        return new CachedClass($interfaceFqn, $this->classNameGenerator->generateClassFqn($interfaceFqn));
+        return new CachedClass(
+            $interfaceFqn,
+            $this->classNameGenerator->generateClassFqn($interfaceFqn),
+        );
     }
 
     /**
@@ -61,7 +64,10 @@ final class FileClassRepository implements ClassRepositoryInterface
         if (!$this->has($interfaceFqn)) {
             throw ClassNotFoundException::classDoesNotExists($interfaceFqn);
         }
-        return new CachedClass($interfaceFqn, $this->classNameGenerator->generateClassFqn($interfaceFqn));
+        return new CachedClass(
+            $interfaceFqn,
+            $this->classNameGenerator->generateClassFqn($interfaceFqn),
+        );
     }
 
     /**

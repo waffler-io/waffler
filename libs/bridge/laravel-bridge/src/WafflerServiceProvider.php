@@ -110,8 +110,8 @@ final class WafflerServiceProvider extends ServiceProvider
     {
         $this->app->bind(WafflerCacheCommand::class, function (Application $app) {
             return new WafflerCacheCommand(
-                $app['waffler.client-list-retriever'],
-                $app['waffler.factory'],
+                $app['waffler.client-list-retriever'], // @phpstan-ignore-line
+                $app['waffler.factory'], // @phpstan-ignore-line
             );
         });
     }

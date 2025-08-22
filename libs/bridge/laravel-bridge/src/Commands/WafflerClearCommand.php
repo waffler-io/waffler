@@ -27,7 +27,10 @@ class WafflerClearCommand extends Command
     {
         $directory = GeneratorDefaults::IMPL_CACHE_DIRECTORY;
         if (is_dir(GeneratorDefaults::IMPL_CACHE_DIRECTORY)) {
-            array_map(unlink(...), glob("$directory/*.php"));
+            $files = glob("$directory/*.php");
+            if ($files !== false) {
+                array_map(unlink(...), $files);
+            }
         }
         $this->info('Waffler Cache cleared.');
     }

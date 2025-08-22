@@ -23,8 +23,8 @@ interface ArraySettable
     /**
      * Retrieves the path separator to be used in arraySet function.
      *
-     * @return string
-     * @see \Waffler\Waffler\arraySet()
+     * @return non-empty-string
+     * @see \Waffler\Component\Helpers\arraySet()
      *@author ErickJMenezes <erickmenezes.dev@gmail.com>
      */
     public function getPathSeparator(): string;

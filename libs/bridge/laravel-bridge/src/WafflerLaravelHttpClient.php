@@ -33,7 +33,7 @@ final readonly class WafflerLaravelHttpClient implements ClientInterface
     {
         try {
             return Http::withOptions($this->options)
-                ->send($method, $uri, $options)
+                ->send($method, (string) $uri, $options)
                 ->toPsrResponse();
         } catch (HttpClientException $e) {
             throw $this->handleLaravelThrowable($e);
@@ -53,7 +53,7 @@ final readonly class WafflerLaravelHttpClient implements ClientInterface
         // @phpstan-ignore-next-line
         return Http::withOptions($this->options)
             ->async()
-            ->send($method, $uri, $options)
+            ->send($method, (string) $uri, $options)
             ->then(
                 static fn(Response $response) => $response->toPsrResponse(),
                 fn(Throwable $e) => $this->handleLaravelThrowable($e),

@@ -102,7 +102,7 @@ final readonly class ClassGenerator implements ClassGeneratorInterface
             $this->processMethodImplMethods($namespace, $class, $reflectionMethod);
         }
 
-        return (string) $phpFile;
+        return (string) $phpFile; //@phpstan-ignore-line
     }
 
     private function processMethodImplMethods(PhpNamespace $namespace, ClassType $class, ReflectionMethod $reflectionMethod): void

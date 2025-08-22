@@ -31,7 +31,7 @@ interface ClassGeneratorInterface
      *
      * @param class-string<T> $interfaceFqn The interface FQN.
      *
-     * @return string The source code of the implementation.
+     * @return non-empty-string The source code of the implementation.
      * @throws GeneratorExceptionInterface
      *
      * @template T of object

@@ -19,6 +19,8 @@ use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Waffler\Bridge\Laravel\ClientListRetriever;
 use Waffler\Contracts\Client\PregeneratesClientsInterface;
+use Waffler\Contracts\Generator\Exceptions\ClassNotFoundExceptionInterface;
+use Waffler\Contracts\Generator\Exceptions\GeneratorExceptionInterface;
 
 #[AsCommand(
     'waffler:cache',
@@ -37,16 +39,22 @@ class WafflerCacheCommand extends Command
     {
         $this->withProgressBar(
             $this->clientListRetriever->clientInterfaces,
-            /**
-             * @param class-string $clientInterface
-             *
-             * @throws ReflectionException
-             */
-            function (string $clientInterface, ProgressBar $bar): void {
-                $bar->setMessage("Generating $clientInterface");
-                $this->factory->warmup($clientInterface);
-            },
+            $this->handleProgressBarCallback(...),
         );
         $this->info('Waffler classes has been generated.');
+    }
+
+    /**
+     * @param class-string $clientInterface
+     * @param ProgressBar  $bar
+     *
+     * @throws ReflectionException
+     * @throws ClassNotFoundExceptionInterface
+     * @throws GeneratorExceptionInterface
+     */
+    private function handleProgressBarCallback(string $clientInterface, ProgressBar $bar): void
+    {
+        $bar->setMessage("Generating $clientInterface");
+        $this->factory->warmup($clientInterface);
     }
 }

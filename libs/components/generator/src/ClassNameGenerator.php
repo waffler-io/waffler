@@ -15,6 +15,7 @@ namespace Waffler\Component\Generator;
 
 use ReflectionClass;
 use ReflectionException;
+use Waffler\Component\Generator\Contracts\WafflerImplConstructorInterface;
 
 /**
  * Class ClassNameGenerator.
@@ -36,14 +37,18 @@ final class ClassNameGenerator
     /**
      * @param class-string<T> $interfaceFqn
      *
-     * @return class-string<object&T>
+     * @return class-string<T>
      * @throws ReflectionException
      * @template T
      */
     public function generateClassFqn(string $interfaceFqn): string
     {
         $className = $this->generateClassName($interfaceFqn);
-        return $this->baseNamespace . '\\' . $className;
+        /**
+         * @var class-string<covariant T&WafflerImplConstructorInterface> $fqn
+         */
+        $fqn = $this->baseNamespace . '\\' . $className;
+        return $fqn;
     }
 
     /**
@@ -60,7 +65,7 @@ final class ClassNameGenerator
         }
         $reflectionInterface = new ReflectionClass($interfaceFqn);
         $className = str_replace('\\', '_', $interfaceFqn)
-            . md5_file($reflectionInterface->getFileName())
+            . md5_file($reflectionInterface->getFileName()) //@phpstan-ignore-line
             . 'Impl';
         $this->cache[$interfaceFqn] = $className;
         return $className;
