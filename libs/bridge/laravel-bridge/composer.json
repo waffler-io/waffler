@@ -49,6 +49,12 @@
     ]
   },
   "config": {
+    "sort-packages": true,
+    "optimize-autoloader": true,
+    "platform-check": true,
+    "preferred-install": {
+      "*": "dist"
+    },
     "allow-plugins": {
       "phpunit/phpunit": true
     }
