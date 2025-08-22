@@ -16,6 +16,11 @@ use Waffler\Contracts\HttpClient\ClientInterface;
 
 interface WafflerImplConstructorInterface
 {
+    /**
+     * @param array<string, mixed> $options See {@see RequestOptions} for all available options.
+     * @param FactoryInterface     $factory
+     * @param ClientInterface      $client
+     */
     public function __construct(
         array $options,
         FactoryInterface $factory,

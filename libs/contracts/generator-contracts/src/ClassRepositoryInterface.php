@@ -26,7 +26,9 @@ interface ClassRepositoryInterface
      *
      * @param class-string<T>  $interfaceFqn The fully qualified name of the interface.
      * @param non-empty-string $source       The source code to be saved.
-     * @template T of object
+     *
+     * @return CachedClassInterface<T, covariant T>
+     * @template T
      */
     public function save(string $interfaceFqn, string $source): CachedClassInterface;
 
@@ -45,7 +47,7 @@ interface ClassRepositoryInterface
      *
      * @param class-string<T> $interfaceFqn The fully qualified name of the interface.
      *
-     * @return CachedClassInterface
+     * @return CachedClassInterface<T, covariant T>
      *
      * @throws ClassNotFoundExceptionInterface If the implementation class for the given interface is not found.
      * @template T of object

@@ -16,9 +16,9 @@ use JetBrains\PhpStorm\Pure;
 /**
  * Dot notation for get data inside the array
  *
- * @param array<R>         $_
+ * @param array<R>             $_
  * @param string|array<string> $path
- * @param non-empty-string $pathSeparator
+ * @param non-empty-string     $pathSeparator
  *
  * @return R
  * @template R of mixed|array<R>
@@ -32,7 +32,7 @@ function arrayGet(array $_, string|array $path, string $pathSeparator = '.'): mi
 /**
  * Dot notation for set value inside the array.
  *
- * @param array                                    $_
+ * @param array<int|string, mixed>                 $_
  * @param non-empty-string|array<non-empty-string> $path
  * @param mixed                                    $value
  * @param non-empty-string                         $pathSeparator

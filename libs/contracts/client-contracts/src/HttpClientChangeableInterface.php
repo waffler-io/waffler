@@ -22,12 +22,13 @@ use Waffler\Contracts\HttpClient\ClientInterface;
  * Allows the user to use a custom http client factory.
  *
  * @author ErickJMenezes <erickmenezes.dev@gmail.com>
- * @phpstan-type FactoryClosure (Closure(array $options): ClientInterface)
+ * @phpstan-type FactoryClosure (Closure(array<string, mixed> $options): ClientInterface)
  */
 interface HttpClientChangeableInterface
 {
     /**
-     * @param Closure $closure
+     * @param Closure                $closure
+     *
      * @phpstan-param FactoryClosure $closure
      *
      * @return $this

@@ -30,16 +30,24 @@ use Psr\Http\Message\UriInterface;
 interface ClientInterface
 {
     /**
-     * @param array $options See {@see RequestOptions} for all available options.
+     * @param array<string, mixed> $options See {@see RequestOptions} for all available options.
      */
     public function __construct(array $options = []);
 
     /**
+     * @param string               $method  The HTTP method to use.
+     * @param UriInterface|string  $uri     The URI to request.
+     * @param array<string, mixed> $options See {@see RequestOptions} for all available options.
+     *
      * @throws GuzzleException
      */
     public function request(string $method, UriInterface|string $uri, array $options = []): ResponseInterface;
 
     /**
+     * @param string               $method  The HTTP method to use.
+     * @param UriInterface|string  $uri     The URI to request.
+     * @param array<string, mixed> $options See {@see RequestOptions} for all available options.
+     *
      * @throws GuzzleException
      */
     public function requestAsync(string $method, UriInterface|string $uri, array $options = []): PromiseInterface;

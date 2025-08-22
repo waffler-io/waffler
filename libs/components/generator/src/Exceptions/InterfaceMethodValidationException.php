@@ -41,6 +41,10 @@ class InterfaceMethodValidationException extends \RuntimeException implements Ge
         self::INVALID_METHOD_RETURN_TYPE => 'The return type is not allowed. Allowed types are: %s.',
     ];
 
+    /**
+     * @param int               $code
+     * @param array<string|int> $messageReplacements
+     */
     public function __construct(int $code, array $messageReplacements = [])
     {
         parent::__construct(

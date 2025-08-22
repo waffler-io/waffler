@@ -22,6 +22,9 @@ final class FileClassRepository implements ClassRepositoryInterface
 {
     private ClassNameGenerator $classNameGenerator;
 
+    /**
+     * @var array<string, bool>
+     */
     private array $classExistsCache = [];
 
     public function __construct(
