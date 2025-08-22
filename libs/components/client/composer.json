@@ -23,9 +23,9 @@
   },
   "require": {
     "php": "^8.4",
-    "waffler/generator": "^4.0.0",
-    "waffler/http-client": "^4.0.0",
-    "waffler/client-contracts": "^4.0.0"
+    "waffler/generator": "^4.1.0",
+    "waffler/http-client": "^4.1.0",
+    "waffler/client-contracts": "^4.1.0"
   },
   "require-dev": {
     "phpunit/phpunit": "^12.0",

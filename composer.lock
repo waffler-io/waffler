@@ -5833,11 +5833,11 @@
             "dist": {
                 "type": "path",
                 "url": "libs/components/attributes",
-                "reference": "49b21f7998bc2fcad5a9532ae8c6f182ad32b256"
+                "reference": "b01d5f9cbcd31148d82ac1127f5f175474fef65a"
             },
             "require": {
                 "php": "^8.4",
-                "waffler/attributes-contracts": "^4.0.0"
+                "waffler/attributes-contracts": "^4.1.0"
             },
             "require-dev": {
                 "jetbrains/phpstorm-attributes": "dev-master",
@@ -5944,13 +5944,13 @@
             "dist": {
                 "type": "path",
                 "url": "libs/components/client",
-                "reference": "82d12c5121c925e0db4c84959921953c57cbb138"
+                "reference": "1614193444087d3c1ba01da3984b438905d9a5d5"
             },
             "require": {
                 "php": "^8.4",
-                "waffler/client-contracts": "^4.0.0",
-                "waffler/generator": "^4.0.0",
-                "waffler/http-client": "^4.0.0"
+                "waffler/client-contracts": "^4.1.0",
+                "waffler/generator": "^4.1.0",
+                "waffler/http-client": "^4.1.0"
             },
             "require-dev": {
                 "jetbrains/phpstorm-attributes": "dev-master",
@@ -6057,15 +6057,15 @@
             "dist": {
                 "type": "path",
                 "url": "libs/components/generator",
-                "reference": "d15a71b78e52c25f695135c12130a77a19cbffb8"
+                "reference": "f1086d07542237d0a8d5a88b59c490366059f027"
             },
             "require": {
                 "nette/php-generator": "^4.1",
                 "php": "^8.4",
-                "waffler/attributes": "^4.0.0",
-                "waffler/generator-contracts": "^4.0.0",
-                "waffler/helpers": "^4.0.0",
-                "waffler/http-client-contracts": "^4.0.0"
+                "waffler/attributes": "^4.1.0",
+                "waffler/generator-contracts": "^4.1.0",
+                "waffler/helpers": "^4.1.0",
+                "waffler/http-client-contracts": "^4.1.0"
             },
             "require-dev": {
                 "jetbrains/phpstorm-attributes": "dev-master",
@@ -6231,11 +6231,11 @@
             "dist": {
                 "type": "path",
                 "url": "libs/components/http-client",
-                "reference": "d0b2164aa6c46c41cc4ca282db7590abe3c0f531"
+                "reference": "7971281055a6c0446f604874e25fe095a8b14abd"
             },
             "require": {
                 "php": "^8.4",
-                "waffler/http-client-contracts": "^4.0"
+                "waffler/http-client-contracts": "^4.1"
             },
             "require-dev": {
                 "jetbrains/phpstorm-attributes": "dev-master",
@@ -6287,12 +6287,12 @@
             "dist": {
                 "type": "path",
                 "url": "libs/contracts/http-client-contracts",
-                "reference": "d4a24cec8c96c8aa6c5dbfd1e619a35dd0e8f420"
+                "reference": "14d22abbe9d8d584e0e319602ad5e219c94c179a"
             },
             "require": {
                 "guzzlehttp/guzzle": "^7.4.0",
                 "php": "^8.4",
-                "waffler/http-client": "^4.0"
+                "waffler/http-client": "^4.1"
             },
             "require-dev": {
                 "jetbrains/phpstorm-attributes": "dev-master",
@@ -6344,12 +6344,12 @@
             "dist": {
                 "type": "path",
                 "url": "libs/bridge/laravel-bridge",
-                "reference": "1e4301bc9c6e6f6e18f9b661af1debd0e2c2dd71"
+                "reference": "5bb758ba9b3b82104b88767258887f6cd8d17ca8"
             },
             "require": {
                 "laravel/framework": "^12",
                 "php": "^8.4",
-                "waffler/client": "^4.0"
+                "waffler/client": "^4.1"
             },
             "require-dev": {
                 "jetbrains/phpstorm-attributes": "dev-master",

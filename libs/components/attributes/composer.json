@@ -23,7 +23,7 @@
   },
   "require": {
     "php": "^8.4",
-    "waffler/attributes-contracts": "^4.0.0"
+    "waffler/attributes-contracts": "^4.1.0"
   },
   "require-dev": {
     "phpunit/phpunit": "^12.0",

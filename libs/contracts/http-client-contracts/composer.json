@@ -23,7 +23,7 @@
   },
   "require": {
     "php": "^8.4",
-    "waffler/http-client": "^4.0",
+    "waffler/http-client": "^4.1",
     "guzzlehttp/guzzle": "^7.4.0"
   },
   "require-dev": {

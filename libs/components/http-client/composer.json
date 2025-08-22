@@ -23,7 +23,7 @@
   },
   "require": {
     "php": "^8.4",
-    "waffler/http-client-contracts": "^4.0"
+    "waffler/http-client-contracts": "^4.1"
   },
   "require-dev": {
     "phpunit/phpunit": "^12.0",
