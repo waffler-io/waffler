@@ -2,6 +2,7 @@
   "name": "waffler/attributes-contracts",
   "description": "Attributes Contracts",
   "minimum-stability": "dev",
+  "prefer-stable": true,
   "type": "library",
   "license": "MIT",
   "authors": [

@@ -2,6 +2,7 @@
   "name": "waffler/http-client-contracts",
   "description": "HTTP Client Contracts",
   "minimum-stability": "dev",
+  "prefer-stable": true,
   "type": "library",
   "license": "MIT",
   "authors": [

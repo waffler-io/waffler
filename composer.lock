@@ -5833,7 +5833,7 @@
             "dist": {
                 "type": "path",
                 "url": "libs/components/attributes",
-                "reference": "4d43f49422222c84b9d5b146f265a0f7e3e2c9ca"
+                "reference": "8cd6f2b2d2c62612bc76aa4670fa9dd65a708b8a"
             },
             "require": {
                 "php": "^8.4",
@@ -5889,7 +5889,7 @@
             "dist": {
                 "type": "path",
                 "url": "libs/contracts/attributes-contracts",
-                "reference": "384ecc55022f261e78eaf3d008ac7b6acdab4da7"
+                "reference": "ff74993a0fc023a55d279c417650bb2a64d995ec"
             },
             "require": {
                 "php": "^8.4"
@@ -5944,7 +5944,7 @@
             "dist": {
                 "type": "path",
                 "url": "libs/components/client",
-                "reference": "3c8d5274cd4a0c5f0e31eaae5f0031057286b24f"
+                "reference": "e178f1f74770c871d8924ef9ce5b1d5b685c9d15"
             },
             "require": {
                 "php": "^8.4",
@@ -6002,7 +6002,7 @@
             "dist": {
                 "type": "path",
                 "url": "libs/contracts/client-contracts",
-                "reference": "3822262526e4bf9e84fc4f4f28d9af27bfd146ce"
+                "reference": "c6d74fb25ba0643e55ac961fba34cea55db649bc"
             },
             "require": {
                 "php": "^8.4"
@@ -6057,7 +6057,7 @@
             "dist": {
                 "type": "path",
                 "url": "libs/components/generator",
-                "reference": "28a74e2d21927b1f7cb577a593234362c0b2a70c"
+                "reference": "2ec497dd6ec51329d322420c0218f48475b259d9"
             },
             "require": {
                 "nette/php-generator": "^4.1",
@@ -6118,7 +6118,7 @@
             "dist": {
                 "type": "path",
                 "url": "libs/contracts/generator-contracts",
-                "reference": "fa09bc25421517482fb75f7e943971753d793402"
+                "reference": "b3e3bd09f98bf94cb9134b68077563de4c81594f"
             },
             "require": {
                 "php": "^8.4"
@@ -6173,7 +6173,7 @@
             "dist": {
                 "type": "path",
                 "url": "libs/components/helpers",
-                "reference": "aa2c31e07748ae6359050d094c82bc0ee44c39e8"
+                "reference": "8963356c8b54ed097cb23ca0d2c6c16782b20cdb"
             },
             "require": {
                 "php": "^8.4"
@@ -6231,7 +6231,7 @@
             "dist": {
                 "type": "path",
                 "url": "libs/components/http-client",
-                "reference": "e27c9504652f468d3539bbdf5c78a1672c0607c7"
+                "reference": "854ec4584c460d4639b0d17cd1a9e16d45cf7e85"
             },
             "require": {
                 "php": "^8.4",
@@ -6287,7 +6287,7 @@
             "dist": {
                 "type": "path",
                 "url": "libs/contracts/http-client-contracts",
-                "reference": "5d8278ca9d495d2bccdce3ea25f432f3c9dde3c6"
+                "reference": "b91ed353b95417756c02d3c542aaf86af361fa44"
             },
             "require": {
                 "guzzlehttp/guzzle": "^7.4.0",
@@ -6344,7 +6344,7 @@
             "dist": {
                 "type": "path",
                 "url": "libs/bridge/laravel-bridge",
-                "reference": "21fb7eff5301aab213ae6094488b8b101f3bfd4c"
+                "reference": "4ca9b77ab058b63f5c429876c54e415c8b567767"
             },
             "require": {
                 "laravel/framework": "^12",

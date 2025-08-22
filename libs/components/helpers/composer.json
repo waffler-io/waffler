@@ -2,6 +2,7 @@
   "name": "waffler/helpers",
   "description": "Helpers Component",
   "minimum-stability": "dev",
+  "prefer-stable": true,
   "type": "library",
   "license": "MIT",
   "authors": [

@@ -2,6 +2,7 @@
   "name": "waffler/laravel-bridge",
   "description": "Laravel Bridge Component",
   "minimum-stability": "dev",
+  "prefer-stable": true,
   "type": "library",
   "license": "MIT",
   "authors": [

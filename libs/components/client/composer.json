@@ -2,6 +2,7 @@
   "name": "waffler/client",
   "description": "Client Component",
   "minimum-stability": "dev",
+  "prefer-stable": true,
   "type": "library",
   "license": "MIT",
   "authors": [
