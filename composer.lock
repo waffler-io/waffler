@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0a1d3717277e1cf5d87905a4d3d9bbae",
+    "content-hash": "f19a91ee89eb9d250caebd9a015b21a2",
     "packages": [
         {
             "name": "brick/math",
@@ -5833,7 +5833,7 @@
             "dist": {
                 "type": "path",
                 "url": "libs/components/attributes",
-                "reference": "8cd6f2b2d2c62612bc76aa4670fa9dd65a708b8a"
+                "reference": "11e606203b9490d573bd15f9343a867edd2ea16f"
             },
             "require": {
                 "php": "^8.4",
@@ -5847,8 +5847,8 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.x.x-dev",
-                    "dev-main": "4.x.x-dev"
+                    "dev-master": "4.1.x-dev",
+                    "dev-main": "4.1.x-dev"
                 }
             },
             "autoload": {
@@ -5889,7 +5889,7 @@
             "dist": {
                 "type": "path",
                 "url": "libs/contracts/attributes-contracts",
-                "reference": "ff74993a0fc023a55d279c417650bb2a64d995ec"
+                "reference": "19b71156cfbe3bca2c686be6bb0415fc4f3d15d3"
             },
             "require": {
                 "php": "^8.4"
@@ -5902,8 +5902,8 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.x.x-dev",
-                    "dev-main": "4.x.x-dev"
+                    "dev-master": "4.1.x-dev",
+                    "dev-main": "4.1.x-dev"
                 }
             },
             "autoload": {
@@ -5944,7 +5944,7 @@
             "dist": {
                 "type": "path",
                 "url": "libs/components/client",
-                "reference": "e178f1f74770c871d8924ef9ce5b1d5b685c9d15"
+                "reference": "7565057e2b79ce8c8a43cb43659abedeaed55097"
             },
             "require": {
                 "php": "^8.4",
@@ -5960,8 +5960,8 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.x.x-dev",
-                    "dev-main": "4.x.x-dev"
+                    "dev-master": "4.1.x-dev",
+                    "dev-main": "4.1.x-dev"
                 }
             },
             "autoload": {
@@ -6002,7 +6002,7 @@
             "dist": {
                 "type": "path",
                 "url": "libs/contracts/client-contracts",
-                "reference": "c6d74fb25ba0643e55ac961fba34cea55db649bc"
+                "reference": "4b3fb88009c5cdaca9eec7ea778ebc0951a62d26"
             },
             "require": {
                 "php": "^8.4"
@@ -6015,8 +6015,8 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.x.x-dev",
-                    "dev-main": "4.x.x-dev"
+                    "dev-master": "4.1.x-dev",
+                    "dev-main": "4.1.x-dev"
                 }
             },
             "autoload": {
@@ -6057,7 +6057,7 @@
             "dist": {
                 "type": "path",
                 "url": "libs/components/generator",
-                "reference": "2ec497dd6ec51329d322420c0218f48475b259d9"
+                "reference": "ba1c0e95ce596920fc79e0a3949c42cffabc8a1d"
             },
             "require": {
                 "nette/php-generator": "^4.1",
@@ -6075,8 +6075,8 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.x.x-dev",
-                    "dev-main": "4.x.x-dev"
+                    "dev-master": "4.1.x-dev",
+                    "dev-main": "4.1.x-dev"
                 }
             },
             "autoload": {
@@ -6118,7 +6118,7 @@
             "dist": {
                 "type": "path",
                 "url": "libs/contracts/generator-contracts",
-                "reference": "b3e3bd09f98bf94cb9134b68077563de4c81594f"
+                "reference": "d1b736604a5957e3167028509d2d5c6089aa4ecd"
             },
             "require": {
                 "php": "^8.4"
@@ -6131,8 +6131,8 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.x.x-dev",
-                    "dev-main": "4.x.x-dev"
+                    "dev-master": "4.1.x-dev",
+                    "dev-main": "4.1.x-dev"
                 }
             },
             "autoload": {
@@ -6173,7 +6173,7 @@
             "dist": {
                 "type": "path",
                 "url": "libs/components/helpers",
-                "reference": "8963356c8b54ed097cb23ca0d2c6c16782b20cdb"
+                "reference": "391d90671d683ece41b9f2148360ef0d7da5e54c"
             },
             "require": {
                 "php": "^8.4"
@@ -6186,8 +6186,8 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.x.x-dev",
-                    "dev-main": "4.x.x-dev"
+                    "dev-master": "4.1.x-dev",
+                    "dev-main": "4.1.x-dev"
                 }
             },
             "autoload": {
@@ -6231,7 +6231,7 @@
             "dist": {
                 "type": "path",
                 "url": "libs/components/http-client",
-                "reference": "854ec4584c460d4639b0d17cd1a9e16d45cf7e85"
+                "reference": "8a851cc773cbe758b43a54a1ad2ecae6c1f210ca"
             },
             "require": {
                 "php": "^8.4",
@@ -6245,8 +6245,8 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.x.x-dev",
-                    "dev-main": "4.x.x-dev"
+                    "dev-master": "4.1.x-dev",
+                    "dev-main": "4.1.x-dev"
                 }
             },
             "autoload": {
@@ -6287,7 +6287,7 @@
             "dist": {
                 "type": "path",
                 "url": "libs/contracts/http-client-contracts",
-                "reference": "b91ed353b95417756c02d3c542aaf86af361fa44"
+                "reference": "bce7c737676422a339892e846ff91fbb0274993a"
             },
             "require": {
                 "guzzlehttp/guzzle": "^7.4.0",
@@ -6302,8 +6302,8 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.x.x-dev",
-                    "dev-main": "4.x.x-dev"
+                    "dev-master": "4.1.x-dev",
+                    "dev-main": "4.1.x-dev"
                 }
             },
             "autoload": {
@@ -6344,7 +6344,7 @@
             "dist": {
                 "type": "path",
                 "url": "libs/bridge/laravel-bridge",
-                "reference": "4ca9b77ab058b63f5c429876c54e415c8b567767"
+                "reference": "e108a18162a8d1fb0777f8ad6d847cc6c2110cbe"
             },
             "require": {
                 "laravel/framework": "^12",
@@ -6360,8 +6360,8 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.x.x-dev",
-                    "dev-main": "4.x.x-dev"
+                    "dev-master": "4.1.x-dev",
+                    "dev-main": "4.1.x-dev"
                 },
                 "laravel": {
                     "providers": [
@@ -10608,7 +10608,17 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "jetbrains/phpstorm-attributes": 20
+        "jetbrains/phpstorm-attributes": 20,
+        "waffler/attributes": 20,
+        "waffler/attributes-contracts": 20,
+        "waffler/client": 20,
+        "waffler/client-contracts": 20,
+        "waffler/generator": 20,
+        "waffler/generator-contracts": 20,
+        "waffler/helpers": 20,
+        "waffler/http-client": 20,
+        "waffler/http-client-contracts": 20,
+        "waffler/laravel-bridge": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,
