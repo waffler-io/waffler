@@ -13,7 +13,6 @@ namespace Waffler\Component\Generator\Factory;
 
 use ArrayObject;
 use Exception;
-use GuzzleHttp\Client;
 use GuzzleHttp\Promise\PromiseInterface;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\RequestOptions;
@@ -31,6 +30,7 @@ use Waffler\Component\Attributes\Auth\Basic;
 use Waffler\Component\Attributes\Auth\Bearer;
 use Waffler\Component\Attributes\Auth\Digest;
 use Waffler\Component\Attributes\Auth\Ntml;
+use Waffler\Component\Generator\Contracts\ClientClassFactoryInterface;
 use Waffler\Contracts\Attributes\Verb;
 use Waffler\Component\Attributes\Request\Body;
 use Waffler\Component\Attributes\Request\FormData;
@@ -58,7 +58,7 @@ use Waffler\Component\Generator\Traits\BuildsImplementationFileName;
 use Waffler\Component\Generator\Traits\InteractsWithAttributes;
 use Waffler\Component\Generator\Traits\WafflerImplConstructor;
 
-readonly class ClassFactory implements FactoryInterface
+readonly class ClientClassFactory implements ClientClassFactoryInterface
 {
     use InteractsWithAttributes;
     use BuildsImplementationFileName;
@@ -84,7 +84,6 @@ readonly class ClassFactory implements FactoryInterface
         $phpFile = new PhpFile();
         $namespace = $phpFile->addNamespace($this->classNamespace);
         $namespace->addUse(RequestOptions::class);
-        $namespace->addUse(Client::class);
         $namespace->addUse($reflectionInterface->getName());
         $namespace->addUse(WafflerImplConstructor::class);
         $namespace->addUse(WafflerImplConstructorInterface::class);

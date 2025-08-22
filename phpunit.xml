@@ -24,6 +24,7 @@
         <testsuite name="contracts">
             <directory>libs/contracts/attributes-contracts/tests</directory>
             <directory>libs/contracts/client-contracts/tests</directory>
+            <directory>libs/contracts/http-client-contracts/tests</directory>
         </testsuite>
     </testsuites>
 

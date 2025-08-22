@@ -25,7 +25,7 @@
     "php": "^8.4",
     "waffler/attributes": "^4.0.0",
     "waffler/helpers": "^4.0.0",
-    "guzzlehttp/guzzle": "^7.4.0",
+    "waffler/http-client-contracts": "^4.0.0",
     "nette/php-generator": "^4.1"
   },
   "require-dev": {
@@ -44,8 +44,8 @@
   },
   "extra": {
     "branch-alias": {
-      "dev-master": "4.0.x-dev",
-      "dev-main": "4.0.x-dev"
+      "dev-master": "4.x.x-dev",
+      "dev-main": "4.x.x-dev"
     }
   }
 }

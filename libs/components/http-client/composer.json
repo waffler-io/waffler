@@ -1,6 +1,6 @@
 {
-  "name": "waffler/attributes",
-  "description": "Attributes Component",
+  "name": "waffler/http-client",
+  "description": "Http Client Component",
   "minimum-stability": "dev",
   "type": "library",
   "license": "MIT",
@@ -12,17 +12,17 @@
   ],
   "autoload": {
     "psr-4": {
-      "Waffler\\Component\\Attributes\\": "src"
+      "Waffler\\Component\\HttpClient\\": "src"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Waffler\\Component\\Attributes\\Tests\\": "tests"
+      "Waffler\\Component\\HttpClient\\Tests\\": "tests"
     }
   },
   "require": {
     "php": "^8.4",
-    "waffler/attributes-contracts": "^4.0.0"
+    "waffler/http-client-contracts": "^4.0"
   },
   "require-dev": {
     "phpunit/phpunit": "^12.0",

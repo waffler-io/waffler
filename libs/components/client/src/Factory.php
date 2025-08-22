@@ -13,21 +13,27 @@ declare(strict_types=1);
 
 namespace Waffler\Component\Client;
 
-use Waffler\Contracts\Client\FactoryInterface;
-use Waffler\Contracts\Client\PregeneratesClientsInterface;
-use Waffler\Component\Generator\Factory\ClassFactory;
-use Waffler\Component\Generator\Factory\FactoryInterface as ImplFactory;
+use Closure;
+use Waffler\Component\Generator\Factory\ClientClassFactory;
+use Waffler\Component\Generator\Contracts\ClientClassFactoryInterface as ImplFactory;
 use Waffler\Component\Generator\Factory\FileCacheFactory;
 use Waffler\Component\Generator\MethodValidator;
 use Waffler\Component\Generator\PathParser;
+use Waffler\Component\HttpClient\GuzzleHttpClientWrapper;
+use Waffler\Contracts\Client\FactoryInterface;
+use Waffler\Contracts\Client\HttpClientChangeableInterface;
+use Waffler\Contracts\Client\PregeneratesClientsInterface;
 
 /**
  * Class Factory
  *
  * @author ErickJMenezes <erickmenezes.dev@gmail.com>
+ * @phpstan-import-type FactoryClosure from HttpClientChangeableInterface
  */
-class Factory implements FactoryInterface, PregeneratesClientsInterface
+class Factory implements FactoryInterface, PregeneratesClientsInterface, HttpClientChangeableInterface
 {
+    private ?Closure $httpClientFactory = null;
+
     /**
      * WARNING: This constructor should not be called directly. It is intended for internal usage only.
      * The signature must change at any time without prior warnings.
@@ -38,11 +44,38 @@ class Factory implements FactoryInterface, PregeneratesClientsInterface
      */
     public function __construct(protected readonly ImplFactory $classFactory) {}
 
+    public static function default(): self
+    {
+        return new self(
+            new FileCacheFactory(
+                new ClientClassFactory(
+                    new MethodValidator(),
+                    new PathParser(),
+                ),
+            ),
+        );
+    }
+
+    /**
+     * @param Closure $closure
+     * @phpstan-param FactoryClosure $closure
+     *
+     * @return $this
+     * @author ErickJMenezes <erickmenezes.dev@gmail.com>
+     */
+    public function setHttpClientFactory(Closure $closure): static
+    {
+        $this->httpClientFactory = $closure;
+
+        return $this;
+    }
+
     public function make(string $interface, array $options = []): object
     {
         $className = $this->classFactory->generateForInterface($interface);
+        $httpClientFactory = $this->getHttpClientFactory();
 
-        return new $className($options, $this);
+        return new $className($options, $this, $httpClientFactory($options));
     }
 
     public function warmup(string $interface): void
@@ -50,15 +83,12 @@ class Factory implements FactoryInterface, PregeneratesClientsInterface
         $this->classFactory->generateForInterface($interface);
     }
 
-    public static function default(): self
+    /**
+     * @return Closure
+     * @phpstan-return FactoryClosure $closure
+     */
+    private function getHttpClientFactory(): Closure
     {
-        return new self(
-            new FileCacheFactory(
-                new ClassFactory(
-                    new MethodValidator(),
-                    new PathParser(),
-                ),
-            ),
-        );
+        return $this->httpClientFactory ??= static fn(array $options) => new GuzzleHttpClientWrapper($options);
     }
 }

@@ -9,12 +9,12 @@
  * with this source code in the file LICENCE.
  */
 
-namespace Waffler\Component\Generator\Factory;
+namespace Waffler\Component\Generator\Contracts;
 
 use ReflectionException;
 use Waffler\Component\Generator\Contracts\WafflerImplConstructorInterface;
 
-interface FactoryInterface
+interface ClientClassFactoryInterface
 {
     /**
      * @param class-string<T> $interface

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1bf04e52b4823b10d0911c49373f3b77",
+    "content-hash": "c601fb394ee0462551c2e39c462c2bb2",
     "packages": [
         {
             "name": "brick/math",
@@ -2461,16 +2461,16 @@
         },
         {
             "name": "phpoption/phpoption",
-            "version": "1.9.3",
+            "version": "1.9.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/schmittjoh/php-option.git",
-                "reference": "e3fac8b24f56113f7cb96af14958c0dd16330f54"
+                "reference": "638a154f8d4ee6a5cfa96d6a34dfbe0cffa9566d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/schmittjoh/php-option/zipball/e3fac8b24f56113f7cb96af14958c0dd16330f54",
-                "reference": "e3fac8b24f56113f7cb96af14958c0dd16330f54",
+                "url": "https://api.github.com/repos/schmittjoh/php-option/zipball/638a154f8d4ee6a5cfa96d6a34dfbe0cffa9566d",
+                "reference": "638a154f8d4ee6a5cfa96d6a34dfbe0cffa9566d",
                 "shasum": ""
             },
             "require": {
@@ -2478,7 +2478,7 @@
             },
             "require-dev": {
                 "bamarni/composer-bin-plugin": "^1.8.2",
-                "phpunit/phpunit": "^8.5.39 || ^9.6.20 || ^10.5.28"
+                "phpunit/phpunit": "^8.5.44 || ^9.6.25 || ^10.5.53 || ^11.5.34"
             },
             "type": "library",
             "extra": {
@@ -2520,7 +2520,7 @@
             ],
             "support": {
                 "issues": "https://github.com/schmittjoh/php-option/issues",
-                "source": "https://github.com/schmittjoh/php-option/tree/1.9.3"
+                "source": "https://github.com/schmittjoh/php-option/tree/1.9.4"
             },
             "funding": [
                 {
@@ -2532,7 +2532,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-07-20T21:41:07+00:00"
+            "time": "2025-08-21T11:53:16+00:00"
         },
         {
             "name": "psr/clock",
@@ -5833,7 +5833,7 @@
             "dist": {
                 "type": "path",
                 "url": "libs/components/attributes",
-                "reference": "863f5ed13ffde48aea01a5551f98538fbd070c6d"
+                "reference": "4d43f49422222c84b9d5b146f265a0f7e3e2c9ca"
             },
             "require": {
                 "php": "^8.4",
@@ -5847,8 +5847,8 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.0.x-dev",
-                    "dev-main": "4.0.x-dev"
+                    "dev-master": "4.x.x-dev",
+                    "dev-main": "4.x.x-dev"
                 }
             },
             "autoload": {
@@ -5889,7 +5889,7 @@
             "dist": {
                 "type": "path",
                 "url": "libs/contracts/attributes-contracts",
-                "reference": "015445f2b9f2560868eb39ac6aba362245ab03bf"
+                "reference": "384ecc55022f261e78eaf3d008ac7b6acdab4da7"
             },
             "require": {
                 "php": "^8.4"
@@ -5902,8 +5902,8 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.0.x-dev",
-                    "dev-main": "4.0.x-dev"
+                    "dev-master": "4.x.x-dev",
+                    "dev-main": "4.x.x-dev"
                 }
             },
             "autoload": {
@@ -5944,7 +5944,7 @@
             "dist": {
                 "type": "path",
                 "url": "libs/components/client",
-                "reference": "d0075948d03ec1a27597c98ce82f6b1912ac3ed0"
+                "reference": "aa5541bc53625efd7105a1f995b1385cc3facbab"
             },
             "require": {
                 "php": "^8.4",
@@ -5958,8 +5958,8 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.0.x-dev",
-                    "dev-main": "4.0.x-dev"
+                    "dev-master": "4.x.x-dev",
+                    "dev-main": "4.x.x-dev"
                 }
             },
             "autoload": {
@@ -6000,7 +6000,7 @@
             "dist": {
                 "type": "path",
                 "url": "libs/contracts/client-contracts",
-                "reference": "4d0022b509c7d6f3dae78565bb49de199160fad2"
+                "reference": "3822262526e4bf9e84fc4f4f28d9af27bfd146ce"
             },
             "require": {
                 "php": "^8.4"
@@ -6013,8 +6013,8 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.0.x-dev",
-                    "dev-main": "4.0.x-dev"
+                    "dev-master": "4.x.x-dev",
+                    "dev-main": "4.x.x-dev"
                 }
             },
             "autoload": {
@@ -6055,14 +6055,14 @@
             "dist": {
                 "type": "path",
                 "url": "libs/components/generator",
-                "reference": "0c71e65b25b2d96ae936c4740ebc0dd84ca014d1"
+                "reference": "92c39afe775982929159d719ce9c5ea2e2ad8488"
             },
             "require": {
-                "guzzlehttp/guzzle": "^7.4.0",
                 "nette/php-generator": "^4.1",
                 "php": "^8.4",
                 "waffler/attributes": "^4.0.0",
-                "waffler/helpers": "^4.0.0"
+                "waffler/helpers": "^4.0.0",
+                "waffler/http-client-contracts": "^4.0.0"
             },
             "require-dev": {
                 "jetbrains/phpstorm-attributes": "dev-master",
@@ -6072,8 +6072,8 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.0.x-dev",
-                    "dev-main": "4.0.x-dev"
+                    "dev-master": "4.x.x-dev",
+                    "dev-main": "4.x.x-dev"
                 }
             },
             "autoload": {
@@ -6115,7 +6115,7 @@
             "dist": {
                 "type": "path",
                 "url": "libs/components/helpers",
-                "reference": "8be1634308a781c31d7a7b39a3664a59c3b652d0"
+                "reference": "aa2c31e07748ae6359050d094c82bc0ee44c39e8"
             },
             "require": {
                 "php": "^8.4"
@@ -6128,8 +6128,8 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.0.x-dev",
-                    "dev-main": "4.0.x-dev"
+                    "dev-master": "4.x.x-dev",
+                    "dev-main": "4.x.x-dev"
                 }
             },
             "autoload": {
@@ -6168,12 +6168,125 @@
             }
         },
         {
+            "name": "waffler/http-client",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "libs/components/http-client",
+                "reference": "e27c9504652f468d3539bbdf5c78a1672c0607c7"
+            },
+            "require": {
+                "php": "^8.4",
+                "waffler/http-client-contracts": "^4.0"
+            },
+            "require-dev": {
+                "jetbrains/phpstorm-attributes": "dev-master",
+                "mockery/mockery": "^1.4",
+                "phpunit/phpunit": "^12.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.x.x-dev",
+                    "dev-main": "4.x.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Waffler\\Component\\HttpClient\\": "src"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Waffler\\Component\\HttpClient\\Tests\\": "tests"
+                }
+            },
+            "scripts": {
+                "phpunit": [
+                    "@php ./vendor/bin/phpunit"
+                ],
+                "test": [
+                    "@phpunit"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Erick de Menezes",
+                    "email": "erickmenezes.dev@gmail.com"
+                }
+            ],
+            "description": "Http Client Component",
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
+            "name": "waffler/http-client-contracts",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "libs/contracts/http-client-contracts",
+                "reference": "5d8278ca9d495d2bccdce3ea25f432f3c9dde3c6"
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^7.4.0",
+                "php": "^8.4",
+                "waffler/http-client": "^4.0"
+            },
+            "require-dev": {
+                "jetbrains/phpstorm-attributes": "dev-master",
+                "mockery/mockery": "^1.4",
+                "phpunit/phpunit": "^12.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.x.x-dev",
+                    "dev-main": "4.x.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Waffler\\Contracts\\HttpClient\\": "src"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Waffler\\Contracts\\HttpClient\\Tests\\": "tests"
+                }
+            },
+            "scripts": {
+                "phpunit": [
+                    "@php ./vendor/bin/phpunit"
+                ],
+                "test": [
+                    "@phpunit"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Erick de Menezes",
+                    "email": "erickmenezes.dev@gmail.com"
+                }
+            ],
+            "description": "HTTP Client Contracts",
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
             "name": "waffler/laravel-bridge",
             "version": "dev-main",
             "dist": {
                 "type": "path",
                 "url": "libs/bridge/laravel-bridge",
-                "reference": "81a4463ffe8ad0292ccdf1ce17264ad5034040ab"
+                "reference": "21fb7eff5301aab213ae6094488b8b101f3bfd4c"
             },
             "require": {
                 "laravel/framework": "^12",
@@ -6189,8 +6302,8 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.0.x-dev",
-                    "dev-main": "4.0.x-dev"
+                    "dev-master": "4.x.x-dev",
+                    "dev-main": "4.x.x-dev"
                 },
                 "laravel": {
                     "providers": [

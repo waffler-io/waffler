@@ -25,28 +25,30 @@ use Waffler\Component\Client\Factory;
  *
  * @author ErickJMenezes <erickmenezes.dev@gmail.com>
  */
-class WafflerServiceProvider extends ServiceProvider
+final class WafflerServiceProvider extends ServiceProvider
 {
     #[Override]
     public function register(): void
     {
         $this->mergeConfigFrom(self::getPackageConfigPath(), 'waffler');
-        $this->app->bind(Factory::class, fn() => Factory::default());
+        $this->app->bind(Factory::class, static fn()
+            => Factory::default()
+            ->setHttpClientFactory(
+                static fn(array $options) => new WafflerLaravelHttpClient($options),
+            ));
         $this->app->bind(ClientListRetriever::class);
         $this->app->alias(ClientListRetriever::class, 'waffler.client-list-retriever');
         $this->app->alias(Factory::class, 'waffler.factory');
         $this->registerClients();
     }
 
-    public function boot(): void
+    /**
+     * @return non-empty-string
+     * @author ErickJMenezes <erickmenezes.dev@gmail.com>
+     */
+    private static function getPackageConfigPath(): string
     {
-        if (!$this->app->runningInConsole()) {
-            return;
-        }
-        $this->publishes([
-            self::getPackageConfigPath() => config_path('waffler.php'),
-        ], 'waffler-config');
-        $this->registerCommands();
+        return __DIR__ . '/../config/waffler.php';
     }
 
     private function registerClients(): void
@@ -55,7 +57,8 @@ class WafflerServiceProvider extends ServiceProvider
         $clientListRetriever = $this->app->make(ClientListRetriever::class);
 
         foreach ($clientListRetriever->clients as $clientInterface => $options) {
-            $factory = fn(Application $app, array $args) => $app
+            $factory = fn(Application $app, array $args)
+                => $app
                 ->make(Factory::class)
                 ->make(
                     $clientInterface,
@@ -78,13 +81,15 @@ class WafflerServiceProvider extends ServiceProvider
         }
     }
 
-    /**
-     * @return non-empty-string
-     * @author ErickJMenezes <erickmenezes.dev@gmail.com>
-     */
-    private static function getPackageConfigPath(): string
+    public function boot(): void
     {
-        return __DIR__ . '/../config/waffler.php';
+        if (!$this->app->runningInConsole()) {
+            return;
+        }
+        $this->publishes([
+            self::getPackageConfigPath() => config_path('waffler.php'),
+        ], 'waffler-config');
+        $this->registerCommands();
     }
 
     private function registerCommands(): void

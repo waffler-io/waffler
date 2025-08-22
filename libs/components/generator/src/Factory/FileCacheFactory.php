@@ -12,17 +12,18 @@
 namespace Waffler\Component\Generator\Factory;
 
 use ReflectionException;
+use Waffler\Component\Generator\Contracts\ClientClassFactoryInterface;
 use Waffler\Component\Generator\Exceptions\NotAnInterfaceException;
 use Waffler\Component\Generator\Traits\BuildsImplementationFileName;
 use Waffler\Component\Generator\Traits\InteractsWithAttributes;
 
-class FileCacheFactory implements FactoryInterface
+class FileCacheFactory implements ClientClassFactoryInterface
 {
     use InteractsWithAttributes;
     use BuildsImplementationFileName;
 
     public function __construct(
-        private readonly FactoryInterface $factory,
+        private readonly ClientClassFactory $factory,
         private readonly string $cacheDirectory = FactoryDefaults::IMPL_CACHE_DIRECTORY,
         private readonly string $baseNamespace = FactoryDefaults::NAMESPACE,
     ) {}

@@ -11,13 +11,13 @@
 
 namespace Waffler\Component\Generator\Traits;
 
-use GuzzleHttp\Client;
 use GuzzleHttp\Promise\Utils;
 use GuzzleHttp\RequestOptions;
 use InvalidArgumentException;
 use Psr\Http\Message\ResponseInterface;
 use Waffler\Contracts\Client\FactoryInterface;
 use Waffler\Component\Generator\Contracts\WafflerImplConstructorInterface;
+use Waffler\Contracts\HttpClient\ClientInterface;
 
 /**
  * Trait WafflerImplConstructor.
@@ -28,14 +28,11 @@ use Waffler\Component\Generator\Contracts\WafflerImplConstructorInterface;
  */
 trait WafflerImplConstructor
 {
-    private Client $client;
-
     public function __construct(
         private readonly array $options,
         private readonly FactoryInterface $factory,
-    ) {
-        $this->client = new Client($this->options);
-    }
+        private readonly ClientInterface $client,
+    ) {}
 
     /**
      * Builds a nested api resource.
