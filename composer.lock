@@ -5944,10 +5944,11 @@
             "dist": {
                 "type": "path",
                 "url": "libs/components/client",
-                "reference": "8e426c16bbb68c00f03368a72af1000d9a6d07b3"
+                "reference": "3c8d5274cd4a0c5f0e31eaae5f0031057286b24f"
             },
             "require": {
                 "php": "^8.4",
+                "waffler/client-contracts": "^4.0.0",
                 "waffler/generator": "^4.0.0",
                 "waffler/http-client": "^4.0.0"
             },
