@@ -28,7 +28,7 @@ interface ClassRepositoryInterface
      * @param non-empty-string $source       The source code to be saved.
      *
      * @return CachedClassInterface<T, covariant T>
-     * @template T
+     * @template T of object
      */
     public function save(string $interfaceFqn, string $source): CachedClassInterface;
 

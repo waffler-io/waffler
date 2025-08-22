@@ -302,7 +302,7 @@ class MethodValidator
      * @throws ReflectionException
      * @throws Exception
      */
-    private function validateReturnType(ReflectionType $type): void
+    private function validateReturnType(?ReflectionType $type): void
     {
         $this->checkReflectionType($type);
 

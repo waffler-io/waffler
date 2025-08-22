@@ -74,7 +74,7 @@ final class FileClassRepository implements ClassRepositoryInterface
      * @param class-string<T> $interfaceFqn
      *
      * @return non-empty-string
-     * @template T
+     * @template T of object
      * @throws ReflectionException
      */
     private function buildFilename(string $interfaceFqn): string

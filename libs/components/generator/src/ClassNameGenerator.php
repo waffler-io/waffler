@@ -37,9 +37,9 @@ final class ClassNameGenerator
     /**
      * @param class-string<T> $interfaceFqn
      *
-     * @return class-string<T>
+     * @return class-string<covariant T&WafflerImplConstructorInterface>
      * @throws ReflectionException
-     * @template T
+     * @template T of object
      */
     public function generateClassFqn(string $interfaceFqn): string
     {
@@ -52,11 +52,11 @@ final class ClassNameGenerator
     }
 
     /**
-     * @param class-string<T> $interfaceFqn
+     * @param class-string<covariant T> $interfaceFqn
      *
      * @return non-empty-string
      * @throws ReflectionException
-     * @template T
+     * @template T of object
      */
     public function generateClassName(string $interfaceFqn): string
     {

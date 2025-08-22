@@ -13,12 +13,16 @@ declare(strict_types=1);
 
 namespace Waffler\Bridge\Laravel;
 
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 use Override;
+use ReflectionException;
 use Waffler\Bridge\Laravel\Commands\WafflerCacheCommand;
 use Waffler\Bridge\Laravel\Commands\WafflerClearCommand;
 use Waffler\Component\Client\Factory;
+use Waffler\Contracts\Generator\Exceptions\ClassNotFoundExceptionInterface;
+use Waffler\Contracts\Generator\Exceptions\GeneratorExceptionInterface;
 
 /**
  * Class WafflerServiceProvider.
@@ -53,7 +57,14 @@ final class WafflerServiceProvider extends ServiceProvider
 
     private function registerClients(): void
     {
+        /**
+         * @var array<string, array<string, mixed>> $sharedConfig
+         */
         $sharedConfig = config('waffler.global_options', []);
+        /**
+         * @var array<class-string> $singletons
+         */
+        $singletons = config('waffler.singletons', []);
         $clientListRetriever = $this->app->make(ClientListRetriever::class);
 
         foreach ($clientListRetriever->clients as $clientInterface => $options) {
@@ -62,21 +73,24 @@ final class WafflerServiceProvider extends ServiceProvider
                 ->make(Factory::class)
                 ->make(
                     $clientInterface,
+                    // @phpstan-ignore-next-line
                     array_merge_recursive(
                         $sharedConfig,
                         $options,
-                        $args[0] ?? [],
+                        $args[0] ?? [], // @phpstan-ignore-line
                     ),
                 );
 
             $this->app->bind(
                 $clientInterface,
                 $factory,
-                in_array($clientInterface, config('waffler.singletons', []), true),
+                in_array($clientInterface, $singletons, true),
             );
 
             if ($alias = config('waffler.aliases.' . $clientInterface, false)) {
-                $this->app->alias($clientInterface, $alias);
+                if (is_string($alias)) {
+                    $this->app->alias($clientInterface, $alias);
+                }
             }
         }
     }

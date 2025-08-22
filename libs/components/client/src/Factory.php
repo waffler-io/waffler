@@ -15,15 +15,16 @@ namespace Waffler\Component\Client;
 
 use Closure;
 use Waffler\Component\Generator\ClassGenerator;
+use Waffler\Component\Generator\FileClassRepository;
 use Waffler\Component\Generator\MethodValidator;
 use Waffler\Component\Generator\PathParser;
-use Waffler\Component\Generator\FileClassRepository;
 use Waffler\Component\HttpClient\GuzzleHttpClientWrapper;
 use Waffler\Contracts\Client\FactoryInterface;
 use Waffler\Contracts\Client\HttpClientChangeableInterface;
 use Waffler\Contracts\Client\PregeneratesClientsInterface;
 use Waffler\Contracts\Generator\ClassGeneratorInterface;
 use Waffler\Contracts\Generator\ClassRepositoryInterface;
+use Waffler\Contracts\HttpClient\ClientInterface;
 
 /**
  * Class Factory
@@ -89,7 +90,7 @@ class Factory implements FactoryInterface, PregeneratesClientsInterface, HttpCli
      */
     private function getHttpClientFactory(): Closure
     {
-        return $this->httpClientFactory ??= static fn(array $options) => new GuzzleHttpClientWrapper($options);
+        return $this->httpClientFactory ??= $this->defaultHttpClientFactory(...);
     }
 
     public function warmup(string $interface): void
@@ -100,5 +101,16 @@ class Factory implements FactoryInterface, PregeneratesClientsInterface, HttpCli
                 $this->classGenerator->generateClass($interface),
             );
         }
+    }
+
+    /**
+     * @param array<string, mixed> $options
+     *
+     * @return ClientInterface
+     * @author ErickJMenezes <erickmenezes.dev@gmail.com>
+     */
+    private function defaultHttpClientFactory(array $options): ClientInterface
+    {
+        return new GuzzleHttpClientWrapper($options);
     }
 }
