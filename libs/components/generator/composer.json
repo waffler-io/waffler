@@ -24,10 +24,10 @@
   },
   "require": {
     "php": "^8.4",
-    "waffler/attributes": "^4.1.0",
-    "waffler/helpers": "^4.1.0",
-    "waffler/http-client-contracts": "^4.1.0",
-    "waffler/generator-contracts": "^4.1.0",
+    "waffler/attributes": "^4.1",
+    "waffler/helpers": "^4.1",
+    "waffler/http-client-contracts": "^4.1",
+    "waffler/generator-contracts": "^4.1",
     "nette/php-generator": "^4.1"
   },
   "require-dev": {

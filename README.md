@@ -2,9 +2,10 @@
 [![License](https://img.shields.io/github/license/waffler-io/waffler)](LICENSE)
 
 # The #[Waffler] Project
+This package is currently in development and is experimental. Do not use it in production.
 
 ## Getting started
-- This package requires PHP 8 or above.
+- This package requires PHP 8.4 or above.
 
 ### Installing standalone
 
