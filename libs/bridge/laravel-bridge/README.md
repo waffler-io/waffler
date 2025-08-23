@@ -47,3 +47,25 @@ An array of clients to be registered as singletons.
     App\Clients\MyClientInterface::class,
 ],
 ```
+
+## Commands:
+This package exposes a few commands to generate the client interface classes.
+
+### `php artisan waffler:cache`
+Generates the client interface classes declared in the `waffler.php` config file.
+
+This command is also automatically called when you run `php artisan optimize`, and the generated class names are saved alongside the optimized cache.
+
+### `php artisan waffler:clear`
+Clears the generated client interface classes.
+
+This command is also automatically called when you run `php artisan optimize:clear`.
+
+## Important tip:
+While developing, it is recommended to avoid caching the application config files using `php artisan config:cache` or `php artisan optimize`.
+
+This package uses the configuration files to save the generated class name, and the name can change when you are editing the source code of the client interface.
+
+Only cache the config files when everything is ready to be deployed, like when you (are supposed to) do in production.
+
+If you encounter a generated class that has missing methods, it is probably because the config file has been cached. Try clearing the cache and regenerating the config files.
