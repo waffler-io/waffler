@@ -13,16 +13,17 @@ declare(strict_types=1);
 
 namespace Waffler\Bridge\Laravel;
 
-use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 use Override;
-use ReflectionException;
 use Waffler\Bridge\Laravel\Commands\WafflerCacheCommand;
 use Waffler\Bridge\Laravel\Commands\WafflerClearCommand;
 use Waffler\Component\Client\Factory;
-use Waffler\Contracts\Generator\Exceptions\ClassNotFoundExceptionInterface;
-use Waffler\Contracts\Generator\Exceptions\GeneratorExceptionInterface;
+use Waffler\Component\Generator\ClassGenerator;
+use Waffler\Component\Generator\ClassNameGenerator;
+use Waffler\Component\Generator\FileClassRepository;
+use Waffler\Component\Generator\MethodValidator;
+use Waffler\Component\Generator\PathParser;
 
 /**
  * Class WafflerServiceProvider.
@@ -31,28 +32,42 @@ use Waffler\Contracts\Generator\Exceptions\GeneratorExceptionInterface;
  */
 final class WafflerServiceProvider extends ServiceProvider
 {
+    private const string PACKAGE_MAIN_CONFIG_PATH = __DIR__ . '/../config/waffler.php';
+    private const string PACKAGE_CACHE_CONFIG_PATH = __DIR__ . '/../config/waffler-cache.php';
+
     #[Override]
     public function register(): void
     {
-        $this->mergeConfigFrom(self::getPackageConfigPath(), 'waffler');
-        $this->app->bind(Factory::class, static fn()
-            => Factory::default()
-            ->setHttpClientFactory(
-                static fn(array $options) => new WafflerLaravelHttpClient($options),
-            ));
-        $this->app->bind(ClientListRetriever::class);
-        $this->app->alias(ClientListRetriever::class, 'waffler.client-list-retriever');
-        $this->app->alias(Factory::class, 'waffler.factory');
+        $this->mergeConfigFrom(self::PACKAGE_MAIN_CONFIG_PATH, 'waffler');
+        $this->mergeConfigFrom(self::PACKAGE_CACHE_CONFIG_PATH, 'waffler-cache');
+        $this->registerFactorySingleton();
+        $this->app->bind(ClientListRetriever::class, function (Application $app) {
+            return new ClientListRetriever(
+                // @phpstan-ignore-next-line
+                $app['config']->get('waffler.clients', []),
+            );
+        });
         $this->registerClients();
     }
 
-    /**
-     * @return non-empty-string
-     * @author ErickJMenezes <erickmenezes.dev@gmail.com>
-     */
-    private static function getPackageConfigPath(): string
+    private function registerFactorySingleton(): void
     {
-        return __DIR__ . '/../config/waffler.php';
+        $this->app->singleton(Factory::class, static function () {
+            return new Factory(
+                new FileClassRepository(
+                    new ConfigCachedClassNameGenerator(
+                        new ClassNameGenerator(),
+                    ),
+                ),
+                new ClassGenerator(
+                    new MethodValidator(),
+                    new PathParser(),
+                ),
+            )
+                ->setHttpClientFactory(
+                    static fn(array $options) => new WafflerLaravelHttpClient($options),
+                );
+        });
     }
 
     private function registerClients(): void
@@ -101,7 +116,7 @@ final class WafflerServiceProvider extends ServiceProvider
             return;
         }
         $this->publishes([
-            self::getPackageConfigPath() => config_path('waffler.php'),
+            self::PACKAGE_MAIN_CONFIG_PATH => config_path('waffler.php'),
         ], 'waffler-config');
         $this->registerCommands();
     }
@@ -124,8 +139,8 @@ final class WafflerServiceProvider extends ServiceProvider
     {
         $this->app->bind(WafflerCacheCommand::class, function (Application $app) {
             return new WafflerCacheCommand(
-                $app['waffler.client-list-retriever'], // @phpstan-ignore-line
-                $app['waffler.factory'], // @phpstan-ignore-line
+                $app->make(ClientListRetriever::class),
+                $app->make(Factory::class),
             );
         });
     }

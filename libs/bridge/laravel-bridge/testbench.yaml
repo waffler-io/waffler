@@ -1,7 +1,7 @@
 laravel: '@testbench'
 
 providers:
-  #   - App\Providers\WorkbenchServiceProvider
+  - Waffler\Bridge\Laravel\WafflerServiceProvider
 
 migrations:
   - workbench/database/migrations

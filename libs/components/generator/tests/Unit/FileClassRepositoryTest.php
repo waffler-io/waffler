@@ -49,7 +49,7 @@ class FileClassRepositoryTest extends TestCase
             $cachedClass->interfaceFqn,
         );
         $this->assertEquals(
-            'Tests\\Waffler_Component_Generator_Tests_Fixtures_FixtureInterface92d86230db36e0c2502e97342cda43f0Impl',
+            'Waffler\\Component\\Generator\\Generated\\Waffler_Component_Generator_Tests_Fixtures_FixtureInterface92d86230db36e0c2502e97342cda43f0Impl',
             $cachedClass->classFqn,
         );
     }
@@ -58,10 +58,12 @@ class FileClassRepositoryTest extends TestCase
     public function setUpRepository(): void
     {
         $dir = __DIR__.'/../Fixtures/Generated';
-        foreach (glob($dir.'/*.php') as $file) {
+        $glob = glob($dir.'/*.php');
+        $this->assertIsArray($glob);
+        foreach ($glob as $file) {
             unlink($file);
         }
 
-        $this->fileClassRepository = new FileClassRepository($dir, 'Tests');
+        $this->fileClassRepository = new FileClassRepository(cacheDirectory: $dir);
     }
 }

@@ -13,52 +13,55 @@ declare(strict_types=1);
 
 namespace Waffler\Component\Generator;
 
-use ReflectionException;
+use ArrayAccess;
+use Closure;
 use Waffler\Component\Generator\Repositories\Exceptions\ClassNotFoundException;
 use Waffler\Contracts\Generator\ClassRepositoryInterface;
 use Waffler\Contracts\Generator\DataTransferObjects\CachedClassInterface;
 
-final class FileClassRepository implements ClassRepositoryInterface
+class FileClassRepository implements ClassRepositoryInterface
 {
-    private ClassNameGenerator $classNameGenerator;
-
     /**
-     * @var array<string, bool>
+     * @var array<string, bool>|ArrayAccess<string, bool>
      */
-    private array $classExistsCache = [];
+    protected array|ArrayAccess $classExistsCache = [];
 
     public function __construct(
+        private readonly ClassNameGeneratorInterface $classNameGenerator = new MemoryCachedClassNameGenerator(
+            new ClassNameGenerator(),
+        ),
         private readonly string $cacheDirectory = GeneratorDefaults::IMPL_CACHE_DIRECTORY,
-        private readonly string $baseNamespace = GeneratorDefaults::NAMESPACE,
-    ) {
-        $this->classNameGenerator = new ClassNameGenerator($this->baseNamespace);
-    }
+    ) {}
 
-    /**
-     * @throws ReflectionException
-     */
     public function has(string $interfaceFqn): bool
     {
-        $filename = $this->buildFilename($interfaceFqn);
-        return $this->classExistsCache[$filename] ??= file_exists($filename);
+        return $this->hasInCacheOr($interfaceFqn, file_exists(...));
     }
 
     /**
-     * @throws ReflectionException
+     * @param class-string<T>                   $interfaceFqn
+     * @param (Closure(non-empty-string): bool) $default
+     *
+     * @return bool
+     * @template T of object
      */
+    protected function hasInCacheOr(string $interfaceFqn, Closure $default): bool
+    {
+        $filename = $this->buildFilename($interfaceFqn);
+        return $this->classExistsCache[$filename] ??= $default($filename);
+    }
+
     public function save(string $interfaceFqn, string $source): CachedClassInterface
     {
         $filename = $this->buildFilename($interfaceFqn);
         file_put_contents($filename, $source);
+        $this->classExistsCache[$filename] = true;
         return new CachedClass(
             $interfaceFqn,
             $this->classNameGenerator->generateClassFqn($interfaceFqn),
         );
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function get(string $interfaceFqn): CachedClassInterface
     {
         if (!$this->has($interfaceFqn)) {
@@ -75,9 +78,8 @@ final class FileClassRepository implements ClassRepositoryInterface
      *
      * @return non-empty-string
      * @template T of object
-     * @throws ReflectionException
      */
-    private function buildFilename(string $interfaceFqn): string
+    protected function buildFilename(string $interfaceFqn): string
     {
         $className = $this->classNameGenerator->generateClassName($interfaceFqn);
         return $this->cacheDirectory . DIRECTORY_SEPARATOR . $className . ".php";

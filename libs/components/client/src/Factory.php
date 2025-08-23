@@ -34,13 +34,19 @@ use Waffler\Contracts\HttpClient\ClientInterface;
  */
 class Factory implements FactoryInterface, PregeneratesClientsInterface, HttpClientChangeableInterface
 {
-    private ?Closure $httpClientFactory = null;
+    /**
+     * @phpstan-var FactoryClosure
+     */
+    private Closure $httpClientFactory {
+        get => $this->httpClientFactory ??= $this->defaultHttpClientFactory(...);
+        set => $this->httpClientFactory = $value;
+    }
 
     /**
      * @param ClassRepositoryInterface $classRepository
      * @param ClassGeneratorInterface  $classGenerator
      */
-    private function __construct(
+    public function __construct(
         protected readonly ClassRepositoryInterface $classRepository,
         protected readonly ClassGeneratorInterface $classGenerator,
     ) {}
@@ -79,18 +85,8 @@ class Factory implements FactoryInterface, PregeneratesClientsInterface, HttpCli
                 $interface,
                 $this->classGenerator->generateClass($interface),
             );
-        $httpClientFactory = $this->getHttpClientFactory();
 
-        return new ($cachedClass->classFqn)($options, $this, $httpClientFactory($options));
-    }
-
-    /**
-     * @return Closure
-     * @phpstan-return FactoryClosure $closure
-     */
-    private function getHttpClientFactory(): Closure
-    {
-        return $this->httpClientFactory ??= $this->defaultHttpClientFactory(...);
+        return new ($cachedClass->classFqn)($options, $this, ($this->httpClientFactory)($options));
     }
 
     public function warmup(string $interface): void

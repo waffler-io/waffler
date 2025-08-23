@@ -21,15 +21,13 @@ use Waffler\Bridge\Laravel\Tests\TestCase;
 use Waffler\Component\Generator\GeneratorDefaults;
 
 #[Group('waffler/laravel-bridge')]
-class WafflerOptimizeCacheTest extends TestCase
+class WafflerCacheCommandTest extends TestCase
 {
-    #[Override]
-    protected function getPackageProviders($app): array
+    protected function defineEnvironment($app)
     {
         $app['config']->set('waffler.clients', [
             FooClientInterface::class => ['base_uri' => 'localhost']
         ]);
-        return parent::getPackageProviders($app);
     }
 
     #[Test]

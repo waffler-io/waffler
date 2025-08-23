@@ -14,6 +14,9 @@ declare(strict_types=1);
 namespace Waffler\Bridge\Laravel\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Contracts\Foundation\CachesConfiguration;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use ReflectionException;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Helper\ProgressBar;
@@ -35,13 +38,37 @@ class WafflerCacheCommand extends Command
         parent::__construct();
     }
 
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     public function handle(): void
     {
         $this->withProgressBar(
             $this->clientListRetriever->clientInterfaces,
             $this->handleProgressBarCallback(...),
         );
+        $this->updateCachedConfigurationFile();
         $this->info('Waffler classes has been generated.');
+    }
+
+    /**
+     * @return void
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
+    private function updateCachedConfigurationFile(): void
+    {
+        if ($this->laravel instanceof CachesConfiguration && $this->laravel->configurationIsCached()) {
+            $contents = config()->get('waffler-cache', []);
+            /** @var array<string, mixed> $cachedContents */
+            $cachedContents = require $this->laravel->getCachedConfigPath();
+            $cachedContents['waffler-cache'] = $contents;
+            file_put_contents(
+                $this->laravel->getCachedConfigPath(),
+                '<?php return ' . var_export($cachedContents, true) . ';' . PHP_EOL,
+            );
+        }
     }
 
     /**

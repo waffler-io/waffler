@@ -40,7 +40,6 @@ class ClientListRetriever
      * @param array<class-string|int, class-string|array<string, mixed>> $clientsConfig
      */
     public function __construct(
-        #[Config('waffler.clients')]
         protected readonly array $clientsConfig,
     ) {}
 
