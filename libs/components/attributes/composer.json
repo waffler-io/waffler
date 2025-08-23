@@ -23,7 +23,7 @@
   },
   "require": {
     "php": "^8.4",
-    "waffler/attributes-contracts": "^4.1"
+    "waffler/attributes-contracts": "^4.2"
   },
   "require-dev": {
     "phpunit/phpunit": "^12.0",
@@ -47,8 +47,8 @@
   },
   "extra": {
     "branch-alias": {
-      "dev-master": "4.1.x-dev",
-      "dev-main": "4.1.x-dev"
+      "dev-master": "4.2.x-dev",
+      "dev-main": "4.2.x-dev"
     }
   }
 }

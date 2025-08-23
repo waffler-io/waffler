@@ -24,10 +24,10 @@
   },
   "require": {
     "php": "^8.4",
-    "waffler/attributes": "^4.1",
-    "waffler/helpers": "^4.1",
-    "waffler/http-client-contracts": "^4.1",
-    "waffler/generator-contracts": "^4.1",
+    "waffler/attributes": "^4.2",
+    "waffler/helpers": "^4.2",
+    "waffler/http-client-contracts": "^4.2",
+    "waffler/generator-contracts": "^4.2",
     "nette/php-generator": "^4.1"
   },
   "require-dev": {
@@ -52,8 +52,8 @@
   },
   "extra": {
     "branch-alias": {
-      "dev-master": "4.1.x-dev",
-      "dev-main": "4.1.x-dev"
+      "dev-master": "4.2.x-dev",
+      "dev-main": "4.2.x-dev"
     }
   }
 }
