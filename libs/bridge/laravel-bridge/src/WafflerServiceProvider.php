@@ -13,14 +13,17 @@ declare(strict_types=1);
 
 namespace Waffler\Bridge\Laravel;
 
+use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 use Override;
 use Waffler\Bridge\Laravel\Commands\WafflerCacheCommand;
 use Waffler\Bridge\Laravel\Commands\WafflerClearCommand;
 use Waffler\Component\Client\Factory;
+use Waffler\Component\Generator\CachedClassNameGenerator;
 use Waffler\Component\Generator\ClassGenerator;
 use Waffler\Component\Generator\ClassNameGenerator;
+use Waffler\Component\Generator\ClassNameGeneratorInterface;
 use Waffler\Component\Generator\FileClassRepository;
 use Waffler\Component\Generator\MethodValidator;
 use Waffler\Component\Generator\PathParser;
@@ -40,6 +43,7 @@ final class WafflerServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(self::PACKAGE_MAIN_CONFIG_PATH, 'waffler');
         $this->mergeConfigFrom(self::PACKAGE_CACHE_CONFIG_PATH, 'waffler-cache');
+        $this->registerClassNameGenerator();
         $this->registerFactorySingleton();
         $this->app->bind(ClientListRetriever::class, function (Application $app) {
             return new ClientListRetriever(
@@ -50,16 +54,32 @@ final class WafflerServiceProvider extends ServiceProvider
         $this->registerClients();
     }
 
+    private function registerClassNameGenerator(): void
+    {
+        $this->app->bind(
+            ClassNameCache::class,
+            static fn(Application $app) => new ClassNameCache(
+                'waffler-cache',
+                $app->make(Repository::class),
+            ),
+        );
+        $this->app->singleton(
+            ClassNameGeneratorInterface::class,
+            static fn(Application $app) => new CachedClassNameGenerator(
+                $app->make(ClassNameCache::class),
+                new ClassNameGenerator(),
+            ),
+        );
+    }
+
     private function registerFactorySingleton(): void
     {
-        $this->app->singleton(Factory::class, static function () {
+        $this->app->singleton(Factory::class, static function (Application $app) {
+            $classNameGenerator = $app->make(ClassNameGeneratorInterface::class);
             return new Factory(
-                new FileClassRepository(
-                    new ConfigCachedClassNameGenerator(
-                        new ClassNameGenerator(),
-                    ),
-                ),
+                new FileClassRepository($classNameGenerator),
                 new ClassGenerator(
+                    $classNameGenerator,
                     new MethodValidator(),
                     new PathParser(),
                 ),
@@ -137,16 +157,22 @@ final class WafflerServiceProvider extends ServiceProvider
 
     private function registerWafflerOptimizeCommand(): void
     {
-        $this->app->bind(WafflerCacheCommand::class, function (Application $app) {
-            return new WafflerCacheCommand(
+        $this->app->bind(
+            WafflerCacheCommand::class,
+            static fn(Application $app) => new WafflerCacheCommand(
                 $app->make(ClientListRetriever::class),
                 $app->make(Factory::class),
-            );
-        });
+            ),
+        );
     }
 
     private function registerWafflerClearCommand(): void
     {
-        $this->app->bind(WafflerClearCommand::class, fn() => new WafflerClearCommand());
+        $this->app->bind(
+            WafflerClearCommand::class,
+            static fn(Application $app) => new WafflerClearCommand(
+                $app->make(ClassNameCache::class),
+            ),
+        );
     }
 }

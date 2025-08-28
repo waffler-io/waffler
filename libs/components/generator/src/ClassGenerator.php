@@ -61,15 +61,12 @@ final readonly class ClassGenerator implements ClassGeneratorInterface
 {
     use InteractsWithAttributes;
 
-    private ClassNameGenerator $classNameGenerator;
-
     public function __construct(
+        private ClassNameGeneratorInterface $classNameGenerator,
         private MethodValidator $methodValidator,
         private PathParser $pathParser,
         private string $classNamespace = GeneratorDefaults::NAMESPACE,
-    ) {
-        $this->classNameGenerator = new ClassNameGenerator($this->classNamespace);
-    }
+    ) {}
 
     public function generateClass(string $interfaceFqn): string
     {

@@ -14,7 +14,10 @@ declare(strict_types=1);
 namespace Waffler\Bridge\Laravel\Commands;
 
 use Illuminate\Console\Command;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
+use Waffler\Bridge\Laravel\ClassNameCache;
 use Waffler\Component\Generator\GeneratorDefaults;
 
 #[AsCommand(
@@ -23,11 +26,25 @@ use Waffler\Component\Generator\GeneratorDefaults;
 )]
 class WafflerClearCommand extends Command
 {
+    use UpdatesCachedConfigurationFile;
+
+    public function __construct(
+        private readonly ClassNameCache $classNameCache,
+    ) {
+        parent::__construct();
+    }
+
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     public function handle(): void
     {
         $directory = GeneratorDefaults::IMPL_CACHE_DIRECTORY;
         if (is_dir(GeneratorDefaults::IMPL_CACHE_DIRECTORY)) {
             $files = glob("$directory/*.php");
+            $this->classNameCache->clear();
+            $this->updateCachedConfigurationFile();
             if ($files !== false) {
                 array_map(unlink(...), $files);
             }

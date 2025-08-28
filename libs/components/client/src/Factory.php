@@ -14,8 +14,11 @@ declare(strict_types=1);
 namespace Waffler\Component\Client;
 
 use Closure;
+use Waffler\Component\Generator\CachedClassNameGenerator;
 use Waffler\Component\Generator\ClassGenerator;
+use Waffler\Component\Generator\ClassNameGenerator;
 use Waffler\Component\Generator\FileClassRepository;
+use Waffler\Component\Generator\MemoryCache;
 use Waffler\Component\Generator\MethodValidator;
 use Waffler\Component\Generator\PathParser;
 use Waffler\Component\HttpClient\GuzzleHttpClientWrapper;
@@ -53,9 +56,14 @@ class Factory implements FactoryInterface, PregeneratesClientsInterface, HttpCli
 
     public static function default(): self
     {
+        $classNameGenerator = new CachedClassNameGenerator(
+            new MemoryCache(),
+            new ClassNameGenerator(),
+        );
         return new self(
-            new FileClassRepository(),
+            new FileClassRepository($classNameGenerator),
             new ClassGenerator(
+                $classNameGenerator,
                 new MethodValidator(),
                 new PathParser(),
             ),

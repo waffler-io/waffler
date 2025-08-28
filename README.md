@@ -2,7 +2,10 @@
 [![License](https://img.shields.io/github/license/waffler-io/waffler)](LICENSE)
 
 # The #[Waffler] Project
-This package is currently in development and is experimental. Do not use it in production.
+This is a recreational project not intended to be used in production. There's a lot of experimenting going on.
+
+## What is Waffler?
+Waffler is a PHP library that allows you to create REST clients with a simple and elegant syntax.
 
 ## Getting started
 - This package requires PHP 8.4 or above.

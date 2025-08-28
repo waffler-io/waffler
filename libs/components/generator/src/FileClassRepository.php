@@ -27,15 +27,13 @@ class FileClassRepository implements ClassRepositoryInterface
     protected array|ArrayAccess $classExistsCache = [];
 
     public function __construct(
-        private readonly ClassNameGeneratorInterface $classNameGenerator = new MemoryCachedClassNameGenerator(
-            new ClassNameGenerator(),
-        ),
+        private readonly ClassNameGeneratorInterface $classNameGenerator,
         private readonly string $cacheDirectory = GeneratorDefaults::IMPL_CACHE_DIRECTORY,
     ) {}
 
     public function has(string $interfaceFqn): bool
     {
-        return $this->hasInCacheOr($interfaceFqn, file_exists(...));
+        return $this->hasInCacheOr($interfaceFqn, is_file(...));
     }
 
     /**

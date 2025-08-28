@@ -13,11 +13,14 @@ declare(strict_types=1);
 
 namespace Waffler\Component\Generator;
 
+use ReflectionAttribute;
 use ReflectionClass;
-use ReflectionException;
+use ReflectionIntersectionType;
+use ReflectionNamedType;
+use ReflectionParameter;
+use ReflectionType;
+use ReflectionUnionType;
 use Waffler\Component\Generator\Contracts\WafflerImplConstructorInterface;
-use Waffler\Component\Generator\Exceptions\NotAnInterfaceException;
-use Waffler\Contracts\Generator\Exceptions\GeneratorExceptionInterface;
 
 /**
  * Class ClassNameGenerator.
@@ -57,7 +60,76 @@ final class ClassNameGenerator implements ClassNameGeneratorInterface
     {
         $reflectionInterface = new ReflectionClass($interfaceFqn);
         return str_replace('\\', '_', $interfaceFqn)
-            . md5_file($reflectionInterface->getFileName()) //@phpstan-ignore-line
+            . $this->generateInterfaceHash($reflectionInterface)
             . 'Impl';
+    }
+
+    /**
+     * @param ReflectionClass<T> $interface
+     *
+     * @return string
+     * @author ErickJMenezes <erickmenezes.dev@gmail.com>
+     * @template T of object
+     */
+    private function generateInterfaceHash(ReflectionClass $interface): string
+    {
+        $methods = [];
+        foreach ($interface->getMethods() as $method) {
+            $methodSignature = [
+                'name' => $method->getName(),
+                'return' => $this->serializeReflectionType($method->getReturnType()),
+                'attributes' => array_map(
+                    static fn(ReflectionAttribute $attribute) => [
+                        'name' => $attribute->getName(),
+                        'arguments' => $attribute->getArguments(),
+                    ],
+                    $method->getAttributes(),
+                ),
+                'parameters' => array_map(
+                    function (ReflectionParameter $param) {
+                        return [
+                            'name' => $param->getName(),
+                            'position' => $param->getPosition(),
+                            'type' => $this->serializeReflectionType($param->getType()),
+                            'isVariadic' => $param->isVariadic(),
+                            'isOptional' => $param->isOptional(),
+                            'allowsNull' => $param->allowsNull(),
+                            'defaultValue' => $param->isDefaultValueAvailable(),
+                            'attributes' => array_map(
+                                static fn(ReflectionAttribute $attribute) => [
+                                    'name' => $attribute->getName(),
+                                    'arguments' => $attribute->getArguments(),
+                                ],
+                                $param->getAttributes(),
+                            ),
+                        ];
+                    },
+                    $method->getParameters(),
+                ),
+            ];
+            $methods[] = $methodSignature;
+        }
+
+        return md5(serialize($methods));
+    }
+
+    private function serializeReflectionType(?ReflectionType $reflectionType): ?string
+    {
+        if ($reflectionType instanceof ReflectionNamedType) {
+            return $reflectionType->getName();
+        }
+        if ($reflectionType instanceof ReflectionUnionType) {
+            return implode(
+                '|',
+                array_map($this->serializeReflectionType(...), $reflectionType->getTypes()),
+            );
+        }
+        if ($reflectionType instanceof ReflectionIntersectionType) {
+            return implode(
+                '&',
+                array_map($this->serializeReflectionType(...), $reflectionType->getTypes()),
+            );
+        }
+        return null;
     }
 }

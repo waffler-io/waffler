@@ -7,6 +7,7 @@ namespace Waffler\Component\Generator\Tests\Unit;
 use PHPUnit\Framework\Attributes\Before;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
+use Waffler\Component\Generator\ClassNameGenerator;
 use Waffler\Component\Generator\FileClassRepository;
 use Waffler\Component\Generator\Tests\Fixtures\FixtureInterface;
 use Waffler\Component\Generator\Tests\TestCase;
@@ -49,7 +50,7 @@ class FileClassRepositoryTest extends TestCase
             $cachedClass->interfaceFqn,
         );
         $this->assertEquals(
-            'Waffler\\Component\\Generator\\Generated\\Waffler_Component_Generator_Tests_Fixtures_FixtureInterface92d86230db36e0c2502e97342cda43f0Impl',
+            'Waffler\\Component\\Generator\\Generated\\Waffler_Component_Generator_Tests_Fixtures_FixtureInterface40cd750bba9870f18aada2478b24840aImpl',
             $cachedClass->classFqn,
         );
     }
@@ -64,6 +65,9 @@ class FileClassRepositoryTest extends TestCase
             unlink($file);
         }
 
-        $this->fileClassRepository = new FileClassRepository(cacheDirectory: $dir);
+        $this->fileClassRepository = new FileClassRepository(
+            new ClassNameGenerator(),
+            $dir,
+        );
     }
 }

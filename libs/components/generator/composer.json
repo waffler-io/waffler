@@ -28,7 +28,8 @@
     "waffler/helpers": "^4.2",
     "waffler/http-client-contracts": "^4.2",
     "waffler/generator-contracts": "^4.2",
-    "nette/php-generator": "^4.1"
+    "nette/php-generator": "^4.1",
+    "psr/simple-cache": "^3.0"
   },
   "require-dev": {
     "phpunit/phpunit": "^12.0",

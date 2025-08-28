@@ -33,12 +33,16 @@ class WafflerCacheCommandTest extends TestCase
     #[Test]
     public function it_must_pre_generate_all_interfaces_inside_vendor_folder(): void
     {
+        $cacheDirectory = GeneratorDefaults::IMPL_CACHE_DIRECTORY;
+        //
+        $this->assertArrayNotHasKey(FooClientInterface::class, config('waffler-cache.fqn'));
         $this->artisan('waffler:clear')->assertSuccessful();
-        $vendorPath = GeneratorDefaults::IMPL_CACHE_DIRECTORY;
-        $result = glob("{$vendorPath}/*FooClientInterface*.php");
+        $result = glob("{$cacheDirectory}/*FooClientInterface*.php");
         $this->assertCount(0, $result);
+        //
         $this->artisan('waffler:cache')->assertSuccessful();
-        $result = glob("{$vendorPath}/*FooClientInterface*.php");
+        $result = glob("{$cacheDirectory}/*FooClientInterface*.php");
         $this->assertCount(1, $result);
+        $this->assertArrayHasKey(FooClientInterface::class, config('waffler-cache.fqn'));
     }
 }
