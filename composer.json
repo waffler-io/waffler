@@ -17,6 +17,10 @@
     {
       "type": "path",
       "url": "libs/contracts/*"
+    },
+    {
+      "type": "path",
+      "url": "libs/internal/*"
     }
   ],
   "authors": [
@@ -56,6 +60,7 @@
     "waffler/generator-contracts": "^4.2"
   },
   "require-dev": {
+    "waffler/internal-project-commands": "dev-main",
     "phpunit/phpunit": "^12.0",
     "mockery/mockery": "^1.4",
     "jetbrains/phpstorm-attributes": "dev-master",
@@ -82,7 +87,8 @@
       "Composer\\Config::disableProcessTimeout",
       "@build",
       "@php vendor/bin/testbench serve --ansi"
-    ]
+    ],
+    "bump-version": "Waffler\\Internal\\ProjectCommands\\BumpVersionCommand"
   },
   "config": {
     "sort-packages": true,
