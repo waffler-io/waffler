@@ -48,16 +48,16 @@
   },
   "require": {
     "php": "^8.4",
-    "waffler/laravel-bridge": "^4.2",
-    "waffler/attributes": "^4.2",
-    "waffler/client": "^4.2",
-    "waffler/generator": "^4.2",
-    "waffler/helpers": "^4.2",
-    "waffler/http-client": "^4.2",
-    "waffler/attributes-contracts": "^4.2",
-    "waffler/client-contracts": "^4.2",
-    "waffler/http-client-contracts": "^4.2",
-    "waffler/generator-contracts": "^4.2"
+    "waffler/laravel-bridge": "^4.3.0",
+    "waffler/attributes": "^4.3.0",
+    "waffler/client": "^4.3.0",
+    "waffler/generator": "^4.3.0",
+    "waffler/helpers": "^4.3.0",
+    "waffler/http-client": "^4.3.0",
+    "waffler/attributes-contracts": "^4.3.0",
+    "waffler/client-contracts": "^4.3.0",
+    "waffler/http-client-contracts": "^4.3.0",
+    "waffler/generator-contracts": "^4.3.0"
   },
   "require-dev": {
     "waffler/internal-project-commands": "dev-main",
@@ -104,8 +104,8 @@
   },
   "extra": {
     "branch-alias": {
-      "dev-master": "4.2.x-dev",
-      "dev-main": "4.2.x-dev"
+      "dev-master": "4.3.x-dev",
+      "dev-main": "4.3.x-dev"
     }
   }
 }
