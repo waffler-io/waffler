@@ -3,6 +3,7 @@
 namespace Waffler\Internal\ProjectCommands;
 
 use InvalidArgumentException;
+use RuntimeException;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -11,6 +12,20 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 
+/**
+ * Class BumpVersionCommand.
+ *
+ * @author ErickJMenezes <erickmenezes.dev@gmail.com>
+ * @phpstan-type ComposerFile array{
+ *      require: array<string, string>,
+ *      extra: array{
+ *          branch-alias: array{
+ *              dev-main: string,
+ *              dev-master: string,
+ *          },
+ *      },
+ *  }
+ */
 #[AsCommand(
     name: 'waffler:bump-version',
     description: 'Bump the version of the project.',
@@ -21,18 +36,8 @@ final class BumpVersionCommand extends Command
     private const string MINOR = 'minor';
     private const string MAJOR = 'major';
 
-    private string $currentVersion {
-        get {
-            if (isset($this->currentVersion)) {
-                return $this->currentVersion;
-            }
-            $tag = shell_exec('git describe --tags --abbrev=0');
-            if (!$tag) {
-                throw new \RuntimeException('Could not get the current version.');
-            }
-            $this->currentVersion = rtrim($tag);
-            return $tag;
-        }
+    private VersionString $currentVersion {
+        get => $this->currentVersion ??= VersionString::fromGit();
     }
 
     protected function configure(): void
@@ -67,36 +72,40 @@ final class BumpVersionCommand extends Command
         shell_exec('git fetch --tags');
         $output->writeln("Done.", OutputInterface::OUTPUT_NORMAL);
         $dryRun = $input->getOption('dry-run');
-        [$newVersion, $devVersion] = $this->getNewVersion($input->getArgument('new_version'));
+        [$newVersion, $devVersion] = $this->getNewVersion(
+            $input->getArgument('new_version'), //@phpstan-ignore-line
+        );
         $output->writeln([
             "Current tagged version is: {$this->currentVersion}",
             "Bumping new version {$newVersion}",
         ], OutputInterface::OUTPUT_NORMAL);
-        $composerFiles = [
-            ...glob(__DIR__.'/../../../bridge/*/composer.json'),
-            ...glob(__DIR__.'/../../../components/*/composer.json'),
-            ...glob(__DIR__.'/../../../contracts/*/composer.json'),
-            ...glob(__DIR__.'/../../../../composer.json'),
-        ];
-        foreach ($composerFiles as $composerFile) {
+        $composerFiles = $this->getComposerFiles();
+        foreach ($composerFiles as $composerFilePath) {
             $output->writeln("");
             $output->writeln(
-                "Editing file {$composerFile}...",
+                "Editing file {$composerFilePath}...",
                 OutputInterface::OUTPUT_NORMAL,
             );
-            $composer = json_decode(file_get_contents($composerFile), true);
-            foreach ($composer['require'] as $package => $version) {
+            $composerFileContents = file_get_contents($composerFilePath);
+            if ($composerFileContents === false) {
+                throw new RuntimeException("Could not get the contents of file {$composerFilePath}");
+            }
+            /**
+             * @var ComposerFile $composerConfig
+             */
+            $composerConfig = json_decode($composerFileContents, true);
+            foreach ($composerConfig['require'] as $package => $version) {
                 if (str_starts_with($package, 'waffler/')) {
-                    $currentVersion = $composer['require'][$package];
-                    $composer['require'][$package] = "^$newVersion";
+                    $currentVersion = $composerConfig['require'][$package];
+                    $composerConfig['require'][$package] = "^$newVersion";
                     $output->writeln(
-                        "Bumping {$package} from {$currentVersion} to {$composer['require'][$package]}",
+                        "Bumping {$package} from {$currentVersion} to {$composerConfig['require'][$package]}",
                         OutputInterface::OUTPUT_NORMAL,
                     );
                 }
             }
-            $composer['extra']['branch-alias']['dev-main'] = $devVersion;
-            $composer['extra']['branch-alias']['dev-master'] = $devVersion;
+            $composerConfig['extra']['branch-alias']['dev-main'] = $devVersion;
+            $composerConfig['extra']['branch-alias']['dev-master'] = $devVersion;
             $output->writeln(
                 "Set branch alias to {$devVersion}",
                 OutputInterface::OUTPUT_NORMAL,
@@ -108,8 +117,8 @@ final class BumpVersionCommand extends Command
                 );
             } else {
                 file_put_contents(
-                    $composerFile,
-                    $this->encode($composer),
+                    $composerFilePath,
+                    $this->toJson($composerConfig),
                 );
             }
         }
@@ -117,19 +126,48 @@ final class BumpVersionCommand extends Command
         return Command::SUCCESS;
     }
 
+    /**
+     * @return array{VersionString, VersionString}
+     */
     private function getNewVersion(string $kind): array
     {
-        [$major, $minor, $patch] = explode('.', $this->currentVersion);
-        $parts = match ($kind) {
-            self::MAJOR => [(int)$major + 1, 0, 0],
-            self::MINOR => [$major, (int)$minor + 1, 0],
-            self::BUGFIX => [$major, $minor, (int)$patch + 1],
+        $version = match ($kind) {
+            self::MAJOR => $this->currentVersion->nextMajor(),
+            self::MINOR => $this->currentVersion->nextMinor(),
+            self::BUGFIX => $this->currentVersion->nextPatch(),
             default => throw new InvalidArgumentException('Invalid version kind.'),
         };
         return [
-            implode('.', $parts),
-            implode('.', [$parts[0], $parts[1], 'x-dev']),
+            $version,
+            $version->asDevPatch(),
         ];
+    }
+
+    /**
+     * @return array<string>
+     * @author ErickJMenezes <erickmenezes.dev@gmail.com>
+     */
+    private function getComposerFiles(): array
+    {
+        $basePath = realpath(__DIR__.'/../../../../');
+        if ($basePath === false) {
+            throw new RuntimeException('Could not get the base path.');
+        }
+        $paths = [
+            'libs/bridge/*/composer.json',
+            'libs/components/*/composer.json',
+            'libs/contracts/*/composer.json',
+            'composer.json',
+        ];
+        $files = [];
+        foreach ($paths as $path) {
+            $foundComposerFiles = glob($basePath.'/'.$path);
+            if ($foundComposerFiles === false) {
+                throw new RuntimeException("Could not find composer files in path {$basePath}/{$path}");
+            }
+            array_push($files, ...$foundComposerFiles);
+        }
+        return $files;
     }
 
     /**
@@ -138,11 +176,11 @@ final class BumpVersionCommand extends Command
      * @return string
      * @author ErickJMenezes <erickmenezes.dev@gmail.com>
      */
-    private function encode(array $data): string
+    private function toJson(array $data): string
     {
-        return preg_replace_callback(
+        return (string)preg_replace_callback(
             '/^(?: {4})+/m',
-            fn($m) => str_repeat("  ", strlen($m[0]) / 4),
+            fn($m) => str_repeat("  ", (int)(strlen($m[0]) / 4)),
             json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES).PHP_EOL,
         );
     }
